@@ -1,0 +1,179 @@
+/* Resetare */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Baloo 2', cursive, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* --- FUNDAL --- */
+.page-oras {
+    background-image: url('../imagini/strada.svg'); 
+    background-size: cover;
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* --- TITLUL --- */
+.titlu-meserii {
+    text-align: center;
+    font-size: 4rem;
+    /* Culoare albastru inchis, puternic */
+    color: #1a237e; 
+    margin-top: 3vh;
+    /* Umbra alba groasa in jur (ca un contur) */
+    text-shadow: 
+        2px 2px 0 #ffffff,
+        -1px -1px 0 #ffffff,  
+        1px -1px 0 #ffffff,
+        -1px 1px 0 #ffffff,
+        1px 1px 0 #ffffff;
+    animation: popIn 0.8s ease-out;
+}
+
+/* --- CONTAINER --- */
+.people-container {
+    position: absolute;
+    bottom: 14vh; 
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2vw; 
+}
+
+/* --- CARD GENERAL --- */
+.character-card {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Imaginile */
+.char-img {
+    height: 42vh; /* Personaje mari! */
+    width: auto;
+    filter: drop-shadow(0 10px 5px rgba(0,0,0,0.3));
+    z-index: 2; /* Sta peste efectul de stralucire */
+}
+
+/* --- ETICHETE TIP BUTON (BOMBOANA) --- */
+.btn-label {
+    padding: 12px 30px;
+    border-radius: 50px; /* Complet rotund la capete */
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-top: 15px;
+    border: 3px solid white;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.2); /* Efect 3D */
+    min-width: 140px;
+    text-align: center;
+    z-index: 3;
+}
+
+/* Culoare pentru Activ (Verde vesel) */
+.label-green {
+    background: linear-gradient(to bottom, #4cd964, #28a745);
+    color: white;
+}
+
+/* Culoare pentru Inactiv (Gri sau Albastru sters) */
+.label-gray {
+    background-color: #e0e0e0;
+    color: #777;
+    border-color: #ccc;
+    font-size: 1.5rem; /* Text mai mic daca e inactiv */
+}
+
+/* --- MAGIA PENTRU PERSONAJUL ACTIV (CHIMISTA) --- */
+.active-bouncy {
+    cursor: pointer;
+    /* Animatie continua de plutire/dans */
+    animation: bounceCharacter 2s infinite ease-in-out;
+}
+
+/* Cand pui mouse-ul pe Chimista */
+.active-bouncy:hover {
+    transform: scale(1.1); /* Se mareste */
+    animation: none; /* Se opreste din dans ca sa dai click */
+}
+
+.active-bouncy:hover .char-img {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 0, 0.8)); /* Straluceste galben */
+}
+
+/* Cerc luminos in spatele personajului activ */
+.glow-effect {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    z-index: 1;
+    opacity: 0.6;
+}
+
+/* --- PERSONAJE INACTIVE --- */
+.character-card.inactive {
+    cursor: default;
+    filter: grayscale(0.6) opacity(0.8); /* Putin gri sa nu atraga atentia */
+    transform: scale(0.9); /* Putin mai mici */
+}
+
+.character-card.inactive:hover {
+    /* Mica miscare de "NU" cand dai click pe inactiv */
+    animation: shake 0.5s;
+}
+
+/* --- BUTONUL DE HOME (CASUTA) --- */
+.back-btn-big {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 70px;
+    height: 70px;
+    background-color: #ff4757; /* Rosu aprins */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 40px; /* Iconita mare */
+    border: 4px solid white;
+    box-shadow: 0 5px 0 #a31a26; /* Umbra 3D */
+    transition: transform 0.1s;
+    z-index: 100;
+}
+
+.back-btn-big:active {
+    transform: translateY(5px); /* Efect de apasare */
+    box-shadow: 0 0 0 #a31a26;
+}
+
+/* --- ANIMATII --- */
+@keyframes bounceCharacter {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.02); } /* Sare in sus */
+}
+
+@keyframes shake {
+    0% { transform: translateX(0) scale(0.9); }
+    25% { transform: translateX(-5px) scale(0.9); }
+    50% { transform: translateX(5px) scale(0.9); }
+    75% { transform: translateX(-5px) scale(0.9); }
+    100% { transform: translateX(0) scale(0.9); }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}

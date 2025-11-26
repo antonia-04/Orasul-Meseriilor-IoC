@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorul Mic - Chimist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/style-chimist.css">
+</head>
+<body>
+
+    <a href="../oras.html" class="back-btn">
+        <img src="../imagini/acasa.svg" alt="Acasa">
+    </a>
+
+    <div class="game-container">
+        
+        <div id="scena-intro" class="scene active">
+            <h1>Laboratorul Chimistei</h1>
+            <img src="../imagini/chimist/chimista.svg" class="character-large float-anim" alt="Chimista">
+            
+            <p>Bună! Eu sunt Ana. <br>Vrei să facem poțiuni magice?</p>
+            <button class="btn-start" onclick="nextScene('scena-1')">DA! Să începem!</button>
+        </div>
+
+        <div id="scena-1" class="scene">
+            <h2>Pasul 1: Ne echipăm!</h2>
+            <p>Alege hainele de protecție corecte!</p>
+            
+            <div class="dress-up-container">
+                <div class="mannequin">
+                    <img src="../imagini/chimist/chimista.svg" class="base-avatar" alt="Avatar">
+                    
+                    <img src="../imagini/chimist/ochelari.svg" id="wear-glasses" class="worn-item hidden" alt="Ochelari">
+                    <img src="../imagini/chimist/halat.svg" id="wear-coat" class="worn-item hidden" alt="Halat">
+                </div>
+
+<div class="items-rack">
+                    
+                    <div class="item" onclick="chooseClothing('glasses', this, true)">
+                        <img src="../imagini/chimist/ochelarib.svg" alt="Ochelari">
+                    </div>
+                    
+                    <div class="item" onclick="chooseClothing('coat', this, true)">
+                        <img src="../imagini/chimist/halatb.svg" alt="Halat">
+                    </div>
+
+                    <div class="item" onclick="chooseClothing('hat', this, false)">
+                        <img src="../imagini/chimist/cascab.svg" alt="Casca">
+                    </div>
+
+                    <div class="item" onclick="chooseClothing('sun', this, false)">
+                        <img src="../imagini/chimist/ochelarisoareb.svg" alt="Soare">
+                    </div>
+
+                    <div class="item" onclick="chooseClothing('cape', this, false)">
+                        <img src="../imagini/chimist/pelerinab.svg" alt="Pelerina">
+                    </div>
+
+                    <div class="item" onclick="chooseClothing('camera', this, false)">
+                        <img src="../imagini/chimist/camerab.svg" alt="Camera">
+                    </div>
+
+                </div>
+            </div>
+            <button id="btn-next-1" class="btn-next hidden" onclick="nextScene('scena-2')">Super! Mai departe ➡</button>
+        </div>
+
+        <div id="scena-2" class="scene">
+            <h2>Pasul 2: Facem ordine!</h2>
+            <p>Pune DOAR obiectele de laborator în cutie.</p>
+            
+            <div class="sorting-area">
+                <div class="items-scattered" id="scattered-items">
+                    <img src="../imagini/chimist/eprubeta.svg" class="sort-item good" onclick="sortMe(this, true)">
+                    <img src="../imagini/chimist/balon.svg" class="sort-item good" onclick="sortMe(this, true)">
+                    <img src="../imagini/chimist/microscop.svg" class="sort-item good" onclick="sortMe(this, true)">
+                    
+                    <img src="../imagini/chimist/ursulet.svg" class="sort-item bad" onclick="sortMe(this, false)">
+                    <img src="../imagini/chimist/minge.svg" class="sort-item bad" onclick="sortMe(this, false)">
+                </div>
+                
+                <div class="box-container">
+                    <img src="../imagini/chimist/cutie.svg" alt="Cutie" class="box-img">
+                </div>
+            </div>
+            <div id="feedback-text" class="feedback-msg">Găsește 3 obiecte!</div>
+            <button id="btn-next-2" class="btn-next hidden" onclick="nextScene('scena-3')">Bravo! Mai departe ➡</button>
+        </div>
+
+        <div id="scena-3" class="scene">
+            <h2>Pasul 3: Experimentul!</h2>
+            <p>Hai să facem o poțiune <span class="green-text">VERDE</span>!</p>
+            
+            <div class="lab-bench">
+                <div class="beaker-main">
+                    <div id="liquid-main" class="liquid">
+                        <div class="bubbles" id="bubbles"></div>
+                    </div>
+                </div>
+                
+                <div class="potions-rack">
+                    <img src="../imagini/chimist/sticla-rosie.svg" class="potion" onclick="addPotion('red')">
+                    <img src="../imagini/chimist/sticla-galbena.svg" class="potion" onclick="addPotion('yellow')">
+                    <img src="../imagini/chimist/sticla-albastra.svg" class="potion" onclick="addPotion('blue')">
+                </div>
+            </div>
+            
+            <div id="result-message" class="result-msg">Toarnă 2 culori...</div>
+            <button id="btn-final" class="btn-next hidden" onclick="nextScene('scena-final')">Am reușit! ➡</button>
+            <button class="btn-reset" onclick="resetPotions()">
+                Goleste Paharul 🗑️
+            </button>
+        </div>
+
+        <div id="scena-final" class="scene">
+            <h1>FELICITĂRI!</h1>
+            <img src="../imagini/chimist/chimista.svg" class="character-large float-anim">
+            <p>Ai terminat școala de chimie!</p>
+            <div class="confetti">🎉 ⭐ 🧪</div>
+            <a href="../oras.html" class="btn-start link-reset">Înapoi în Oraș</a>
+        </div>
+
+    </div>
+
+    <script src="../js/chimist.js"></script>
+</body>
+</html>

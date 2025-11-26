@@ -3,16 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orasul Meseriilor</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Orasul Meseriilor - Start</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <h1>Bine ai venit in Orasul Meseriilor!</h1>
-    <p>Daca textul acesta este albastru, CSS-ul functioneaza.</p>
-    
-    <button onclick="salut()">Da click pentru test JS</button>
+    <main class="start-screen">
+        
+        <div class="clouds-container">
+            <img src="imagini/nor.svg" alt="nor" class="cloud c1">
+            <img src="imagini/nor.svg" alt="nor" class="cloud c2">
+            <img src="imagini/nor.svg" alt="nor" class="cloud c3">
+        </div>
 
-    <script src="script.js"></script>
+        <h1 class="main-title">
+            Orașul<br>Meseriilor
+        </h1>
+
+        <div class="buildings-container">
+            <img src="imagini/cladiri-toate.svg" alt="Orasul cu cladiri" class="city-panorama">
+        </div>
+
+        <a href="oras.html" class="start-button-overlay" id="startBtn">START</a>
+
+    </main>
+
+    <script src="js/script.js"></script>
 </body>
 </html>

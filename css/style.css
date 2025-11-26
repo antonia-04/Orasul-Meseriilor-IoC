@@ -1,0 +1,124 @@
+/* Resetare generala */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    /* Asigura-te ca ai linia cu fontul Baloo 2 in index.html pentru ca acest font sa mearga */
+    font-family: 'Baloo 2', 'Comic Sans MS', Arial, sans-serif; 
+    overflow: hidden;
+}
+
+/* --- ECRANUL PRINCIPAL --- */
+.start-screen {
+    /* Un gradient subtil arata mai bine decat o culoare solida */
+    background: linear-gradient(to bottom, #bfe9ff 0%, #dff3ff 100%);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* --- TITLUL PRINCIPAL (MODIFICAT MAJOR) --- */
+.main-title {
+    font-size: 6rem; /* <--- L-am micșorat puțin (era 8rem) */
+    color: #1a237e;
+    text-align: center;
+    line-height: 1.1;
+    
+    margin-top: 5vh; /* <--- L-am urcat mult mai sus (era 15vh) */
+    
+    z-index: 10;
+    text-shadow: 4px 4px 0px #ffffff, 7px 7px 0px rgba(0,0,0,0.2);
+    animation: popIn 1s ease-out;
+}
+
+/* --- CLADIRI (CU ANIMATIE DE PLUTIRE) --- */
+/* --- CLADIRI (LIPITE DE JOS) --- */
+.buildings-container {
+    position: absolute; /* Le scoatem din fluxul normal și le fixăm */
+    bottom: 0;          /* Lipite perfect de marginea de jos */
+    left: 0;            /* Lipite de stânga */
+    width: 100%;        /* Ocupă toată lățimea */
+    
+    display: flex;
+    justify-content: center; /* Centrate pe orizontală */
+    z-index: 5;
+    
+    /* Păstrăm animația, dar va porni de la baza ecranului */
+    animation: plutireCladiri 4s ease-in-out infinite;
+}
+
+/* Asigură-te că și imaginea e setată corect */
+.city-panorama {
+    width: 100%;
+    height: 45vh;
+    /* max-width: 100%;  <-- Poți șterge limita de 1300px dacă vrei să fie cât tot ecranul pe desktop */
+    height: auto;
+    display: block;      /* Elimină spațiile mici de sub imagini */
+}
+
+/* --- NORI (CU ANIMATIE DE MISCARE) --- */
+.clouds-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    pointer-events: none;
+}
+
+.cloud {
+    position: absolute;
+    opacity: 0.9;
+    /* Animatie lenta de miscare orizontala */
+    animation: miscareNori 60s linear infinite;
+}
+
+/* Pozitii si dimensiuni ajustate pentru nori */
+/* Folosim 'transform: translateX' pentru a-i pozitiona initial */
+.c1 { top: 10%; left: 10%; width: 180px; animation-delay: 0s; }
+.c2 { top: 5%; left: 50%; width: 250px; animation-delay: -20s; } /* Porneste mai tarziu */
+.c3 { top: 15%; left: 80%; width: 200px; animation-delay: -40s; }
+
+/* --- BUTON START INVIZIBIL --- */
+.start-button-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 20; opacity: 0; cursor: pointer;
+}
+
+/* ================= DEFINIRE ANIMATII ================= */
+
+/* 1. Titlul apare brusc (Pop In) */
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* 2. Cladirile plutesc sus-jos */
+@keyframes plutireCladiri {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-25px); } /* Se ridica 25px */
+    100% { transform: translateY(0px); }
+}
+
+/* 3. Norii se misca incet de la stanga la dreapta */
+@keyframes miscareNori {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(100vw); } /* Se duce pana in afara ecranului in dreapta */
+}
+
+/* --- Adaptare pentru ecrane mai mici --- */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 4rem; /* Titlu mai mic pe telefon */
+        margin-top: 10vh;
+    }
+}

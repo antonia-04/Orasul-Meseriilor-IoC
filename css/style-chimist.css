@@ -1,0 +1,223 @@
+/* Stiluri generale */
+body {
+    background-color: #e0f7fa;
+    font-family: 'Baloo 2', cursive, sans-serif;
+    margin: 0;
+    overflow: hidden;
+    text-align: center;
+    user-select: none;
+}
+
+h1 { color: #006064; font-size: 3rem; margin: 10px 0; }
+h2 { color: #0097a7; font-size: 2.5rem; margin-top: 0;}
+p { font-size: 1.5rem; color: #555; margin-bottom: 20px; font-weight: bold; }
+
+/* Butonul Home */
+.back-btn {
+    position: absolute;
+    top: 20px; left: 20px;
+    width: 70px; height: 70px;
+    background: white; border-radius: 50%; 
+    border: 4px solid #006064;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 4px 0 #004d40;
+    z-index: 100;
+}
+.back-btn img { width: 60%; height: auto; }
+
+/* Scenele */
+.scene {
+    display: none;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.5s;
+}
+.scene.active { display: flex; }
+@keyframes fadeIn { from {opacity:0; transform: scale(0.9);} to {opacity:1; transform: scale(1);}}
+
+/* --- INTRO & FINAL --- */
+.character-large { 
+    height: 40vh; 
+    width: auto;
+    margin: 20px; 
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
+}
+.float-anim { animation: float 3s infinite ease-in-out; }
+
+/* --- JOC 1: ECHIPAMENT (DRESS UP) --- */
+.dress-up-container {
+    display: flex; 
+    gap: 40px; 
+    align-items: center; 
+    justify-content: center;
+    flex-wrap: wrap; 
+}
+
+.mannequin {
+    position: relative;
+    width: 220px; /* Adaptat pentru formatul inalt */
+    height: 500px;
+    display: flex; 
+    justify-content: center;
+}
+
+.base-avatar, .worn-item {
+    position: absolute; 
+    top: 0; left: 0; 
+    width: 100%; 
+    height: 100%;
+    object-fit: contain; 
+}
+
+.base-avatar { z-index: 1; }
+.worn-item { z-index: 2; transition: opacity 0.3s; }
+.hidden { opacity: 0 !important; pointer-events: none; }
+
+/* --- GRILA DE BUTOANE (SOLUȚIA CSS GRID) --- */
+/* Cutia mare care ține butoanele - ACTUALIZAT PENTRU 6 BUTOANE */
+.items-rack { 
+    display: grid;
+    
+    /* SCHIMBARE: 3 coloane egale (1fr 1fr 1fr) în loc de 2 */
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr;
+    
+    gap: 10px;              
+    
+    /* SCHIMBARE: Lățimea trebuie să fie mai mare (cam 450-460px) */
+    width: 460px;    
+    height: 320px;   
+    
+    margin: 0 auto;
+}
+
+/* Butonul individual */
+/* Butonul individual */
+.item {
+    cursor: pointer;
+    background: white; 
+    border-radius: 20px; /* Mai rotunjit */
+    border: 3px solid #b2ebf2;
+    transition: transform 0.2s;
+    
+    width: 100%;  
+    height: 100%; 
+    
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+    
+    /* Padding mic ca sa lasam loc imaginii sa fie mare */
+    padding: 5px; 
+    box-sizing: border-box;
+}
+
+/* Imaginea din buton */
+.item img { 
+    width: auto;      
+    
+    /* MODIFICARE: Le facem mai mari pentru ca sunt patrate acum */
+    height: 100px; /* Era 110px, dar ajustam sa aiba loc frumos */
+    
+    object-fit: contain; 
+    
+    /* Umbra ca sa se vada bine */
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.2)); 
+    
+    transition: transform 0.2s;
+}
+
+/* Cand pui mouse-ul, imaginea se mai mareste putin */
+.item:hover img {
+    transform: scale(1.1);
+}
+
+.item:hover { 
+    transform: scale(1.05); 
+    border-color: #00bcd4; 
+    background: #fffde7;
+    z-index: 10;
+}
+
+.item.used { 
+    opacity: 0.6; 
+    filter: grayscale(0.5); 
+    pointer-events: none;
+}
+
+/* --- JOC 2: SORTARE --- */
+.sorting-area { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%;}
+.items-scattered { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; min-height: 150px;}
+
+.sort-item {
+    width: 100px; height: 100px;
+    object-fit: contain; cursor: pointer;
+    animation: float 4s infinite ease-in-out;
+    transition: all 0.3s;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+}
+
+.box-container {
+    width: 250px; height: auto;
+    display: flex; justify-content: center; align-items: flex-end;
+}
+.box-img { width: 100%; height: auto; }
+.feedback-msg { height: 30px; margin-top: 10px; font-weight: bold; color: #00838f; font-size: 1.5rem; }
+
+/* --- JOC 3: POTIUNI --- */
+.lab-bench { display: flex; align-items: flex-end; gap: 80px; margin-bottom: 20px; margin-top: 20px;}
+
+.beaker-main {
+    width: 150px; height: 200px;
+    border: 6px solid #333; border-top: none;
+    border-radius: 0 0 20px 20px;
+    position: relative; overflow: hidden; background: rgba(255,255,255,0.4);
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.liquid {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 0%;
+    transition: all 0.8s ease-in-out;
+    background-color: transparent;
+}
+.bubbles {
+    position: absolute; width: 15px; height: 15px; background: rgba(255,255,255,0.6); border-radius: 50%;
+    bottom: 0; left: 50%; animation: bubbleUp 2s infinite; display: none;
+}
+
+.potions-rack { display: flex; gap: 30px; }
+.potion {
+    width: 80px; height: 120px; 
+    object-fit: contain; cursor: pointer; 
+    transition: transform 0.2s; 
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
+}
+.potion:hover { transform: translateY(-15px) rotate(10deg); }
+.potion:active { transform: scale(0.9); }
+
+/* --- BUTOANE NAVIGARE --- */
+.btn-start, .btn-next {
+    padding: 15px 50px; font-size: 1.8rem; font-family: inherit; font-weight: bold;
+    background: #00bcd4; color: white; border: none;
+    border-radius: 50px; cursor: pointer; margin-top: 20px;
+    box-shadow: 0 6px 0 #00838f; transition: all 0.1s;
+    text-decoration: none; display: inline-block;
+}
+.btn-start:active, .btn-next:active { transform: translateY(6px); box-shadow: 0 0 0; }
+.btn-start:hover, .btn-next:hover { background: #26c6da; }
+
+.btn-reset { 
+    margin-top: 15px; background: white; border: 2px solid #ccc; 
+    padding: 10px 20px; cursor: pointer; border-radius: 20px; 
+    font-family: inherit; font-weight: bold; color: #555;
+    display: flex; align-items: center; gap: 10px;
+}
+
+.link-reset { text-decoration: none; display: inline-block; }
+
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)}}
+@keyframes bubbleUp { 0% {bottom:0; opacity:1;} 100% {bottom:100%; opacity:0;} }
+@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-10px);} 75% {transform: translateX(10px);} }
