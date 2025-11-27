@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aventura Picăturii - Demo Client</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
+
+        .clickable { cursor: pointer; transition: opacity 0.1s; }
+        .clickable:active { opacity: 0.8; }
+        
+        /* Rock disappear animation */
+        .rock-disappear {
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            opacity: 0 !important;
+            transform: scale(0.3) !important;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Game Container */
+        #game-window {
+            width: 900px;
+            height: 600px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* UI Header */
+        .game-header {
+            height: 60px;
+            background: rgba(255,255,255,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            border-bottom: 2px solid #f0f0f0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stage-title {
+            font-family: 'Fredoka One', cursive;
+            color: #2980b9;
+            font-size: 24px;
+        }
+
+        .progress-container {
+            width: 200px;
+            height: 12px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #bdc3c7;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        /* Scenes Area */
+        .scene-container {
+            flex: 1;
+            position: relative;
+            background: #eef9ff;
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene.active {
+            display: flex;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* Start & End Screens */
+        .menu-screen {
+            text-align: center;
+            background: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        .menu-screen h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 60px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .btn-start {
+            padding: 15px 50px;
+            font-size: 24px;
+            font-family: 'Fredoka One', cursive;
+            color: #4facfe;
+            background: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .btn-start:active { transform: scale(0.95); }
+
+        /* Instructions Overlay */
+        .instruction-toast {
+            position: absolute;
+            bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 30px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            pointer-events: none;
+            font-size: 18px;
+            text-align: center;
+            width: auto;
+            min-width: 300px;
+            max-width: 600px;
+            border: 2px solid #4facfe;
+        }
+
+        /* Interactive Classes */
+        .draggable { 
+            cursor: grab; 
+            transition: filter 0.2s; 
+        }
+        
+        .draggable:hover { 
+            filter: brightness(1.2) drop-shadow(0 0 5px gold); 
+        }
+        
+        .draggable:active { 
+            cursor: grabbing; 
+        }
+        
+        .clickable { cursor: pointer; transition: opacity 0.1s; }
+        .clickable:active { opacity: 0.8; }
+
+        /* Navigation Button */
+        #next-btn {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+            display: none;
+            animation: bounceIn 0.5s;
+            z-index: 200;
+            font-family: 'Fredoka One', cursive;
+        }
+
+        @keyframes bounceIn { 0% { transform: scale(0); } 80% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* Rain transition */
+        #s3-sky, #s3-cloud-path, #s3-gauge-text {
+            transition: fill 0.5s ease;
+        }
+        
+        /* Rain Gauge */
+        .rain-gauge-group {
+            transition: opacity 0.5s;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- SVG FILTERS & DEFS -->
+    <svg style="width:0; height:0; position:absolute;">
+        <defs>
+            <!-- Realistic Sky Gradient -->
+            <linearGradient id="realSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2980b9" /> <!-- Deep Blue Top -->
+                <stop offset="100%" stop-color="#87CEFA" /> <!-- Light Blue Horizon -->
+            </linearGradient>
+            
+            <!-- Realistic Sea Gradient -->
+            <linearGradient id="realSea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1CB5E0" /> <!-- Turquoise Surface -->
+                <stop offset="100%" stop-color="#000046" /> <!-- Deep Ocean -->
+            </linearGradient>
+
+            <!-- Sun Gradient -->
+            <radialGradient id="sunRadial" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFF700"/>
+                <stop offset="80%" stop-color="#FFD700"/>
+                <stop offset="100%" stop-color="#FFA500"/>
+            </radialGradient>
+
+            <!-- Mountain Gradient -->
+            <linearGradient id="mtnGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#5D4157"/>
+                <stop offset="100%" stop-color="#8e9eab"/>
+            </linearGradient>
+            
+             <!-- Cloud Gradient -->
+            <linearGradient id="cloudGrad" x1="0" y1="0" x2="0" y2="1">
+                 <stop offset="0%" stop-color="#FFFFFF"/>
+                 <stop offset="100%" stop-color="#E6E6E6"/>
+            </linearGradient>
+            
+            <!-- Rock Gradient -->
+            <radialGradient id="realRockGrad" cx="30%" cy="30%" r="80%">
+                <stop offset="0%" stop-color="#b0bec5"/>
+                <stop offset="100%" stop-color="#546e7a"/>
+            </radialGradient>
+
+            <!-- River Bank Gradients (Fade to Transparent/Grass) -->
+            <linearGradient id="bankFadeLeft" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#d7ccc8" stop-opacity="0.8"/>
+                <stop offset="100%" stop-color="#8bc34a" stop-opacity="0"/>
+            </linearGradient>
+
+            <!-- Glow Filter -->
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+
+             <!-- Drop Shadow -->
+            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                <feOffset dx="2" dy="4"/>
+                <feComponentTransfer><feFuncA type="linear" slope="0.3"/></feComponentTransfer>
+                <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+
+            <!-- Grass Blades Pattern -->
+            <pattern id="grassPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                 <path d="M5,40 Q10,30 15,40 M25,30 Q30,20 35,30" stroke="#689f38" stroke-width="1" fill="none" opacity="0.4"/>
+            </pattern>
+        </defs>
+    </svg>
+
+    <div id="game-window">
+        <!-- Header -->
+        <div class="game-header" id="ui-header" style="display:none;">
+            <div class="stage-title" id="stage-title">Scena 1</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- SCENE 0: START MENU -->
+        <div class="scene menu-screen active" id="scene-0">
+            <h1>Aventura Picăturii</h1>
+            <p style="font-size: 22px; margin-bottom: 40px; opacity: 0.9;">Explorează circuitul apei în natură!</p>
+            <svg width="120" height="160" viewBox="0 0 100 140" style="margin-bottom: 30px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));">
+                <path d="M50,0 Q5,60 5,90 Q5,135 50,135 Q95,135 95,90 Q95,60 50,0" fill="white" />
+                <circle cx="35" cy="60" r="8" fill="#4facfe"/>
+                <circle cx="65" cy="60" r="8" fill="#4facfe"/>
+                <path d="M40,80 Q50,90 60,80" stroke="#4facfe" stroke-width="3" fill="none"/>
+            </svg>
+            <button class="btn-start" onclick="startGame()">Start Joc</button>
+        </div>
+
+        <!-- SCENE 1: EVAPORARE -->
+        <div class="scene" id="scene-1">
+            <svg width="100%" height="100%" viewBox="0 0 900 540" preserveAspectRatio="xMidYMid slice">
+                <rect width="900" height="350" fill="url(#realSky)"/>
+                <path d="M100,100 Q150,60 200,100 T300,100" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="40" stroke-linecap="round"/>
+                <path d="M600,150 Q650,110 700,150 T800,150" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="50" stroke-linecap="round"/>
+                <path d="M0,350 Q225,340 450,350 T900,350 V540 H0 Z" fill="url(#realSea)"/>
+                <path d="M0,370 Q100,380 200,370 T400,370 T600,370 T800,370" stroke="rgba(255,255,255,0.1)" fill="none" stroke-width="2"/>
+                
+                <g id="s1-steam" opacity="0" style="transition: opacity 1s;">
+                     <path d="M300,310 Q320,220 300,170" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"><animate attributeName="d" values="M300,310 Q320,220 300,170; M300,290 Q280,200 300,150" dur="2s" repeatCount="indefinite"/></path>
+                     <path d="M450,320 Q430,230 450,180" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"><animate attributeName="d" values="M450,320 Q430,230 450,180; M450,300 Q470,210 450,160" dur="2.5s" repeatCount="indefinite"/></path>
+                     <path d="M600,310 Q620,220 600,170" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"><animate attributeName="d" values="M600,310 Q620,220 600,170; M600,290 Q580,200 600,150" dur="2.2s" repeatCount="indefinite"/></path>
+                </g>
+
+                <g id="s1-sun" class="draggable" transform="translate(100, 80)" onmousedown="startDrag(evt, 'sun')">
+                    <g stroke="#FFD700" stroke-width="5" stroke-linecap="round" filter="url(#glow)">
+                        <line x1="0" y1="-60" x2="0" y2="-50" /> <line x1="0" y1="60" x2="0" y2="50" />
+                        <line x1="-60" y1="0" x2="-50" y2="0" /> <line x1="60" y1="0" x2="50" y2="0" />
+                        <line x1="42" y1="-42" x2="35" y2="-35" /> <line x1="-42" y1="42" x2="-35" y2="35" />
+                        <line x1="-42" y1="-42" x2="-35" y2="-35" /> <line x1="42" y1="42" x2="35" y2="35" />
+                    </g>
+                    <circle r="45" fill="url(#sunRadial)" filter="url(#shadow)" />
+                    <circle cx="-15" cy="-10" r="5" fill="#333"/> <circle cx="15" cy="-10" r="5" fill="#333"/>
+                    <path d="M-20,15 Q0,30 20,15" stroke="#333" stroke-width="4" stroke-linecap="round" fill="none"/>
+                </g>
+            </svg>
+            <div class="instruction-toast" id="msg-1">Trage Soarele peste apă pentru a o încălzi!</div>
+        </div>
+
+        <!-- SCENE 2: CONDENSARE -->
+        <div class="scene" id="scene-2">
+            <svg width="100%" height="100%" viewBox="0 0 900 540">
+                <rect width="900" height="540" fill="url(#realSky)"/>
+                
+                <defs>
+                    <path id="cloudPath" d="M300,220 Q280,150 360,140 Q400,80 480,100 Q540,60 620,110 Q680,100 700,180 Q750,220 700,280 Q720,340 620,350 L380,350 Q280,350 300,220 Z" />
+                </defs>
+
+                <g transform="translate(75, 40) scale(0.85)">
+                    <use xlink:href="#cloudPath" id="s2-target" fill="rgba(255,255,255,0.1)" stroke="#A9D0F5" stroke-width="5" stroke-dasharray="15,10" stroke-linecap="round">
+                         <animate attributeName="stroke-dashoffset" from="100" to="0" dur="10s" repeatCount="indefinite"/>
+                    </use>
+
+                    <g id="s2-final-cloud" opacity="0" style="transition: opacity 0.5s;">
+                        <use xlink:href="#cloudPath" fill="url(#cloudGrad)" filter="url(#shadow)"/>
+                        <circle cx="450" cy="220" r="6" fill="#333"/> <circle cx="550" cy="220" r="6" fill="#333"/>
+                        <path d="M480,250 Q500,270 520,250" stroke="#333" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    </g>
+                    
+                    <text id="s2-instruction-text" x="500" y="230" text-anchor="middle" fill="#FFF" font-family="Nunito" font-size="18" opacity="0.8" font-weight="bold" pointer-events="none">Pune stropii aici</text>
+                </g>
+
+                <g id="drop1" class="draggable" transform="translate(150, 300)" onmousedown="startDrag(evt, 'drop')">
+                    <path d="M0,0 Q-18,30 0,50 Q18,30 0,0" fill="url(#realSea)" stroke="white" stroke-width="2" transform="scale(1.2)" filter="url(#shadow)"/>
+                </g>
+                <g id="drop2" class="draggable" transform="translate(250, 415)" onmousedown="startDrag(evt, 'drop')">
+                    <path d="M0,0 Q-18,30 0,50 Q18,30 0,0" fill="url(#realSea)" stroke="white" stroke-width="2" transform="scale(1.2)" filter="url(#shadow)"/>
+                </g>
+                <g id="drop3" class="draggable" transform="translate(750, 300)" onmousedown="startDrag(evt, 'drop')">
+                    <path d="M0,0 Q-18,30 0,50 Q18,30 0,0" fill="url(#realSea)" stroke="white" stroke-width="2" transform="scale(1.2)" filter="url(#shadow)"/>
+                </g>
+                <g id="drop4" class="draggable" transform="translate(850, 200)" onmousedown="startDrag(evt, 'drop')">
+                    <path d="M0,0 Q-18,30 0,50 Q18,30 0,0" fill="url(#realSea)" stroke="white" stroke-width="2" transform="scale(1.2)" filter="url(#shadow)"/>
+                </g>
+                <g id="drop5" class="draggable" transform="translate(550, 400)" onmousedown="startDrag(evt, 'drop')">
+                    <path d="M0,0 Q-18,30 0,50 Q18,30 0,0" fill="url(#realSea)" stroke="white" stroke-width="2" transform="scale(1.2)" filter="url(#shadow)"/>
+                </g>
+                <g id="drop6" class="draggable" transform="translate(100, 150)" onmousedown="startDrag(evt, 'drop')">
+                    <path d="M0,0 Q-18,30 0,50 Q18,30 0,0" fill="url(#realSea)" stroke="white" stroke-width="2" transform="scale(1.2)" filter="url(#shadow)"/>
+                </g>
+            </svg>
+            <div class="instruction-toast" id="msg-2">Adună stropii de apă în conturul norului! (0/6)</div>
+        </div>
+
+        <!-- SCENE 3: PRECIPITATII -->
+        <div class="scene" id="scene-3">
+            <svg width="100%" height="100%" viewBox="0 0 900 540" onmouseup="stopRain()" onmouseleave="stopRain()">
+                <!-- Sky -->
+                <rect id="s3-sky" width="900" height="540" fill="url(#realSky)"/> 
+                
+                <path d="M100,540 L500,100 L900,450 L900,540 Z" fill="url(#mtnGrad)"/>
+                <path d="M500,100 L900,450 L600,540 L500,100" fill="#4a3b57" opacity="0.4"/>
+                
+                <path d="M450,300 L470,320 L460,350" stroke="rgba(0,0,0,0.2)" fill="none" stroke-width="2"/>
+                <path d="M550,250 L530,280 L540,310" stroke="rgba(0,0,0,0.2)" fill="none" stroke-width="2"/>
+
+                <path d="M430,180 L500,100 L570,180 L540,210 L500,170 L460,210 Z" fill="white" filter="url(#shadow)"/>
+
+                <g transform="translate(820, 100)">
+                     <rect x="0" y="0" width="40" height="200" rx="10" fill="rgba(255,255,255,0.5)" stroke="#333" stroke-width="2"/>
+                     <rect id="water-level" x="2" y="2" width="36" height="200" rx="8" fill="#1E90FF" />
+                     
+                     <line x1="0" y1="50" x2="40" y2="50" stroke="#333" stroke-width="1" opacity="0.5"/>
+                     <line x1="0" y1="100" x2="40" y2="100" stroke="#333" stroke-width="1" opacity="0.5"/>
+                     <line x1="0" y1="150" x2="40" y2="150" stroke="#333" stroke-width="1" opacity="0.5"/>
+                     <text id="s3-gauge-text" x="20" y="-15" text-anchor="middle" font-family="Nunito" font-weight="bold" fill="#333">Apă în Nor</text>
+                </g>
+
+                <g id="s3-rain" style="display:none;">
+                    <line x1="150" y1="250" x2="150" y2="500" stroke="#A9D0F5" stroke-width="3" stroke-dasharray="20,10"><animate attributeName="y1" from="250" to="540" dur="0.4s" repeatCount="indefinite"/><animate attributeName="y2" from="300" to="590" dur="0.4s" repeatCount="indefinite"/></line>
+                    <line x1="200" y1="230" x2="200" y2="500" stroke="#A9D0F5" stroke-width="3" stroke-dasharray="20,10"><animate attributeName="y1" from="230" to="520" dur="0.5s" repeatCount="indefinite"/><animate attributeName="y2" from="280" to="570" dur="0.5s" repeatCount="indefinite"/></line>
+                    <line x1="250" y1="250" x2="250" y2="500" stroke="#A9D0F5" stroke-width="3" stroke-dasharray="20,10"><animate attributeName="y1" from="260" to="550" dur="0.4s" repeatCount="indefinite"/><animate attributeName="y2" from="310" to="600" dur="0.4s" repeatCount="indefinite"/></line>
+                     <line x1="300" y1="240" x2="300" y2="500" stroke="#A9D0F5" stroke-width="3" stroke-dasharray="20,10"><animate attributeName="y1" from="240" to="530" dur="0.45s" repeatCount="indefinite"/><animate attributeName="y2" from="290" to="580" dur="0.45s" repeatCount="indefinite"/></line>
+                </g>
+
+                <g class="clickable" transform="translate(-80, 0) scale(0.5)" onmousedown="startRain()" ontouchstart="startRain()" ontouchend="stopRain()">
+                     <path id="s3-cloud-path" d="M300,220 Q280,150 360,140 Q400,80 480,100 Q540,60 620,110 Q680,100 700,180 Q750,220 700,280 Q720,340 620,350 L380,350 Q280,350 300,220 Z" 
+                           fill="white" filter="url(#shadow)"/>
+                    <text x="500" y="250" fill="#555" font-family="Nunito" font-weight="bold" font-size="30" pointer-events="none" text-anchor="middle" id="s3-cloud-text">ȚINE APĂSAT</text>
+                </g>
+            </svg>
+            <div class="instruction-toast" id="msg-3">Apasă norul să plouă pe munte!</div>
+        </div>
+
+        <!-- SCENE 4: COLECTARE (Modificat cu verde și frunze) -->
+        <div class="scene" id="scene-4">
+             <svg width="100%" height="100%" viewBox="0 0 900 540">
+                <!-- 1. Solid Green Background -->
+                <rect width="900" height="540" fill="#8bc34a"/>
+                
+                <!-- 2. Grass/Leaf Texture Overlay -->
+                <rect width="900" height="540" fill="url(#grassPattern)"/>
+                
+                <!-- 3. Scattered Leaves -->
+                <use href="#leaf" x="50" y="50" transform="rotate(45 60 60) scale(1.5)"/>
+                <use href="#leaf" x="200" y="100" transform="rotate(15 210 110) scale(1.2)"/>
+                <use href="#leaf" x="800" y="400" transform="rotate(90 810 410) scale(1.3)"/>
+                <use href="#leaf" x="600" y="500" transform="rotate(-30 610 510)"/>
+                <use href="#leaf" x="150" y="450" transform="rotate(60 160 460) scale(1.4)"/>
+                <use href="#leaf" x="850" y="50" transform="rotate(-45 860 60) scale(1.2)"/>
+
+                <!-- 4. Grass Tufts scattered -->
+                <use href="#grassTuft" x="100" y="100" transform="scale(0.8)"/>
+                <use href="#grassTuft" x="300" y="50" transform="scale(0.9)"/>
+                <use href="#grassTuft" x="600" y="80" transform="scale(0.7)"/>
+                <use href="#grassTuft" x="800" y="120" transform="scale(0.8)"/>
+                <use href="#grassTuft" x="50" y="400" transform="scale(0.9)"/>
+                <use href="#grassTuft" x="350" y="450" transform="scale(0.7)"/>
+                <use href="#grassTuft" x="700" y="480" transform="scale(0.8)"/>
+                
+                <!-- River Bank with fade -->
+                <path d="M900,50 Q700,150 550,250 Q400,350 250,300 Q100,250 0,450" 
+                      stroke="url(#bankFadeLeft)" stroke-width="130" fill="none" stroke-linecap="round"/>
+
+                <!-- River Bed -->
+                <path id="s4-bed" d="M900,50 Q700,150 550,250 Q400,350 250,300 Q100,250 0,450" 
+                      stroke="#d4e157" stroke-width="90" fill="none" stroke-linecap="round"/> 
+                
+                <!-- River Water -->
+                <path d="M900,50 Q700,150 550,250 Q400,350 250,300 Q100,250 0,450" 
+                      stroke="#1E90FF" stroke-width="70" fill="none" stroke-linecap="round" opacity="0.5"/> 
+                
+                <!-- Water Flow -->
+                <path id="s4-water" d="M900,50 Q700,150 550,250 Q400,350 250,300 Q100,250 0,450" 
+                      stroke="url(#realSea)" stroke-width="60" fill="none" stroke-linecap="round" 
+                      stroke-dasharray="1600" stroke-dashoffset="1600">
+                     <animate id="s4-anim" attributeName="stroke-dashoffset" from="1600" to="0" dur="4s" fill="freeze" begin="indefinite"/>
+                </path>
+
+                <!-- 5 Realistic Rounded Rocks -->
+                <!-- Rock 1 -->
+<g id="rock1" class="draggable" transform="translate(550, 220)" onmousedown="startDrag(evt, 'rock')" style="transition: opacity 0.6s ease, transform 0.6s ease;">
+    <path d="M0,0 Q30,-20 50,0 Q60,30 30,40 Q-10,30 0,0 z" fill="url(#realRockGrad)" stroke="#455a64" stroke-width="2" filter="url(#shadow)"/>
+</g>
+<!-- Rock 2 -->
+<g id="rock2" class="draggable" transform="translate(400, 320)" onmousedown="startDrag(evt, 'rock')" style="transition: opacity 0.6s ease, transform 0.6s ease;">
+    <path d="M10,0 Q60,10 50,40 Q20,60 0,40 Q-10,20 10,0 z" fill="url(#realRockGrad)" stroke="#455a64" stroke-width="2" filter="url(#shadow)"/>
+</g>
+<!-- Rock 3 -->
+<g id="rock3" class="draggable" transform="translate(200, 300)" onmousedown="startDrag(evt, 'rock')" style="transition: opacity 0.6s ease, transform 0.6s ease;">
+    <path d="M20,0 Q50,-10 60,20 Q40,50 10,40 Q-20,20 20,0 z" fill="url(#realRockGrad)" stroke="#455a64" stroke-width="2" filter="url(#shadow)"/>
+</g>
+<!-- Rock 4 -->
+<g id="rock4" class="draggable" transform="translate(300, 260)" onmousedown="startDrag(evt, 'rock')" style="transition: opacity 0.6s ease, transform 0.6s ease;">
+    <path d="M0,20 Q20,-10 50,10 Q60,50 20,60 Q-20,50 0,20 z" fill="url(#realRockGrad)" stroke="#455a64" stroke-width="2" filter="url(#shadow)"/>
+</g>
+<!-- Rock 5 -->
+<g id="rock5" class="draggable" transform="translate(100, 300)" onmousedown="startDrag(evt, 'rock')" style="transition: opacity 0.6s ease, transform 0.6s ease;">
+    <path d="M10,10 Q50,-10 60,20 Q40,60 10,50 Q-20,30 10,10 z" fill="url(#realRockGrad)" stroke="#455a64" stroke-width="2" filter="url(#shadow)"/>
+</g>
+            </svg>
+            <div class="instruction-toast" id="msg-4">Curăță pietrele din râu! (0/5)</div>
+        </div>
+
+        <!-- SCENE 5: FINAL -->
+        <div class="scene menu-screen" id="scene-5">
+            <h1>Felicitări!</h1>
+            <p style="font-size: 24px;">Ai completat Circuitul Apei!</p>
+             <svg width="150" height="150" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="white" opacity="0.2"/>
+                <text x="50" y="65" font-size="40" text-anchor="middle">🌟</text>
+            </svg>
+            <br><br>
+            <button class="btn-start" onclick="location.reload()">Joacă din nou</button>
+        </div>
+
+        <button id="next-btn" onclick="nextStage()">Continuă >></button>
+    </div>
+
+    <script>
+        let currentStage = 0;
+        const totalStages = 4;
+        let dropsCount = 0;
+        let rocksCount = 0;
+        let rainTime = 0;
+        let rainInterval;
+        const rainTarget = 5000; // 5 seconds
+
+        function startGame() {
+            document.getElementById('ui-header').style.display = 'flex';
+            goToStage(1);
+        }
+
+        function goToStage(n) {
+            document.querySelectorAll('.scene').forEach(el => el.classList.remove('active'));
+            document.getElementById('next-btn').style.display = 'none';
+            currentStage = n;
+            document.getElementById(`scene-${n}`).classList.add('active');
+            if(n <= totalStages) {
+                document.getElementById('stage-title').textContent = getStageName(n);
+                document.getElementById('progress-bar').style.width = `${(n/totalStages)*100}%`;
+            } else {
+                document.getElementById('ui-header').style.display = 'none';
+            }
+        }
+
+        function nextStage() { goToStage(currentStage + 1); }
+
+        function getStageName(n) {
+            switch(n) {
+                case 1: return "1. Evaporarea";
+                case 2: return "2. Condensarea";
+                case 3: return "3. Precipitațiile";
+                case 4: return "4. Colectarea";
+                default: return "";
+            }
+        }
+
+        function showNextButton() {
+            const btn = document.getElementById('next-btn');
+            btn.style.display = 'block';
+        }
+
+        // --- DRAG LOGIC ---
+        let selectedElement = null;
+        let offset = {x:0, y:0};
+        let dragType = "";
+
+        function startDrag(evt, type) {
+            selectedElement = evt.currentTarget;
+            dragType = type;
+            const transform = selectedElement.getAttribute('transform');
+            let tx = 0, ty = 0;
+            if (transform) {
+                const match = /translate\(([^,]+),\s*([^)]+)\)/.exec(transform);
+                if (match) { tx = parseFloat(match[1]); ty = parseFloat(match[2]); }
+            }
+            const pt = getEventPoint(evt);
+            offset.x = pt.x - tx;
+            offset.y = pt.y - ty;
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', endDrag);
+        }
+
+        function getEventPoint(evt) {
+            const svg = selectedElement.ownerSVGElement;
+            const pt = svg.createSVGPoint();
+            pt.x = evt.clientX;
+            pt.y = evt.clientY;
+            return pt.matrixTransform(svg.getScreenCTM().inverse());
+        }
+
+        function drag(evt) {
+            if(selectedElement) {
+                evt.preventDefault();
+                const pt = getEventPoint(evt);
+                selectedElement.setAttribute('transform', `translate(${pt.x - offset.x}, ${pt.y - offset.y})`);
+            }
+        }
+
+        function endDrag(evt) {
+            if(!selectedElement) return;
+            const transform = selectedElement.getAttribute('transform');
+            const match = /translate\(([^,]+),\s*([^)]+)\)/.exec(transform);
+            const x = parseFloat(match[1]);
+            const y = parseFloat(match[2]);
+
+            if(dragType === 'sun' && currentStage === 1) {
+                if(y > 250) {
+                    document.getElementById('s1-steam').setAttribute('opacity', '1');
+                    document.getElementById('msg-1').textContent = "Super! Apa se evaporă!";
+                    document.getElementById('msg-1').style.color = "#2ecc71";
+                    setTimeout(showNextButton, 1000);
+                } else {
+                    document.getElementById('s1-steam').setAttribute('opacity', '0');
+                    document.getElementById('msg-1').textContent = "Trage Soarele peste apă pentru a o încălzi!";
+                    document.getElementById('msg-1').style.color = "#2c3e50";
+                }
+            }
+
+            if(dragType === 'drop' && currentStage === 2) {
+                // Target area
+                if(x > 250 && x < 750 && y > 100 && y < 350) {
+                    selectedElement.style.display = 'none';
+                    dropsCount++;
+                    
+                    const target = document.getElementById('s2-target');
+                    target.setAttribute('stroke', '#FFF');
+                    setTimeout(() => target.setAttribute('stroke', '#A9D0F5'), 300);
+
+                    if(dropsCount >= 6) {
+                        document.getElementById('s2-final-cloud').setAttribute('opacity', '1');
+                        document.getElementById('s2-target').style.display = 'none';
+                        
+                        // Hide the instruction text
+                        document.getElementById('s2-instruction-text').style.display = 'none';
+
+                        document.getElementById('msg-2').textContent = "Bravo! Norul e plin!";
+                        showNextButton();
+                    } else {
+                        document.getElementById('msg-2').textContent = `Adună stropii de apă în conturul norului! (${dropsCount}/6)`;
+                    }
+                }
+            }
+
+            if(dragType === 'rock' && currentStage === 4) {
+                if(!selectedElement.dataset.moved) {
+                    selectedElement.dataset.moved = "true";
+
+                    // selectedElement.setAttribute('opacity', '0.6');
+
+                    selectedElement.style.opacity = '0';
+                    selectedElement.style.transform = selectedElement.getAttribute('transform') + ' scale(0.3)';
+        
+                    setTimeout(() => {
+                                selectedElement.style.display = 'none';
+                            }, 600);
+
+                    rocksCount++;
+                    document.getElementById('msg-4').textContent = `Curăță pietrele din râu! (${rocksCount}/5)`;
+                    if(rocksCount >= 5) {
+                        document.getElementById('s4-anim').beginElement();
+                        document.getElementById('msg-4').textContent = "Râul curge liber!";
+                        setTimeout(showNextButton, 1500);
+                    }
+                }
+            }
+
+            selectedElement = null;
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', endDrag);
+        }
+
+        // SCENE 3 LOGIC: Rain with Gauge
+        function startRain() {
+            if(currentStage !== 3) return;
+            if(rainTime >= rainTarget) return;
+
+            document.getElementById('s3-sky').setAttribute('fill', '#2c3e50');
+            document.getElementById('s3-cloud-path').setAttribute('fill', '#4a4a4a');
+            document.getElementById('s3-cloud-text').setAttribute('fill', '#fff');
+            document.getElementById('s3-gauge-text').setAttribute('fill', '#fff'); // Make gauge text white
+
+            document.getElementById('s3-rain').style.display = 'block';
+            
+            rainInterval = setInterval(() => {
+                rainTime += 50;
+                
+                const remainingPct = 1 - (rainTime / rainTarget);
+                const height = Math.max(0, remainingPct * 200);
+                
+                document.getElementById('water-level').setAttribute('height', height);
+                document.getElementById('water-level').setAttribute('y', 2 + (200 - height));
+
+                if(rainTime >= rainTarget) { 
+                    clearInterval(rainInterval);
+                    stopRain();
+                    document.getElementById('msg-3').textContent = "Norul s-a golit! Natura e fericită.";
+                    showNextButton();
+                }
+            }, 50);
+        }
+
+        function stopRain() {
+            document.getElementById('s3-sky').setAttribute('fill', 'url(#realSky)');
+            document.getElementById('s3-cloud-path').setAttribute('fill', 'white');
+            document.getElementById('s3-cloud-text').setAttribute('fill', '#555');
+            document.getElementById('s3-gauge-text').setAttribute('fill', '#333'); // Reset gauge text color
+
+            document.getElementById('s3-rain').style.display = 'none';
+            clearInterval(rainInterval);
+        }
+
+    </script>
+</body>
+</html>
