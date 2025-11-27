@@ -1,10 +1,10 @@
-# Orașul Meseriilor
+# 🏙️ Orașul Meseriilor
 
 **Orașul Meseriilor** este o aplicație web interactivă și educativă, destinată copiilor de grupă mare (5-6 ani). Scopul proiectului este de a familiariza copiii cu diverse meserii prin intermediul unor mini-jocuri vizuale și intuitive.
 
 Proiect realizat pentru disciplina **Interacțiune Om-Calculator (IOC)**.
 
-## Funcționalități principale
+## 🎮 Funcționalități principale
 
 ### 1. Pagina de Start (Landing Page)
 
@@ -15,7 +15,7 @@ Proiect realizat pentru disciplina **Interacțiune Om-Calculator (IOC)**.
 - chimist (Antonia)
 - meteorolog (Mihai)
 - 
-## Tehnologii utilizate
+## 🛠️ Tehnologii utilizate
 * **HTML5** - Structura semantică.
 * **CSS3** - Animații, Grid, Flexbox și design responsive.
 * **JavaScript** - Logica jocurilor și manipularea elementelor (fără framework-uri).
