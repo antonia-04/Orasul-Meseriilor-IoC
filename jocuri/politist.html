@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laboratorul Mic - Polițist</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/style-politist.css" />
+  </head>
+  <body>
+    <a href="../oras.html" class="back-btn" title="Înapoi în Oraș">
+      <svg viewBox="0 0 24 24" width="45" height="45" fill="white">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+
+    <div class="game-container">
+      <div id="scena-intro" class="scene active">
+        <h1>Secția de Poliție</h1>
+        <img
+          src="../imagini/meserii/politist.svg"
+          class="character-large float-anim"
+          alt="Polițistul"
+          style="width: 20vh;"
+        />
+
+        <p>
+            Bună! Eu sunt Andrei, prietenul tău polițist! <br>
+            Știi ce face un polițist? Ajută oamenii și păzește ordinea în oraș! <br>
+            Vrei să învățăm împreună cum să fim polițiști buni?
+        </p>
+        <button class="btn-start" onclick="nextScene('scena-1')">
+            DA! Vreau să fiu polițist!
+        </button>
+
+      </div>
+
+      <div id="scena-1" class="scene">
+        <h2>Ne echipăm!</h2>
+        <p>Alege uniforma de polițist corectă!</p>
+
+        <div class="dress-up-container">
+          <div class="mannequin">
+            <img
+              src="../imagini/meserii/politist.svg"
+              class="base-avatar"
+              alt="Avatar"
+            />
+
+            <img
+              src="../imagini/politist/sapca.svg"
+              id="wear-cap"
+              class="worn-item hidden"
+              alt="Șapcă"
+            />
+            <img
+              src="../imagini/politist/uniforma.svg"
+              id="wear-uniform"
+              class="worn-item hidden"
+              alt="Uniformă"
+            />
+          </div>
+
+          <div class="items-rack">
+            <div class="item" onclick="chooseClothing('cap', this, true)">
+              <img src="../imagini/politist/sapcab.svg" alt="Șapcă" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('crown', this, false)">
+              <img src="../imagini/politist/coroanab.svg" alt="Coroană" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('sunglasses', this, false)">
+              <img src="../imagini/politist/ochelarib.svg" alt="Ochelari" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('scarf', this, false)">
+              <img src="../imagini/politist/fulb.svg" alt="Fular" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('uniform', this, true)">
+              <img src="../imagini/politist/uniformab.svg" alt="Uniformă" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('tshirt', this, false)">
+              <img src="../imagini/politist/tricoub.svg" alt="Tricou" />
+            </div>
+          </div>
+        </div>
+        <button
+          id="btn-next-1"
+          class="btn-next hidden"
+          onclick="nextScene('scena-2')"
+        >
+          Super! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-2" class="scene">
+        <h2>Echipamentul polițistului!</h2>
+        <p>Pune DOAR obiectele de polițist în gentuță.</p>
+
+        <div class="sorting-area">
+          <div class="items-scattered" id="scattered-items">
+
+            <img
+              src="../imagini/politist/fluier.svg"
+              alt="Fluier"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+
+            <img
+              src="../imagini/politist/ursulet.svg"
+              alt="Ursuleț"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+            />
+            <img
+              src="../imagini/politist/minge.svg"
+              alt="Minge"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+            />
+            <img
+              src="../imagini/politist/legitimatie.svg"
+              alt="Legitimatie"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+            <img
+              src="../imagini/politist/catuse.svg"
+              alt="Cătușe"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+            <img
+              src="../imagini/politist/acadea.svg"
+              alt="Acadea"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+            />
+            <img
+              src="../imagini/politist/statie.svg"
+              alt="Stație radio"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+          </div>
+
+          <div class="box-container">
+            <img
+              src="../imagini/politist/gentuta.svg"
+              alt="Gentuță"
+              class="box-img"
+            />
+          </div>
+        </div>
+        <div id="feedback-text" class="feedback-msg">
+          Mai ai de găsit 4 obiecte corecte!
+        </div>
+        <button
+          id="btn-next-2"
+          class="btn-next hidden"
+          onclick="nextScene('scena-3')"
+        >
+          Bravo! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-3" class="scene">
+        <h2>Ajută-l pe polițist!</h2>
+        <p>Apasă pe semnul de <span class="blue-text">CIRCULAȚIE</span> corect!</p>
+
+        <div class="lab-bench">
+          <div class="signs-container">
+            <img
+              src="../imagini/politist/stop.svg"
+              class="traffic-sign"
+              onclick="checkSign('stop')"
+              alt="STOP"
+            />
+            <img
+              src="../imagini/politist/prioritate.svg"
+              class="traffic-sign"
+              onclick="checkSign('priority')"
+              alt="Prioritate"
+            />
+            <img
+              src="../imagini/politist/trecere.svg"
+              class="traffic-sign correct-sign"
+              onclick="checkSign('crosswalk')"
+              alt="Trecere pietoni"
+            />
+          </div>
+        </div>
+
+        <div id="result-message" class="result-msg">Care semn arată trecerea de pietoni?</div>
+        <button
+          id="btn-next-3"
+          class="btn-next hidden"
+          onclick="nextScene('scena-4')"
+        >
+          Super! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-4" class="scene">
+        <h2>Prinde hoțul!</h2>
+        <p>Apasă pe <span class="red-text">HOȚ</span> când îl vezi!</p>
+
+        <div class="chase-game">
+          <div class="game-score">
+            <div class="score-display">Puncte: <span id="score">0</span>/5</div>
+            <div class="timer-display">Timp: <span id="timer">20</span>s</div>
+          </div>
+
+          <div class="grid-container" id="grid-game">
+            <!-- Grid items will be generated by JS -->
+          </div>
+        </div>
+
+        <div id="game-message" class="game-msg">Apasă pe hoț când apare!</div>
+        <button
+          id="btn-next-4"
+          class="btn-next hidden"
+          onclick="nextScene('scena-5')"
+        >
+          Bravo! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-5" class="scene">
+        <h2>Dirijează traficul!</h2>
+        <p>Când mașina e <span class="red-text">ROȘIE</span> - apasă STOP!<br>
+           Când e <span class="green-text">VERDE</span> - apasă TRECI!</p>
+
+        <div class="traffic-control">
+          <div class="car-display">
+            <img id="current-car" src="../imagini/politist/masina-rosie.svg" alt="Mașină" class="car-img" />
+          </div>
+
+          <div class="control-buttons">
+            <button class="traffic-btn stop-btn" onclick="controlTraffic('stop')">
+              🛑 STOP
+            </button>
+            <button class="traffic-btn go-btn" onclick="controlTraffic('go')">
+              ✅ TRECI
+            </button>
+          </div>
+
+          <div class="traffic-score">
+            Corecte: <span id="traffic-score">0</span>/5
+          </div>
+        </div>
+
+        <div id="traffic-message" class="game-msg">Ce trebuie să faci?</div>
+        <button
+          id="btn-final"
+          class="btn-next hidden"
+          onclick="nextScene('scena-final')"
+        >
+          Am reușit! ➡
+        </button>
+      </div>
+
+      <div id="scena-final" class="scene">
+        
+        <div class="confetti-rain">
+            <span style="--i:1; background:#ff4757;"></span>
+            <span style="--i:2; background:#2ed573;"></span>
+            <span style="--i:3; background:#1e90ff;"></span>
+            <span style="--i:4; background:#ffa502;"></span>
+            <span style="--i:5; background:#ff6b81;"></span>
+            <span style="--i:6; background:#7bed9f;"></span>
+            <span style="--i:7; background:#5352ed;"></span>
+            <span style="--i:8; background:#eccc68;"></span>
+            <span style="--i:9; background:#ff4757;"></span>
+            <span style="--i:10; background:#2ed573;"></span>
+        </div>
+
+        <h1 class="rainbow-text">BRAVO!</h1>
+        
+        <div class="winner-container">
+            <img
+              src="../imagini/meserii/politist.svg"
+              class="character-large bounce-happy"
+            />
+        </div>
+
+        <p class="winner-msg">Ești un super polițist!</p>
+        
+      </div>
+    </div>
+
+    <script src="../js/politist.js" defer></script>
+    <script src="../js/speech.js"></script>
+  </body>
+</html>
