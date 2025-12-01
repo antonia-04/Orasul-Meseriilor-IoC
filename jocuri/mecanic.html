@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atelierul lui Matei</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style-chimist.css">
+    <link rel="stylesheet" href="../css/style-mecanic.css">
+</head>
+<body>
+
+<div class="game-container">
+
+    <div id="scena-intro" class="scene active start-scene-wrapper">
+
+
+        <div class="floating-deco d1">🔧</div>
+        <div class="floating-deco d2">⚙️</div>
+        <div class="floating-deco d3">🔩</div>
+
+        <div class="game-logo">
+            <div class="logo-top">
+                <span class="title-word color-1">ATELIERUL</span>
+                <span class="title-word color-2">LUI</span>
+            </div>
+            <span class="title-word color-3 main-name">MATEI</span>
+        </div>
+
+        <div class="hero-stage">
+            <div class="hero-character float-idle">
+                <img src="../imagini/mecanic/mecanic.svg" alt="Mecanic">
+                <div class="bubble-speech pop-in">
+                    Salut! <br> Mă ajuți azi? 🛠️
+                </div>
+            </div>
+
+            <img src="../imagini/mecanic/happy_purple_car.svg" class="hero-car brake-arrival" alt="Masina">
+        </div>
+
+        <button class="btn-start-premium pulse-btn" onclick="nextScene('scena-1')">
+            <div class="btn-content">
+                <span class="icon">▶</span> START JOC
+            </div>
+            <div class="shine"></div>
+        </button>
+
+        <a href="../oras.html" class="home-corner-btn">
+            🏠 Înapoi în Oraș
+        </a>
+
+    </div>
+
+    <div id="scena-1" class="scene">
+        <div class="floating-spark s1"></div>
+        <div class="floating-spark s2"></div>
+        <div class="floating-spark s3"></div>
+        <div class="floating-spark s4"></div>
+        <div class="scene-header">
+            <h2 class="scene-title">Echipează-l pe Matei!</h2>
+            <div class="progress-wrapper">
+                <div class="progress-track">
+                    <div id="equip-progress" class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">0/4</span>
+            </div>
+        </div>
+
+        <div class="game-stage">
+
+            <div class="character-area">
+                <div class="mannequin-wrapper">
+                    <img src="../imagini/mecanic/mecanic.svg" class="base-avatar" alt="Mecanic">
+
+                    <img src="../imagini/mecanic/tool_belt.svg" id="wear-belt" class="worn-item hidden" style="z-index: 60;">
+                    <img src="../imagini/mecanic/safety_helmet.svg" id="wear-helmet" class="worn-item hidden" style="z-index: 100;">
+                    <img src="../imagini/mecanic/protective_goggles.svg" id="wear-goggles" class="worn-item hidden" style="z-index: 80;">
+                </div>
+            </div>
+
+            <div class="pegboard-panel">
+                <div class="pegboard-dots"></div>
+
+                <div class="items-grid">
+
+                    <div class="tool-card" onclick="chooseEquip('helmet', this, true)">
+                        <img src="../imagini/mecanic/safety_helmet.svg" alt="Casca">
+                    </div>
+
+                    <div class="tool-card" onclick="chooseEquip('flops', this, false)">
+                        <img src="../imagini/mecanic/beach_flip_flops.svg" alt="Slapi">
+                    </div>
+
+                    <div class="tool-card" onclick="chooseEquip('belt', this, true)">
+                        <img src="../imagini/mecanic/tool_belt.svg" alt="Centura">
+                    </div>
+
+                    <div class="tool-card" onclick="chooseEquip('chef', this, false)">
+                        <img src="../imagini/mecanic/chef_hat.svg" alt="Bucatar">
+                    </div>
+
+                    <div class="tool-card" onclick="chooseEquip('wizard', this, false)">
+                        <img src="../imagini/mecanic/wizard_hat.svg" alt="Vrajitor">
+                    </div>
+
+                    <div class="tool-card" onclick="chooseEquip('goggles', this, true)">
+                        <img src="../imagini/mecanic/protective_goggles.svg" alt="Ochelari">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="btn-next-1" class="btn-start-premium hidden" onclick="nextScene('scena-2')">
+            <div class="btn-content">
+                Arăți super! Mai departe! <span class="icon">😎</span>
+            </div>
+            <div class="shine"></div>
+        </button>
+
+    </div>
+
+    <div id="scena-2" class="scene">
+        <div class="floating-spark s1"></div>
+        <div class="floating-spark s2"></div>
+        <div class="floating-spark s3"></div>
+
+        <div class="scene-header">
+            <h2 class="scene-title">Trage uneltele în trusă!</h2>
+            <div class="progress-wrapper">
+                <div class="progress-track">
+                    <div id="toolbox-progress" class="progress-fill" style="width: 0%"></div>
+                </div>
+                <span class="progress-text" id="toolbox-text">0/4</span>
+            </div>
+        </div>
+
+        <div class="game-stage column-layout">
+
+            <div class="scattered-zone" id="drag-zone">
+                <div class="drag-item tool" data-type="good">
+                    <img src="../imagini/mecanic/wrench.svg" draggable="false">
+                </div>
+                <div class="drag-item tool" data-type="good">
+                    <img src="../imagini/mecanic/screwdriver.svg" draggable="false">
+                </div>
+                <div class="drag-item tool" data-type="good">
+                    <img src="../imagini/mecanic/hammer.svg" draggable="false">
+                </div>
+                <div class="drag-item tool" data-type="good">
+                    <img src="../imagini/mecanic/pliers.svg" draggable="false">
+                </div>
+
+                <div class="drag-item distractor" data-type="bad">
+                    <img src="../imagini/mecanic/paint_palette_and_brush.svg" draggable="false">
+                </div>
+                <div class="drag-item distractor" data-type="bad">
+                    <img src="../imagini/mecanic/magic_wand.svg" draggable="false">
+                </div>
+                <div class="drag-item distractor" data-type="bad">
+                    <img src="../imagini/mecanic/rubber_duck.svg" draggable="false">
+                </div>
+            </div>
+
+            <div class="toolbox-zone">
+                <div id="target-box" class="toolbox-wrapper">
+                    <img src="../imagini/mecanic/red_toolbox.svg" class="toolbox-img">
+                    <div class="hitbox"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <button id="btn-next-2" class="btn-start-premium hidden" onclick="nextScene('scena-3')">
+            <div class="btn-content">
+                Trusa e gata! Unde mergem? <span class="icon">🗺️</span>
+            </div>
+            <div class="shine"></div>
+        </button>
+
+    </div>
+
+    <div id="scena-3" class="scene">
+
+        <div class="scene-header-epic">
+            <h2 class="title-3d">Deschide portalul spre Atelier!</h2>
+        </div>
+
+        <div class="places-container-epic">
+
+            <div class="portal-3d" onclick="choosePlace('wrong', this)">
+                <div class="glow-ring"></div>
+                <img src="../imagini/mecanic/3d_kitchen.svg" alt="Bucatarie 3D">
+            </div>
+
+            <div class="portal-3d" onclick="choosePlace('correct', this)">
+                <div class="glow-ring"></div>
+                <img src="../imagini/mecanic/3d_auto_workshop.svg" alt="Atelier 3D">
+            </div>
+
+            <div class="portal-3d" onclick="choosePlace('wrong', this)">
+                <div class="glow-ring"></div>
+                <img src="../imagini/mecanic/3d_hospital_room.svg" alt="Spital 3D">
+            </div>
+
+        </div>
+
+        <button id="btn-next-3" class="btn-start-premium hidden" onclick="nextScene('scena-4')">
+            <div class="btn-content">
+                Portal deschis! Hai la spălat mașina! <span class="icon">🫧</span>
+            </div>
+            <div class="shine"></div>
+        </button>
+
+    </div>
+
+    <div id="scena-4" class="scene">
+
+        <div class="soap-bubble b1"></div>
+        <div class="soap-bubble b2"></div>
+        <div class="soap-bubble b3"></div>
+        <div class="soap-bubble b4"></div>
+        <div class="soap-bubble b5"></div>
+
+        <div class="scene-header header-glass">
+            <h2 class="scene-title" style="color: #01579b;">Ia buretele și spală mașina!</h2>
+            <div class="progress-wrapper">
+                <div class="progress-track">
+                    <div id="clean-progress" class="progress-fill" style="width: 0%; background: #039be5;"></div>
+                </div>
+                <span class="progress-text" id="clean-text" style="color: #01579b;">0/7</span>
+            </div>
+        </div>
+
+        <div class="cleaning-stage">
+
+            <div class="car-wrapper">
+                <img src="../imagini/mecanic/happy_purple_car.svg" class="car-base" id="main-car" alt="Masina">
+
+                <div class="mud-spot dirt p1">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p2">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p3">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p4">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p5">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p6">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p7">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p8">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p9">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p10">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p11">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+
+                <div class="mud-spot dirt p12">
+                    <img src="../imagini/mecanic/brown_mud_splatter.svg" alt="Noroi">
+                </div>
+            </div>
+
+            <div id="active-sponge" class="sponge-tool">
+                <img src="../imagini/mecanic/sponge.svg" alt="Burete">
+            </div>
+
+        </div>
+
+        <button id="btn-next-4" class="btn-start-premium hidden" onclick="nextScene('scena-5')">
+            <div class="btn-content">
+                Mașina lucește! Trecem la vopsit? <span class="icon">🎨</span>
+            </div>
+            <div class="shine"></div>
+        </button>
+
+    </div>
+
+    <div id="scena-5" class="scene">
+
+        <div class="scene-header-epic">
+            <h2 class="title-3d">Vopsitoria Magică</h2>
+        </div>
+
+        <div class="paint-station">
+            <div id="paint-mist" class="mist-overlay"></div>
+
+            <div class="car-stack">
+                <img src="../imagini/mecanic/white_car.svg" class="car-layer base-layer" alt="Masina Alba">
+
+                <img src="../imagini/mecanic/red_car.svg" class="car-layer color-layer" id="layer-red" alt="Rosu">
+                <img src="../imagini/mecanic/blue_car.svg" class="car-layer color-layer" id="layer-blue" alt="Albastru">
+                <img src="../imagini/mecanic/green_car.svg" class="car-layer color-layer" id="layer-green" alt="Verde">
+                <img src="../imagini/mecanic/orange_car.svg" class="car-layer color-layer" id="layer-orange" alt="Portocaliu">
+            </div>
+        </div>
+
+        <div class="paint-controls">
+
+            <div class="bucket-wrapper giant" onclick="paintCar('red')">
+                <img src="../imagini/mecanic/red_paint_bucket.svg" class="bucket-img">
+            </div>
+
+            <div class="bucket-wrapper giant" onclick="paintCar('blue')">
+                <img src="../imagini/mecanic/blue_paint_bucket.svg" class="bucket-img">
+            </div>
+
+            <div class="bucket-wrapper giant" onclick="paintCar('green')">
+                <img src="../imagini/mecanic/green_paint_bucket.svg" class="bucket-img">
+            </div>
+
+            <div class="bucket-wrapper giant" onclick="paintCar('orange')">
+                <img src="../imagini/mecanic/orange_paint_bucket.svg" class="bucket-img">
+            </div>
+
+        </div>
+
+        <button id="btn-next-5" class="btn-start-premium hidden" onclick="nextScene('scena-finala')">
+            <div class="btn-content">
+                Superb! Ai reușit! <span class="icon">✨</span>
+            </div>
+            <div class="shine"></div>
+        </button>
+
+    </div>
+
+    <div id="scena-finala" class="scene">
+
+        <div class="confetti-container">
+            <div class="confetti c1"></div><div class="confetti c2"></div>
+            <div class="confetti c3"></div><div class="confetti c4"></div>
+            <div class="confetti c5"></div><div class="confetti c6"></div>
+        </div>
+
+        <div class="celebration-stage">
+
+            <div class="winner-mechanic">
+                <img src="../imagini/mecanic/mecanic.svg" alt="Mecanic Fericit">
+            </div>
+
+            <div class="winner-car">
+                <img src="../imagini/mecanic/happy_purple_car.svg" alt="Masina Superba">
+                <div class="shine-effect"></div>
+            </div>
+
+            <div class="balloon b1">🎈</div>
+            <div class="balloon b2">🎉</div>
+            <div class="balloon b3">🎈</div>
+
+        </div>
+
+        <button class="btn-start-premium pulse-btn" onclick="location.reload()">
+            <div class="btn-content">
+                <span class="icon">🔄</span> JOACĂ DIN NOU
+            </div>
+            <div class="shine"></div>
+        </button>
+
+    </div>
+
+</div>
+
+<script src="../js/mecanic.js"></script>
+</body>
+</html>
