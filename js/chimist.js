@@ -1,9 +1,35 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    const introScene = document.getElementById("scena-intro");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                say("Salut! Eu sunt Ana, prietena ta chimistă! Știi ce face un chimist? Amestecă lichide colorate și face magie în laborator! Vrei să învățăm să facem experimente împreună?");
+            }
+        });
+    }, {
+        threshold: 0.5 // visible at least 50%
+    });
+
+    observer.observe(introScene);
+});
+
+
 /* navigare între scene */
 function nextScene(sceneId) {
     document.querySelectorAll('.scene').forEach(scene => {
         scene.classList.remove('active');
     });
     document.getElementById(sceneId).classList.add('active');
+    if(sceneId==="scena-1")
+        say("Alege hainele de protecție corecte!");
+    else if(sceneId==="scena-2")
+        say("Hai să facem ordine! Pune doar obiectele din laborator în cutia maro.")
+    else if(sceneId==="scena-3")
+        say("E timpul pentru experimente! Hai să facem o poțiune verde!")
+    else if(sceneId==="scena-final")
+        say("Bravoo! Ești un super chimist! Apasă pe căsuță pentru a încerca o nouă meserie!");
 }
 
 /* JOC 1*/
@@ -13,6 +39,8 @@ function chooseClothing(type, element, isCorrect) {
     if (element.classList.contains('used')) return;
 
     if (isCorrect) {
+        say("Foarte bine!");
+
         let clothingItem = document.getElementById('wear-' + type);
         if (clothingItem) {
             clothingItem.classList.remove('hidden');
@@ -27,6 +55,7 @@ function chooseClothing(type, element, isCorrect) {
         console.log("Obiecte purtate: " + itemsWorn);
 
         if (itemsWorn === 2) {
+            say("Bravo! Ai ales toate hainele de protecție corecte. Apasă butonul pentru a continua.");
             console.log("Ambele obiecte selectate! Afisez butonul.");
             
             setTimeout(() => {
@@ -40,6 +69,7 @@ function chooseClothing(type, element, isCorrect) {
         }
 
     } else {
+        say("Mai încearcă!");
         element.style.animation = "shake 0.4s";
         element.style.borderColor = "#ff5252";
 
@@ -70,8 +100,13 @@ function sortMe(element, isGood) {
         if (ramase > 0) {
             feedback.innerText = "Super! Încă " + ramase;
             feedback.style.color = "green";
+            if(ramase === 2)
+                say("Super! Încă două");
+            else
+                say("Super! Încă " + ramase);
         } else {
             feedback.innerText = "Perfect! Laboratorul e curat.";
+            say("Perfect! Laboratorul e curat. Apasă butonul pentru a continua.");
             document.getElementById('btn-next-2').classList.remove('hidden');
         }
     } else {
@@ -79,6 +114,7 @@ function sortMe(element, isGood) {
         let feedback = document.getElementById('feedback-text');
         feedback.innerText = "Nu! Asta e o jucărie.";
         feedback.style.color = "red";
+        say("Nu! Asta e o jucărie.");
         setTimeout(() => {
             element.style.animation = "float 3s infinite ease-in-out";
         }, 400);
@@ -104,6 +140,7 @@ function addPotion(color) {
         liquid.style.height = "50%";
         liquid.style.backgroundColor = getColorCode(color);
         document.getElementById('result-message').innerText = "Mai pune o culoare...";
+        say("Mai pune o culoare...");
     } else if (mixedColors.length === 2) {
         liquid.style.height = "85%";
         checkMix();
@@ -129,10 +166,13 @@ function checkMix() {
 
         msg.innerHTML = "WOW! Ai făcut <span style='color:green'>VERDE</span>!";
         document.getElementById('btn-final').classList.remove('hidden');
+        say("Uau! Ai făcut verde! Apasă butonul albastru pentru a continua.");
+
     } else {
         liquid.style.backgroundColor = "#795548"; // MARO
         msg.innerText = "Oh nu... a ieșit maro. Încearcă Galben + Albastru!";
         msg.style.color = "brown";
+        say("O, nu. A ieșit maro. Apasă butonul de jos pentru a reseta. Încearcă galben și albastru!");
     }
 }
 
@@ -145,5 +185,6 @@ function resetPotions() {
     let msg = document.getElementById('result-message');
     msg.innerText = "Toarnă 2 culori...";
     msg.style.color = "black";
+    say("Toarnă două culori...");
     document.getElementById('btn-final').classList.add('hidden');
 }

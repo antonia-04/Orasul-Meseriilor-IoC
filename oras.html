@@ -42,6 +42,17 @@
         <span class="btn-label label-green">Meteorolog</span>
       </a>
 
+      <a href="jocuri/electrician.html" class="character-card active-bouncy">
+          <div class="img-wrapper">
+              <img
+                  src="imagini/meserii/electrician.svg"
+                  alt="Electrician"
+                  class="char-img"
+              />
+          </div>
+          <span class="btn-label label-green">Electricianul</span>
+      </a>
+
       <div class="character-card inactive">
         <div class="img-wrapper">
           <img
@@ -65,5 +76,30 @@
       </a>
 
     </div>
+
+    <script>
+      function say(text) {
+          const msg = new SpeechSynthesisUtterance(text); 
+          msg.lang = "ro-RO";
+          msg.rate = 1;
+          speechSynthesis.speak(msg);
+      }
+
+      // === Hover speech for each character ===
+      document.addEventListener("DOMContentLoaded", () => {
+          document.querySelectorAll(".character-card").forEach(card => {
+              card.addEventListener("mouseenter", () => {
+                  const label = card.querySelector(".btn-label").innerText.trim();
+                  say("alege "+label);
+              });
+
+              // Optional: stop speaking when leaving hover
+              card.addEventListener("mouseleave", () => {
+                  speechSynthesis.cancel();
+              });
+          });
+      });
+    </script>
+
   </body>
 </html>
