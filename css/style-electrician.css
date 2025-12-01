@@ -1,0 +1,561 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Baloo 2', cursive;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Back Button */
+.back-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: rgba(46, 204, 113, 0.9);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, background 0.3s;
+}
+
+.back-btn:hover {
+    transform: scale(1.1) rotate(-10deg);
+    background: rgba(46, 204, 113, 1);
+}
+
+/* Game Container */
+.game-container {
+    background: white;
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 900px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* Scene Management */
+.scene {
+    display: none;
+    text-align: center;
+    min-height: 500px;
+}
+
+.scene.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Typography */
+h1 {
+    color: #667eea;
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #764ba2;
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1.3rem;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* Character */
+.character-large {
+    height: 40vh;
+    width: auto;
+    margin: 20px;
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
+}
+
+.float-anim {
+    animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Buttons */
+.btn-start, .btn-next {
+    padding: 15px 50px;
+    font-size: 1.8rem;
+    font-family: inherit;
+    font-weight: bold;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.btn-start:hover, .btn-next:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(102, 126, 234, 0.5);
+}
+
+. btn-start:active, .btn-next:active {
+    transform: translateY(0);
+}
+
+/* === SCENA 1: FUSEBOX SEQUENCE GAME === */
+.fusebox-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.fusebox {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    padding: 25px;
+    border-radius: 15px;
+    border: 5px solid #1a252f;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    min-width: 350px;
+}
+
+.fusebox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #1a252f;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.fusebox-header span {
+    color: #f39c12;
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.warning-light {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #e74c3c;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0. 3; }
+}
+
+.fuses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.fuse {
+    background: #465669;
+    border: 3px solid #576574;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.fuse:hover {
+    transform: scale(1.05);
+    border-color: #f39c12;
+}
+
+.fuse.flash {
+    background: #f39c12 !important;
+    border-color: #e67e22 !important;
+    box-shadow: 0 0 20px #f39c12;
+    animation: flashFuse 0.5s;
+}
+
+@keyframes flashFuse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.fuse.correct {
+    background: #2ecc71 !important;
+    border-color: #27ae60 !important;
+    animation: correctPulse 0.5s;
+}
+
+@keyframes correctPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.fuse.wrong {
+    background: #e74c3c !important;
+    border-color: #c0392b !important;
+    animation: wrongShake 0.5s;
+}
+
+@keyframes wrongShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.fuse-switch {
+    width: 40px;
+    height: 60px;
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+    border-radius: 5px;
+    margin: 0 auto 10px;
+    position: relative;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.fuse-switch::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 15px;
+    background: #34495e;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 3px;
+}
+
+.fuse-label {
+    display: block;
+    text-align: center;
+    color: #ecf0f1;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.fusebox-display {
+    background: #1a252f;
+    padding: 15px;
+    border-radius: 10px;
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+#fuse-level {
+    color: #3498db;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+#fuse-status {
+    color: #f39c12;
+    font-size: 1.2rem;
+}
+
+.fusebox-instructions {
+    background: #ecf0f1;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 250px;
+}
+
+.fusebox-instructions p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* === SCENA 2: WIRE CONNECTION === */
+.wire-game-container {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    margin: 30px auto;
+    background: #34495e;
+    border-radius: 20px;
+    border: 5px solid #2c3e50;
+    box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#wire-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.wire-connectors {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.left-connectors {
+    left: 30px;
+}
+
+.right-connectors {
+    right: 30px;
+}
+
+.connector {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.connector:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px currentColor;
+}
+
+.connector.connected {
+    box-shadow: 0 0 20px #2ecc71;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.feedback-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 20px;
+    min-height: 40px;
+}
+
+/* === SCENA 3: BULB INSTALLATION === */
+.bulb-install-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.fixtures {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.fixture {
+    width: 120px;
+    text-align: center;
+    padding: 15px;
+    background: #ecf0f1;
+    border-radius: 15px;
+    border: 3px solid #95a5a6;
+    transition: all 0.3s;
+}
+
+.fixture:hover {
+    border-color: #3498db;
+    transform: scale(1.05);
+}
+
+.fixture-svg {
+    width: 100%;
+    height: auto;
+}
+
+.fixture-slot {
+    width: 60px;
+    height: 80px;
+    margin: 10px auto 0;
+    border: 3px dashed #bdc3c7;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+}
+
+.fixture-slot.filled {
+    border-color: #2ecc71;
+    background: #d4edda;
+}
+
+.bulbs-collection {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+}
+
+.draggable-bulb {
+    width: 80px;
+    cursor: grab;
+    transition: all 0.3s;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+}
+
+.draggable-bulb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.draggable-bulb:active {
+    cursor: grabbing;
+}
+
+.draggable-bulb.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.bulb-svg {
+    width: 100%;
+    height: auto;
+}
+
+/* === FINAL SCENE === */
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.confetti-container span {
+    position: absolute;
+    top: -10%;
+    width: 10px;
+    height: 30px;
+    background: #ff6b6b;
+    animation: confetti-fall 3s linear infinite;
+    animation-delay: calc(var(--i) * 0.3s);
+    left: calc(var(--i) * 10%);
+}
+
+@keyframes confetti-fall {
+    to {
+        top: 110%;
+        transform: rotateZ(360deg);
+    }
+}
+
+.rainbow-text {
+    font-size: 4rem;
+    background: linear-gradient(to right, #e74c3c, #f39c12, #2ecc71, #3498db, #9b59b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 3s infinite;
+}
+
+@keyframes rainbow {
+    0%, 100% { filter: hue-rotate(0deg); }
+    50% { filter: hue-rotate(360deg); }
+}
+
+.winner-container {
+    margin: 30px 0;
+}
+
+.bounce-happy {
+    animation: jumpHappy 1s infinite;
+}
+
+@keyframes jumpHappy {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.winner-msg {
+    font-size: 2rem;
+    color: #667eea;
+    margin: 10px 0 30px 0;
+    text-shadow: 1px 1px 0 white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 20px;
+    }
+
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    p { font-size: 1rem; }
+
+    .wire-game-container {
+        width: 100%;
+        height: 300px;
+    }
+
+    .fusebox {
+        min-width: auto;
+    }
+
+    .fuses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .houses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .fixtures {
+        gap: 10px;
+    }
+
+    . fixture {
+        width: 100px;
+    }
+}
