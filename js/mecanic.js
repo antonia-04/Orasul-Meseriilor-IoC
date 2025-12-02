@@ -27,8 +27,43 @@ function nextScene(sceneId) {
         scene.classList.remove('active');
     });
     document.getElementById(sceneId).classList.add('active');
+    if(sceneId === 'scena-1') {
+        say("Hai să-l echipăm pe Matei! Alege echipamentul potrivit pentru el.");
+    }
+    else if(sceneId === 'scena-2') {
+        say("Acum să alegem uneltele potrivite! Trage obiectele bune în cutie.");
+    }
+    else if(sceneId === 'scena-3') {
+        say("Unde ar trebui să meargă Matei pentru a repara mașina? Deschide portalul spre atelier.");
+    }
+    else if(sceneId === 'scena-4') {
+        say("Mașina este murdară! Folosește buretele pentru a curăța noroiul de pe ea.");
+    }
+    else if(sceneId === 'scena-5') {
+        say("Haide să vopsim mașina! Alege o culoare frumoasă pentru mașina ta.");
+    }
+    else if(sceneId === 'scena-finala') {
+        say("Felicitări! L-ai ajutat pe Matei să-și repare mașina! Apasă butonul pentru a începe din nou.");
+    }
 }
 
+//audio scena initiala
+document.addEventListener("DOMContentLoaded", () => {
+
+    const introScene = document.getElementById("scena-intro");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                say("Salut! Eu sunt Matei și sunt mecanic. Haide să reparăm mașini împreună");
+            }
+        });
+    }, {
+        threshold: 0.5 // visible at least 50%
+    });
+
+    observer.observe(introScene);
+});
 
 /* LOGICA SCENA 1 (ECHIPARE) */
 let equipmentCount = 0;
@@ -39,6 +74,7 @@ function chooseEquip(type, element, isCorrect) {
 
     if (isCorrect) {
         element.classList.add('solved');
+        say("Bravo!");
 
         let wornItem = document.getElementById('wear-' + type);
         if (wornItem) {
@@ -50,6 +86,7 @@ function chooseEquip(type, element, isCorrect) {
         updateProgressBar(equipmentCount);
 
         if (equipmentCount === totalEquipment) {
+            say("Perfect! Matei este gata de muncă.");
             setTimeout(() => {
                 let btn = document.getElementById('btn-next-1');
                 btn.classList.remove('hidden');
@@ -61,7 +98,7 @@ function chooseEquip(type, element, isCorrect) {
         element.classList.remove('shake');
         void element.offsetWidth;
         element.classList.add('shake');
-
+        say("Încearcă din nou!");
         setTimeout(() => {
             element.classList.remove('shake');
         }, 500);
@@ -158,6 +195,7 @@ function initDragAndDrop() {
         }
 
         function handleSuccess(element) {
+            say('Bravo!');
             element.classList.add('solved');
 
             element.style.transform = `translate3d(${currentX}px, ${currentY + 50}px, 0) scale(0)`;
@@ -171,6 +209,7 @@ function initDragAndDrop() {
             updateToolboxProgress(toolsCollected);
 
             if (toolsCollected === totalToolsNeeded) {
+                say("Foarte bine! Matei are toate uneltele de care are nevoie.");
                 setTimeout(() => {
                     let btn = document.getElementById('btn-next-2');
                     btn.classList.remove('hidden');
@@ -181,6 +220,7 @@ function initDragAndDrop() {
         }
 
         function handleFailure(element) {
+            say('Mai încearcă!');
             element.classList.add('shake-item');
             let img = element.querySelector('img');
             if(img) img.style.filter = "drop-shadow(0 0 15px red)";
@@ -216,6 +256,7 @@ function choosePlace(type, element) {
     if (document.querySelector('.card-selected') || document.querySelector('.card-centered')) return;
 
     if (type === 'correct') {
+        say("Corect!");
         element.classList.add('card-selected');
 
         setTimeout(() => {
@@ -239,6 +280,7 @@ function choosePlace(type, element) {
         }, 1000);
 
     } else {
+        say("Mai încearcă.");
         element.classList.add('card-wrong');
         setTimeout(() => {
             element.classList.remove('card-wrong');
@@ -338,6 +380,7 @@ function cleanSpot(mudElement) {
     updateCleanProgress(mudCleaned);
 
     if (mudCleaned === totalMud) {
+        say("Foarte bine!");
         setTimeout(() => {
             finishCleaning();
         }, 500);
@@ -372,6 +415,10 @@ function paintCar(color) {
 
     const selectedLayer = document.getElementById('layer-' + color);
     if (selectedLayer) {
+        if(color=='red') say("Roșu");
+        if(color=='blue') say("Albastru");
+        if(color=='green') say("Verde");
+        if(color=='orange') say("Portocaliu");  
         setTimeout(() => {
             selectedLayer.classList.add('visible');
         }, 200);
@@ -390,4 +437,5 @@ function paintCar(color) {
             nextBtn.classList.add('pop-in');
         }, 1000);
     }
+    say("Mașina arată grozav!");
 }
