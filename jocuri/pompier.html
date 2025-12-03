@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laboratorul Mic - Pompier</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/style-pompier.css" />
+  </head>
+  <body>
+    <a href="../oras.html" class="back-btn" title="Înapoi în Oraș">
+      <svg viewBox="0 0 24 24" width="45" height="45" fill="white">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+
+    <div class="game-container">
+      <div id="scena-intro" class="scene active">
+        <h1>Stația de Pompieri</h1>
+        <img
+          src="../imagini/meserii/pompier.svg"
+          class="character-large float-anim"
+          alt="Pompierul"
+          style="width: 20vh;"
+        />
+
+        <p>
+            Bună! Eu sunt Andreea, prietena ta pompier! <br>
+            Știi ce face un pompier? Stinge focurile și salvează vieți! <br>
+            Vrei să învățăm împreună cum să fim pompieri buni?
+        </p>
+        <button class="btn-start" onclick="nextScene('scena-1')">
+            DA! Vreau să fiu pompier!
+        </button>
+      </div>
+
+      <div id="scena-1" class="scene">
+        <h2>Ne echipăm!</h2>
+        <p>Alege echipamentul de pompier corect!</p>
+
+        <div class="dress-up-container">
+          <div class="mannequin">
+            <img
+              src="../imagini/meserii/pompier.svg"
+              class="base-avatar"
+              alt="Avatar"
+            />
+
+            <img
+              src="../imagini/pompier/casca.svg"
+              id="wear-helmet"
+              class="worn-item hidden"
+              alt="Cască"
+            />
+            <img
+              src="../imagini/pompier/vesta.svg"
+              id="wear-suit"
+              class="worn-item hidden"
+              alt="Vestă"
+            />
+          </div>
+
+          <div class="items-rack">
+            <div class="item" onclick="chooseClothing('helmet', this, true)">
+              <img src="../imagini/pompier/casca.svg" alt="Cască" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('crown', this, false)">
+              <img src="../imagini/pompier/coroana.svg" alt="Coroană" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('sunglasses', this, false)">
+              <img src="../imagini/pompier/ochelari.svg" alt="Ochelari" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('scarf', this, false)">
+              <img src="../imagini/pompier/fular.svg" alt="Fular" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('suit', this, true)">
+              <img src="../imagini/pompier/vesta.svg" alt="Vestă" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('tshirt', this, false)">
+              <img src="../imagini/pompier/tricou.svg" alt="Tricou" />
+            </div>
+          </div>
+        </div>
+        <button
+          id="btn-next-1"
+          class="btn-next hidden"
+          onclick="nextScene('scena-2')"
+        >
+          Super! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-2" class="scene">
+        <h2>Echipamentul pompierului!</h2>
+        <p>Pune DOAR obiectele de pompier în ghiozdan.</p>
+
+        <div class="sorting-area">
+          <div class="items-scattered" id="scattered-items">
+
+            <img
+              src="../imagini/pompier/furtun.svg"
+              alt="Furtun"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+
+            <img
+              src="../imagini/pompier/ursulet.svg"
+              alt="Ursuleț"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+            />
+            <img
+              src="../imagini/pompier/minge.svg"
+              alt="Minge"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+            />
+            <img
+              src="../imagini/pompier/topor.svg"
+              alt="Topor"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+            <img
+              src="../imagini/pompier/stingator.svg"
+              alt="Stingător"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+            <img
+              src="../imagini/pompier/acadea.svg"
+              alt="Acadea"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+            />
+            <img
+              src="../imagini/pompier/radio.svg"
+              alt="Radio"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+            />
+          </div>
+
+          <div class="box-container">
+            <img
+              src="../imagini/pompier/geanta.svg"
+              alt="Geantă"
+              class="box-img"
+            />
+          </div>
+        </div>
+        <div id="feedback-text" class="feedback-msg">
+          Mai ai de găsit 4 obiecte corecte!
+        </div>
+        <button
+          id="btn-next-2"
+          class="btn-next hidden"
+          onclick="nextScene('scena-3')"
+        >
+          Bravo! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-3" class="scene">
+        <h2>Ajută-l pe pompier!</h2>
+        <p>Apasă pe <span class="red-text">INCENDIUL</span> de la casă!</p>
+
+        <div class="lab-bench">
+          <div class="signs-container">
+            <img
+              src="../imagini/pompier/incendiu-padure.svg"
+              class="fire-sign"
+              onclick="checkFire('forest')"
+              alt="Incendiu pădure"
+            />
+            <img
+              src="../imagini/pompier/incendiu-masina.svg"
+              class="fire-sign"
+              onclick="checkFire('car')"
+              alt="Incendiu mașină"
+            />
+            <img
+              src="../imagini/pompier/incendiu-casa.svg"
+              class="fire-sign correct-sign"
+              onclick="checkFire('house')"
+              alt="Incendiu casă"
+            />
+          </div>
+        </div>
+
+        <div id="result-message" class="result-msg">Care e incendiul de la casă?</div>
+        <button
+          id="btn-next-3"
+          class="btn-next hidden"
+          onclick="nextScene('scena-4')"
+        >
+          Super! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-4" class="scene">
+        <h2>Stinge focul!</h2>
+        <p>Apasă pe <span class="red-text">FOC</span> când îl vezi!</p>
+
+        <div class="chase-game">
+          <div class="game-score">
+            <div class="score-display">Puncte: <span id="score">0</span>/5</div>
+            <div class="timer-display">Timp: <span id="timer">20</span>s</div>
+          </div>
+
+          <div class="grid-container" id="grid-game">
+            <!-- Grid items will be generated by JS -->
+          </div>
+        </div>
+
+        <div id="game-message" class="game-msg">Apasă pe foc când apare!</div>
+        <button
+          id="btn-next-4"
+          class="btn-next hidden"
+          onclick="nextScene('scena-5')"
+        >
+          Bravo! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-5" class="scene">
+        <h2>Alege echipamentul!</h2>
+        <p>Când focul e <span class="red-text">MARE</span> - folosește FURTUNUL!<br>
+           Când e <span class="orange-text">MIC</span> - folosește STINGĂTORUL!</p>
+
+        <div class="traffic-control">
+          <div class="fire-display">
+            <img id="current-fire" src="../imagini/pompier/foc-mare.svg" alt="Foc" class="fire-img" />
+          </div>
+
+          <div class="control-buttons">
+            <button class="traffic-btn hose-btn" onclick="controlFire('hose')">
+              🚰 FURTUN
+            </button>
+            <button class="traffic-btn extinguisher-btn" onclick="controlFire('extinguisher')">
+              🧯 STINGĂTOR
+            </button>
+          </div>
+
+          <div class="traffic-score">
+            Corecte: <span id="traffic-score">0</span>/5
+          </div>
+        </div>
+
+        <div id="traffic-message" class="game-msg">Ce trebuie să folosești?</div>
+        <button
+          id="btn-final"
+          class="btn-next hidden"
+          onclick="nextScene('scena-final')"
+        >
+          Am reușit! ➡
+        </button>
+      </div>
+
+      <div id="scena-final" class="scene">
+        
+        <div class="confetti-rain">
+            <span style="--i:1; background:#ff4757;"></span>
+            <span style="--i:2; background:#ffa502;"></span>
+            <span style="--i:3; background:#ff6348;"></span>
+            <span style="--i:4; background:#ff9ff3;"></span>
+            <span style="--i:5; background:#ff6b81;"></span>
+            <span style="--i:6; background:#feca57;"></span>
+            <span style="--i:7; background:#ff7979;"></span>
+            <span style="--i:8; background:#eccc68;"></span>
+            <span style="--i:9; background:#ff4757;"></span>
+            <span style="--i:10; background:#ffa502;"></span>
+        </div>
+
+        <h1 class="rainbow-text">BRAVO!</h1>
+        
+        <div class="winner-container">
+            <img
+              src="../imagini/meserii/pompier.svg"
+              class="character-large bounce-happy"
+              alt="Pompierul"
+            />
+        </div>
+
+        <p class="winner-msg">Ești un super pompier!</p>
+        
+      </div>
+    </div>
+
+    <script src="../js/pompier.js" defer></script>
+    <script src="../js/speech.js"></script>
+  </body>
+</html>
