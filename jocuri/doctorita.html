@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cabinetul Mic - Doctorița</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/style-doctorita.css" />
+  </head>
+  <body>
+    <a href="../oras.html" class="back-btn" title="Înapoi în Oraș">
+      <svg viewBox="0 0 24 24" width="45" height="45" fill="white">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      </svg>
+    </a>
+
+    <div class="game-container">
+      <div id="scena-intro" class="scene active">
+        <h1>Cabinetul Doctoriței</h1>
+        <img
+          src="../imagini/doctorita/doctorita.svg"
+          class="character-large float-anim"
+          alt="Doctorița"
+        />
+
+        <p>
+          Bună! Eu sunt Maria, doctorița ta! <br>
+          Știi ce face un doctor? Ascultă inimioara, pune plasturi și dă sfaturi bune! <br>
+          Vrei să înveți să ajuți pacienții împreună cu mine?
+        </p>
+        <button class="btn-start" onclick="nextScene('scena-1')">
+          DA! Vreau să fiu Doctor!
+        </button>
+      </div>
+
+      <div id="scena-1" class="scene">
+        <h2>Ne echipăm!</h2>
+        <p>Alege instrumentele esențiale și halatul!</p>
+
+        <div class="dress-up-container">
+          <div class="mannequin">
+            <img
+              src="../imagini/doctorita/doctorita.svg"
+              class="base-avatar"
+              alt="Avatar"
+            />
+
+            <img
+              src="../imagini/doctorita/stetoscop.svg"
+              id="wear-stetoscop"
+              class="worn-item hidden"
+              alt="Stetoscop"
+            />
+            <img
+              src="../imagini/doctorita/halat.svg"
+              id="wear-halat"
+              class="worn-item hidden"
+              alt="Halat"
+            />
+          </div>
+
+          <div class="items-rack">
+            <div class="item" onclick="chooseClothing('stetoscop', this, true)">
+              <img src="../imagini/doctorita/stetoscop.svg" alt="Stetoscop" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('ursulet', this, false)">
+              <img src="../imagini/doctorita/ursulet.svg" alt="Ursuleț" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('parfum', this, false)">
+              <img src="../imagini/doctorita/parfum.svg" alt="Parfum" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('halat', this, true)">
+              <img src="../imagini/doctorita/halat.svg" alt="Halat" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('minge', this, false)">
+              <img src="../imagini/doctorita/minge.svg" alt="Minge" />
+            </div>
+
+            <div class="item" onclick="chooseClothing('ochelari', this, false)">
+              <img src="../imagini/doctorita/ochelari.svg" alt="Ochelari" />
+            </div>
+          </div>
+        </div>
+        <button
+          id="btn-next-1"
+          class="btn-next hidden"
+          onclick="nextScene('scena-2')"
+        >
+          Super! Mai departe ➡
+        </button>
+      </div>
+
+      <div id="scena-2" class="scene">
+        <h2>Pregătim trusa!</h2>
+        <p>Pune DOAR instrumentele medicale în trusa roșie. (4 obiecte)</p>
+
+        <div class="sorting-area">
+          <div class="items-scattered" id="scattered-items">
+
+            <img
+              src="../imagini/doctorita/seringa.svg"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+              alt="Seringă"
+            />
+
+            <img
+              src="../imagini/doctorita/vas.svg"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+              alt="Vas"
+            />
+            <img
+              src="../imagini/doctorita/ursuletb.svg"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+              alt="Ursuleț"
+            />
+            <img
+              src="../imagini/doctorita/termometru.svg"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+              alt="Termometru"
+            />
+            <img
+              src="../imagini/doctorita/pastile.svg"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+              alt="Pastile"
+            />
+            <img
+              src="../imagini/doctorita/camera.svg"
+              class="sort-item bad"
+              onclick="sortMe(this, false)"
+              alt="camera"
+            />
+            <img
+              src="../imagini/doctorita/plasture.svg"
+              class="sort-item good"
+              onclick="sortMe(this, true)"
+              alt="Plasture"
+            />
+          </div>
+
+          <div class="box-container">
+            <img
+              src="../imagini/doctorita/trusa.svg"
+              alt="Trusă Medicală"
+              class="box-img"
+              style="width: 250px;"
+            />
+          </div>
+        </div>
+        <div id="feedback-text" class="feedback-msg">
+          Mai ai de găsit 4 obiecte corecte!
+        </div>
+        <button
+          id="btn-next-2"
+          class="btn-next hidden"
+          onclick="nextScene('scena-3')"
+        >
+          Bravo! Mai departe ➡
+        </button>
+      </div>
+      
+      <div id="scena-3" class="scene">
+        <h2>Citim ca Doctorii! 📖</h2>
+        <p>Citește cu voce tare cuvântul despărțit în silabe!</p>
+
+        <div class="reading-game-area">
+            <img 
+                id="reading-image" 
+                src="" 
+                alt="Obiect medical" 
+                class="reading-img"
+                style="height: 180px; margin-bottom: 20px;"
+            />
+            
+            <p id="syllables-text" class="syllable-display">
+                </p>
+        </div>
+
+        <button
+          id="btn-read-next"
+          class="btn-start"
+          style="background: #03a9f4; box-shadow: 0 6px 0 #0288d1; margin-top: 25px;"
+          onclick="nextWord()"
+        >
+          Am citit! ➡️
+        </button>
+        
+        <button
+          id="btn-final"
+          class="btn-next hidden"
+          onclick="nextScene('scena-final')"
+        >
+          Am învățat să citesc! ➡
+        </button>
+      </div>
+
+      <div id="scena-final" class="scene">
+        
+        <div class="confetti-rain">
+            <span style="--i:1; background:#f44336;"></span>
+            <span style="--i:2; background:#e91e63;"></span>
+            <span style="--i:3; background:#ff4757;"></span>
+            <span style="--i:4; background:#c2185b;"></span>
+            <span style="--i:5; background:#f06292;"></span>
+            <span style="--i:6; background:#e91e63;"></span>
+            <span style="--i:7; background:#ff4757;"></span>
+            <span style="--i:8; background:#f44336;"></span>
+            <span style="--i:9; background:#c2185b;"></span>
+            <span style="--i:10; background:#f06292;"></span>
+        </div>
+
+        <h1 class="rainbow-text">FELICITĂRI!</h1>
+        
+        <div class="winner-container">
+             <span class="star-bg">⭐</span> 
+            <img
+              src="../imagini/doctorita/doctorita.svg"
+              class="character-large bounce-happy"
+              alt="Doctorița Fericită"
+            />
+        </div>
+
+        <p class="winner-msg">Ești un super Doctor!</p>
+        
+        <a href="../oras.html" class="btn-finish">
+            Merg în Oraș! 🏡
+        </a>
+      </div>
+    </div>
+
+    <script src="../js/doctorita.js" defer></script>
+    <script src="../js/speech.js"></script>
+  </body>
+</html>
