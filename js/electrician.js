@@ -21,7 +21,7 @@ function nextScene(sceneId) {
     
     if (sceneId === 'scena-1') {
         initFuseboxGame();
-        say("Sigurențele au sărit! Urmărește secvența care clipește și repetă-o!");
+        say("Siguranțele au sărit! Urmărește secvența care clipește și repetă-o!");
     } else if (sceneId === 'scena-2') {
         initWireGame();
         say("Conectează firele de aceeași culoare! Trage de la stânga la dreapta.");
@@ -84,7 +84,7 @@ function playSequence() {
             isPlaying = false;
             canClick = true;
             document.getElementById('fuse-status').textContent = 'Acum tu! Repetă secvența.';
-            say("Acum tu! Apasă sigurențele în aceeași ordine.");
+            say("Acum tu! Apasă siguranțele în aceeași ordine.");
         }
     }, 800);
 }

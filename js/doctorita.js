@@ -54,7 +54,7 @@ function chooseClothing(type, element, isCorrect) {
         itemsWorn++;
 
         if (itemsWorn === 2) {
-            say("Super! Ești complet echipat! Apasă butonul pentru a continua.");
+            say("Bravo! Ești complet echipat! Apasă butonul pentru a continua.");
             
             setTimeout(() => {
                 let btn = document.getElementById('btn-next-1');
@@ -98,7 +98,7 @@ function sortMe(element, isGood) {
         if (ramase > 0) {
             feedback.innerText = "Super! Încă " + ramase + " instrumente.";
             feedback.style.color = "#388e3c";
-            say("Super! Încă " + ramase);
+            say("Bravo! Încă " + ramase);
         } else {
             feedback.innerText = "Perfect! Trusa medicală e completă.";
             say("Perfect! Trusa e completă. Apasă butonul pentru a continua.");

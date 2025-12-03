@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                say("Bună! Eu sunt Alex, prietenul tău pompier! Știi ce face un pompier? Stinge focurile și salvează vieți! Vrei să învățăm împreună cum să fim pompieri buni?");
+                say("Bună! Eu sunt Andreea, prietena ta pompier! Știi ce face un pompier? Stinge focurile și salvează vieți! Vrei să învățăm împreună cum să fim pompieri buni?");
             }
         });
     }, {
@@ -83,12 +83,12 @@ function sortMe(element, isGood) {
         let feedback = document.getElementById('feedback-text');
 
         if (ramase > 0) {
-            feedback.innerText = "Super! Încă " + ramase;
+            feedback.innerText = "Bravo! Încă " + ramase;
             feedback.style.color = "green";
             if(ramase === 2) {
-                say("Super! Încă două");
+                say("Bravo Încă două");
             } else {
-                say("Super! Încă " + ramase);
+                say("Bravo! Încă " + ramase);
             }
         } else {
             feedback.innerText = "Perfect! Echipamentul e complet.";
