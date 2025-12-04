@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                say("Salut! Eu sunt Ana, prietena ta chimistă! Știi ce face un chimist? Amestecă lichide colorate și face magie în laborator! Vrei să învățăm să facem experimente împreună?");
+                say("Salut! Eu sunt Ana, prietena ta chimistă! Știi ce face un chimist? Amestecă lichide colorate și face trucuri în laborator! Vrei să învățăm să facem experimente împreună?");
             }
         });
     }, {
