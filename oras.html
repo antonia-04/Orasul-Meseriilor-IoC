@@ -97,27 +97,22 @@
       </a>
     </div>
 
+    <script src="js/speech.js"></script>
     <script>
-      function say(text) {
-          const msg = new SpeechSynthesisUtterance(text); 
-          msg.lang = "ro-RO";
-          msg.rate = 1;
-          speechSynthesis.speak(msg);
-      }
-
-      // === Hover speech for each character ===
+      // === Hover speech for each character (uses shared `say`) ===
       document.addEventListener("DOMContentLoaded", () => {
-          document.querySelectorAll(".character-card").forEach(card => {
-              card.addEventListener("mouseenter", () => {
-                  const label = card.querySelector(".btn-label").innerText.trim();
-                  say("alege "+label);
-              });
-
-              // Optional: stop speaking when leaving hover
-              card.addEventListener("mouseleave", () => {
-                  speechSynthesis.cancel();
-              });
+        document.querySelectorAll(".character-card").forEach(card => {
+          card.addEventListener("mouseenter", () => {
+            const label = card.querySelector(".btn-label").innerText.trim();
+            // use the shared say so it respects the global speech rate
+            say("alege "+label);
           });
+
+          // Optional: stop speaking when leaving hover
+          card.addEventListener("mouseleave", () => {
+            speechSynthesis.cancel();
+          });
+        });
       });
     </script>
 

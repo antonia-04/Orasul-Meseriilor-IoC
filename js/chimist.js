@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                say("Salut! Eu sunt Ana, prietena ta chimistă! Știi ce face un chimist? Amestecă lichide colorate și face magie în laborator! Vrei să învățăm să facem experimente împreună?");
+                say("Salut! Eu sunt Ana, prietena ta chimistă! Știi ce face un chimist? Amestecă lichide colorate și face trucuri în laborator! Vrei să învățăm să facem experimente împreună?");
             }
         });
     }, {
@@ -101,9 +101,9 @@ function sortMe(element, isGood) {
             feedback.innerText = "Super! Încă " + ramase;
             feedback.style.color = "green";
             if(ramase === 2)
-                say("Super! Încă două");
+                say("Bravo! Încă două");
             else
-                say("Super! Încă " + ramase);
+                say("Bravo! Încă " + ramase);
         } else {
             feedback.innerText = "Perfect! Laboratorul e curat.";
             say("Perfect! Laboratorul e curat. Apasă butonul pentru a continua.");

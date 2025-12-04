@@ -110,9 +110,9 @@ function sortMe(element, isGood) {
             feedback.innerText = "Super! Încă " + ramase;
             feedback.style.color = "green";
             if(ramase === 2)
-                say("Super! Încă două");
+                say("Bravo! Încă două");
             else
-                say("Super! Încă " + ramase);
+                say("Bravo! Încă " + ramase);
         } else {
             feedback.innerText = "Perfect! Echipamentul e complet.";
             say("Perfect! Echipamentul e complet. Apasă butonul pentru a continua.");
