@@ -1,17 +1,25 @@
 /* =========================================
-   stiluri generale - aspect de baza
+   stiluri generale
    ========================================= */
 
 body {
-    background-color: #e0f7fa; /* fundal albastru deschis */
-    font-family: 'Baloo 2', cursive, sans-serif; /* font jucaus */
+    background-color: #e0f7fa; 
+    
+    background-image: url('../imagini/chimist/4.jpg');
+    
+    background-size: cover;       /* Acopera tot ecranul, taie excesul, nu deformeaza */
+    background-position: center;  /* Centreaza imaginea (important!) */
+    background-repeat: no-repeat; /* Nu repeta imaginea ca pe gresie */
+    background-attachment: fixed; /* (Optional) Imaginea sta pe loc cand dai scroll */
+    
+    font-family: 'Baloo 2', cursive, sans-serif;
     margin: 0;
-    overflow: auto; /* permite derularea pe ecrane mici */
+    overflow: auto;
     text-align: center;
-    user-select: none; /* blocheaza selectarea textului */
+    user-select: none;
+    height: 100vh; /* Asigura ca body-ul are inaltimea ecranului */
 }
 
-/* --- tipografie --- */
 h1 {
     color: #006064;
     font-size: 3rem;
@@ -20,33 +28,21 @@ h1 {
 
 h2 {
     color: #0097a7;
-    font-size: 2rem;
+    font-size: 3rem;
     margin: 0 0 5px 0;
 }
 
-p {
-    font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 15px;
-    font-weight: bold;
-}
-
 /* =========================================
-   navigare si scene
+   butoane si navigare
    ========================================= */
 
-/* butonul inapoi spre oras */
 .back-btn {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 70px;
-    height: 70px;
+    top: 20px; left: 20px;
+    width: 70px; height: 70px;
     background-color: #ff4757;
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
     border: 4px solid white;
     box-shadow: 0 5px 0 #a31a26;
     z-index: 100;
@@ -57,7 +53,73 @@ p {
     box-shadow: 0 0 0 #a31a26;
 }
 
-/* ascunde scenele inactive */
+/* --- BUTOANELE MARI CERUTE --- */
+
+.btn-icon-large {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background-color: #4caf50;
+    color: white; font-size: 3rem;
+    border: 5px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    margin-top: 10px;
+    transition: transform 0.2s;
+}
+.btn-icon-large:hover { transform: scale(1.1); }
+
+/* Butonul de NEXT (Sageata) - MAI MARE si MAI SUS */
+.btn-next {
+    width: 110px;  /* Mult mai mare */
+    height: 110px;
+    border-radius: 50%;
+    background-color: #00bcd4;
+    color: white; 
+    font-size: 4rem; /* Sageata mai vizibila */
+    border: 5px solid white;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    
+    /* Pozitionare mai sus */
+    margin-top: 5px; 
+    margin-bottom: 20px; /* Spatiu jos ca sa nu se lipeasca de ecran */
+}
+.btn-next:hover { background-color: #26c6da; transform: scale(1.05); }
+
+.btn-finish {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #ff9f43, #ee5253);
+    color: white; font-size: 3.5rem;
+    display: flex; justify-content: center; align-items: center;
+    text-decoration: none;
+    border: 5px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+/* Butonul RESET (Gunoi) - MAI MARE */
+.btn-reset {
+    width: 90px;  /* Mult mai mare */
+    height: 90px;
+    border-radius: 50%;
+    background: white;
+    border: 4px solid #ccc;
+    font-size: 2.5rem; /* Iconita mai mare */
+    cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    
+    /* Pozitionare */
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* =========================================
+   gestionare scene
+   ========================================= */
+
 .scene {
     display: none;
     min-height: 100vh;
@@ -68,10 +130,7 @@ p {
     padding-bottom: 20px;
 }
 
-/* afiseaza doar scena curenta */
-.scene.active {
-    display: flex;
-}
+.scene.active { display: flex; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
@@ -79,97 +138,87 @@ p {
 }
 
 /* =========================================
-   elemente vizuale comune
+   animatii vizuale
    ========================================= */
 
-/* personajul mare din intro si final */
 .character-large {
-    height: 40vh;
-    width: auto;
+    height: 40vh; width: auto;
     margin: 20px;
     filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
 }
 
-/* animatie de plutire */
-.float-anim {
-    animation: float 3s infinite ease-in-out;
-}
+.float-anim { animation: float 3s infinite ease-in-out; }
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
 
+@keyframes pulseGuide {
+    0% { transform: scale(1); filter: brightness(100%); }
+    50% { transform: scale(1.1); filter: brightness(120%); }
+    100% { transform: scale(1); filter: brightness(100%); }
+}
+
+.pulse-element {
+    animation: pulseGuide 2s infinite ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
 /* =========================================
-   joc 1: echipament (dress up)
+   joc 1: echipament
    ========================================= */
 
 .dress-up-container {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-    justify-content: center;
+    display: flex; gap: 30px; /* Gap mai mic sa incapa pe ecran mic */
+    align-items: center; justify-content: center;
     flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
-/* zona unde sta personajul */
 .mannequin {
     position: relative;
-    width: 220px;
-    height: 500px;
-    display: flex;
-    justify-content: center;
+    width: 200px; /* Putin mai mic */
+    height: 450px;
+    display: flex; justify-content: center;
 }
 
-/* suprapunerea hainelor pe personaj */
-.base-avatar,
-.worn-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.base-avatar, .worn-item {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
     object-fit: contain;
 }
-
 .base-avatar { z-index: 1; }
 .worn-item { z-index: 2; transition: opacity 0.3s; }
+.hidden { opacity: 0 !important; pointer-events: none; }
 
-.hidden {
-    opacity: 0 !important;
-    pointer-events: none;
-}
-
-/* grila de butoane cu haine */
 .items-rack {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* 3 coloane */
-    grid-template-rows: 1fr 1fr;       /* 2 randuri */
-    gap: 10px;
-    width: 460px;
-    height: 320px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px; /* Mai compact */
+    width: 440px; height: 300px;
     margin: 0 auto;
 }
 
-/* stilul butoanelor individuale */
 .item {
     cursor: pointer;
     background: white;
     border-radius: 20px;
     border: 3px solid #b2ebf2;
     transition: transform 0.2s;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-    box-sizing: border-box;
+    width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    padding: 5px; box-sizing: border-box;
 }
 
 .item img {
-    width: auto;
-    height: 100px;
+    width: auto; height: 90px;
     object-fit: contain;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
     transition: transform 0.2s;
@@ -182,11 +231,6 @@ p {
     z-index: 10;
 }
 
-.item:hover img {
-    transform: scale(1.1);
-}
-
-/* dezactiveaza butonul dupa folosire */
 .item.used {
     opacity: 0.6;
     filter: grayscale(0.5);
@@ -194,33 +238,49 @@ p {
 }
 
 /* =========================================
-   joc 2: sortare obiecte
+   joc 2: sortare
    ========================================= */
 
+.progress-stars {
+    display: flex; gap: 10px;
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px 15px; border-radius: 20px;
+}
+
+.star {
+    font-size: 2.5rem; color: #ccc;
+    opacity: 0.5; transition: all 0.3s;
+}
+
+.star.active {
+    color: #f1c40f; opacity: 1;
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 5px rgba(241, 196, 15, 0.5));
+    animation: popStar 0.3s ease-out;
+}
+
+@keyframes popStar {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1.2); }
+}
+
 .sorting-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    max-height: 60vh;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 5px; /* Mai compact */
+    width: 100%; max-height: 60vh;
 }
 
 .items-scattered {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 700px;
-    padding: 10px;
+    display: flex; gap: 15px;
+    flex-wrap: wrap; justify-content: center;
+    max-width: 750px; padding: 5px;
 }
 
-/* obiectele care trebuie sortate */
 .sort-item {
-    width: 80px;
-    height: 80px;
-    cursor: pointer;
-    object-fit: contain;
+    width: 85px; height: 85px;
+    cursor: pointer; object-fit: contain;
     animation: float 4s infinite ease-in-out;
     transition: all 0.3s;
     filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
@@ -232,100 +292,54 @@ p {
 }
 
 .box-container {
-    width: 220px;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    width: 200px; height: auto;
+    display: flex; justify-content: center; align-items: flex-end;
+    margin-top: 0;
 }
 
-.box-img {
-    width: 100%;
-    height: auto;
-}
-
-.feedback-msg {
-    height: 25px;
-    margin-top: 5px;
-    font-weight: bold;
-    color: #00838f;
-    font-size: 1.3rem;
-}
-
-/* animatie de eroare */
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
-}
+.box-img { width: 100%; height: auto; }
 
 /* =========================================
-   joc 3: experiment potiuni
+   joc 3: experiment
    ========================================= */
 
 .lab-bench {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    display: flex; justify-content: center; align-items: flex-end;
     gap: 40px;
-    border-bottom: 12px solid #b0bec5; /* raftul de jos */
+    border-bottom: 12px solid #b0bec5;
     border-radius: 10px;
-    width: auto;
-    min-width: 500px;
-    padding: 0 40px 10px 40px;
-    margin: 20px auto;
+    width: auto; min-width: 500px;
+    padding: 0 40px 10px 40px; margin: 10px auto;
 }
 
-/* paharul mare berzelius */
 .beaker-main {
-    width: 140px;
-    height: 190px;
-    border: 4px solid #eceff1;
-    border-top: none;
+    width: 140px; height: 190px;
+    border: 4px solid #eceff1; border-top: none;
     border-radius: 0 0 25px 25px;
-    position: relative;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.3); /* efect sticla */
+    position: relative; overflow: hidden;
+    background: rgba(255, 255, 255, 0.3);
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.8), 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* reflexia luminii pe pahar */
 .beaker-main::before {
-    content: '';
-    position: absolute;
-    left: 10px; top: 10px; bottom: 10px;
-    width: 15px;
+    content: ''; position: absolute;
+    left: 10px; top: 10px; bottom: 10px; width: 15px;
     background: linear-gradient(to right, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
-    border-radius: 10px;
-    z-index: 5;
-}
-
-/* gradatiile de pe pahar */
-.beaker-main::after {
-    content: '- - -';
-    position: absolute;
-    right: 8px; top: 30px;
-    color: #cfd8dc;
-    font-weight: 900;
-    font-size: 18px;
-    writing-mode: vertical-rl;
+    border-radius: 10px; z-index: 5;
 }
 
 .liquid {
-    position: absolute;
-    bottom: 0; left: 0;
+    position: absolute; bottom: 0; left: 0;
     width: 100%; height: 0%;
     transition: all 1s ease-in-out;
 }
 
 .bubbles {
-    position: absolute;
-    width: 20px; height: 20px;
+    position: absolute; width: 20px; height: 20px;
     background: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     bottom: 0; left: 50%;
-    animation: bubbleUp 2s infinite;
-    display: none;
+    animation: bubbleUp 2s infinite; display: none;
 }
 
 @keyframes bubbleUp {
@@ -334,79 +348,42 @@ p {
 }
 
 .potions-rack {
-    display: flex;
-    gap: 15px;
-    padding-bottom: 2px;
+    display: flex; gap: 15px; padding-bottom: 2px;
 }
 
 .potion {
-    width: 80px;
-    height: auto;
-    object-fit: contain;
-    cursor: pointer;
+    width: 80px; height: auto;
+    object-fit: contain; cursor: pointer;
     transition: transform 0.2s;
     filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.1));
 }
 
-.potion:hover {
-    transform: translateY(-10px) scale(1.1);
-}
-
-.result-msg {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #006064;
-    margin-top: 15px;
-    height: 40px;
-}
+.potion:hover { transform: translateY(-10px) scale(1.1); }
 
 /* =========================================
-   stiluri pentru scena finala
+   scena finala
    ========================================= */
 
-/* titlu colorat */
 .rainbow-text {
     font-size: 4rem;
     background: linear-gradient(to right, #ff0000, #ff7f00, #ffdd00, #00ff00, #0000ff, #4b0082, #9400d3);
-    -webkit-background-clip: text;
-    background-clip: text;
+    -webkit-background-clip: text; background-clip: text;
     color: transparent;
     animation: popTitle 1s ease-in-out infinite alternate;
     margin-bottom: 0;
 }
 
 @keyframes popTitle {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
+    from { transform: scale(1); } to { transform: scale(1.1); }
 }
 
-/* container chimista fericita */
 .winner-container {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* steaua care se invarte in spate */
-.star-bg {
-    position: absolute;
-    font-size: 250px;
-    z-index: 1;
-    opacity: 0.3;
-    animation: spinStar 10s linear infinite;
-}
-
-@keyframes spinStar {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    position: relative; width: 300px; height: 300px;
+    display: flex; justify-content: center; align-items: center;
 }
 
 .bounce-happy {
-    z-index: 2;
-    animation: jumpHappy 1s infinite;
+    z-index: 2; animation: jumpHappy 1s infinite;
 }
 
 @keyframes jumpHappy {
@@ -414,107 +391,20 @@ p {
     50% { transform: translateY(-20px); }
 }
 
-.winner-msg {
-    font-size: 2rem;
-    color: #2e7d32;
-    margin: 10px 0 30px 0;
-    text-shadow: 1px 1px 0 white;
-}
-
-/* =========================================
-   butoane interactive
-   ========================================= */
-
-.btn-start,
-.btn-next {
-    padding: 15px 50px;
-    font-size: 1.8rem;
-    font-family: inherit;
-    font-weight: bold;
-    background: #00bcd4;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    margin-top: 20px;
-    box-shadow: 0 6px 0 #00838f;
-    transition: all 0.1s;
-}
-
-.btn-start:active,
-.btn-next:active {
-    transform: translateY(6px);
-    box-shadow: 0 0 0;
-}
-
-.btn-start:hover,
-.btn-next:hover {
-    background: #26c6da;
-}
-
-/* buton special pentru final */
-.btn-finish {
-    padding: 15px 40px;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: white;
-    background: linear-gradient(to bottom, #ff9f43, #ee5253);
-    border-radius: 50px;
-    text-decoration: none;
-    box-shadow: 0 8px 0 #b33939;
-    border: 4px solid white;
-    display: inline-block;
-    z-index: 10;
-}
-
-.btn-finish:active {
-    transform: translateY(8px);
-    box-shadow: 0 0 0;
-}
-
-.btn-reset {
-    margin-top: 15px;
-    background: white;
-    border: 2px solid #ccc;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 20px;
-    font-family: inherit;
-    font-weight: bold;
-    color: #555;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* animatie confeti */
 .confetti-rain {
-    position: fixed;
-    top: 0; left: 0;
+    position: fixed; top: 0; left: 0;
     width: 100%; height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 0;
+    pointer-events: none; overflow: hidden; z-index: 0;
 }
 
 .confetti-rain span {
-    position: absolute;
-    width: 15px; height: 15px;
-    top: -20px;
-    border-radius: 50%;
+    position: absolute; width: 15px; height: 15px;
+    top: -20px; border-radius: 50%;
     animation: fall linear infinite;
 }
 
-.confetti-rain span:nth-child(1) { left: 10%; animation-duration: 3s; }
-.confetti-rain span:nth-child(2) { left: 20%; animation-duration: 4s; width: 20px; height: 20px; }
-.confetti-rain span:nth-child(3) { left: 30%; animation-duration: 2.5s; }
-.confetti-rain span:nth-child(4) { left: 40%; animation-duration: 5s; }
-.confetti-rain span:nth-child(5) { left: 50%; animation-duration: 3.5s; width: 25px; height: 25px; }
-.confetti-rain span:nth-child(6) { left: 60%; animation-duration: 4.2s; }
-.confetti-rain span:nth-child(7) { left: 70%; animation-duration: 2.8s; }
-.confetti-rain span:nth-child(8) { left: 80%; animation-duration: 4.5s; }
-.confetti-rain span:nth-child(9) { left: 90%; animation-duration: 3.2s; }
-.confetti-rain span:nth-child(10){ left: 5%;  animation-duration: 3.8s; }
+.confetti-rain span:nth-child(odd) { animation-duration: 3s; }
+.confetti-rain span:nth-child(even) { animation-duration: 4s; }
 
 @keyframes fall {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }

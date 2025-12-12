@@ -1,78 +1,87 @@
+/* =========================================
+   logica jocului chimist
+   (foloseste functia 'say' din speech.js)
+   ========================================= */
+
+// functie ajutatoare pentru a evita erorile daca speech.js nu s-a incarcat
+function safeSay(text) {
+    if (typeof say === "function") {
+        say(text);
+    } else {
+        console.warn("audio nu functioneaza: say() lipseste");
+    }
+}
+
+// initializare la incarcarea paginii
 document.addEventListener("DOMContentLoaded", () => {
-
-    const introScene = document.getElementById("scena-intro");
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                say("Salut! Eu sunt Ana, prietena ta chimistă! Știi ce face un chimist? Amestecă lichide colorate și face trucuri în laborator! Vrei să învățăm să facem experimente împreună?");
-            }
-        });
-    }, {
-        threshold: 0.5 // visible at least 50%
-    });
-
-    observer.observe(introScene);
+    setTimeout(() => {
+        safeSay("Salut! Eu sunt Ana. Apasă pe butonul de start ca să ne jucăm!");
+        const startBtn = document.querySelector('.btn-icon-large');
+        if(startBtn) startBtn.classList.add('pulse-element');
+    }, 500);
 });
 
-
-/* navigare între scene */
+/* --- navigare intre scene --- */
 function nextScene(sceneId) {
+    // ascunde toate scenele
     document.querySelectorAll('.scene').forEach(scene => {
         scene.classList.remove('active');
     });
+    // afiseaza scena ceruta
     document.getElementById(sceneId).classList.add('active');
-    if(sceneId==="scena-1")
-        say("Alege hainele de protecție corecte!");
-    else if(sceneId==="scena-2")
-        say("Hai să facem ordine! Pune doar obiectele din laborator în cutia maro.")
-    else if(sceneId==="scena-3")
-        say("E timpul pentru experimente! Hai să facem o poțiune verde!")
-    else if(sceneId==="scena-final")
-        say("Bravoo! Ești un super chimist! Apasă pe căsuță pentru a încerca o nouă meserie!");
+
+    // actiuni specifice fiecarei scene
+    if(sceneId === "scena-1") {
+        safeSay("Pasul unu. Apasă pe ochelari și pe halat ca să mă îmbraci.");
+        document.querySelectorAll('.items-rack .item').forEach(el => el.classList.add('pulse-element'));
+    } 
+    else if(sceneId === "scena-2") {
+        safeSay("Pasul doi. Apasă doar pe obiectele de laborator pentru a le pune în cutie.");
+    } 
+    else if(sceneId === "scena-3") {
+        safeSay("Pasul trei. Experimentul! Apasă pe sticluțe ca să amesteci culorile.");
+    } 
+    else if(sceneId === "scena-final") {
+        safeSay("Bravo! Ești un super chimist! Apasă pe căsuță pentru a pleca.");
+    }
 }
 
-/* JOC 1*/
+/* --- joc 1: echipament --- */
 let itemsWorn = 0;
 
 function chooseClothing(type, element, isCorrect) {
     if (element.classList.contains('used')) return;
 
     if (isCorrect) {
-        say("Foarte bine!");
+        safeSay("Bravo!");
 
         let clothingItem = document.getElementById('wear-' + type);
-        if (clothingItem) {
-            clothingItem.classList.remove('hidden');
-        }
+        if (clothingItem) clothingItem.classList.remove('hidden');
 
         element.classList.add('used');
+        element.classList.remove('pulse-element'); 
         element.style.borderColor = "#4caf50";
         element.style.backgroundColor = "#e8f5e9";
 
         itemsWorn++;
 
-        console.log("Obiecte purtate: " + itemsWorn);
-
         if (itemsWorn === 2) {
-            say("Bravo! Ai ales toate hainele de protecție corecte. Apasă butonul pentru a continua.");
-            console.log("Ambele obiecte selectate! Afisez butonul.");
+            safeSay("Super! Acum sunt echipată. Apasă pe săgeată.");
             
+            document.querySelectorAll('.items-rack .item').forEach(el => el.classList.remove('pulse-element'));
+
             setTimeout(() => {
                 let btn = document.getElementById('btn-next-1');
                 btn.classList.remove('hidden');
-                
-                btn.style.animation = "float 1s infinite"; 
-                
-                btn.scrollIntoView({behavior: "smooth"});
+                btn.classList.add('pulse-element');
             }, 500);
         }
 
     } else {
-        say("Mai încearcă!");
+        safeSay("Nu, nu. Asta nu e pentru laborator.");
+        
         element.style.animation = "shake 0.4s";
         element.style.borderColor = "#ff5252";
-
         setTimeout(() => {
             element.style.animation = "";
             element.style.borderColor = "#b2ebf2";
@@ -80,48 +89,47 @@ function chooseClothing(type, element, isCorrect) {
     }
 }
 
-/* JOC 2 */
+/* --- joc 2: sortare --- */
 let goodItemsFound = 0;
 
 function sortMe(element, isGood) {
     if (window.getComputedStyle(element).opacity === "0") return;
 
     if (isGood) {
+        safeSay("Corect!");
+        
         element.style.transition = "all 0.5s ease-in";
         element.style.transform = "translateY(150px) scale(0.2)";
         element.style.opacity = "0";
         element.style.pointerEvents = "none";
 
         goodItemsFound++;
+        
+        let star = document.getElementById('star-' + goodItemsFound);
+        if(star) star.classList.add('active');
 
-        let ramase = 4 - goodItemsFound;
-        let feedback = document.getElementById('feedback-text');
-
-        if (ramase > 0) {
-            feedback.innerText = "Super! Încă " + ramase;
-            feedback.style.color = "green";
-            if(ramase === 2)
-                say("Bravo! Încă două");
-            else
-                say("Bravo! Încă " + ramase);
+        if (goodItemsFound === 4) { 
+            safeSay("Ai făcut curățenie lună! Apasă pe săgeată.");
+            document.getElementById('feedback-visual').innerHTML = "✅"; 
+            
+            let btn = document.getElementById('btn-next-2');
+            btn.classList.remove('hidden');
+            btn.classList.add('pulse-element');
         } else {
-            feedback.innerText = "Perfect! Laboratorul e curat.";
-            say("Perfect! Laboratorul e curat. Apasă butonul pentru a continua.");
-            document.getElementById('btn-next-2').classList.remove('hidden');
+             document.getElementById('feedback-visual').innerHTML = "👍";
         }
     } else {
+        safeSay("Asta nu e pentru laborator.");
+        
         element.style.animation = "shake 0.4s";
-        let feedback = document.getElementById('feedback-text');
-        feedback.innerText = "Nu! Asta e o jucărie.";
-        feedback.style.color = "red";
-        say("Nu! Asta e o jucărie.");
+        document.getElementById('feedback-visual').innerHTML = "❌";
         setTimeout(() => {
-            element.style.animation = "float 3s infinite ease-in-out";
+            element.style.animation = "float 4s infinite ease-in-out"; 
         }, 400);
     }
 }
 
-/* JOC 3 */
+/* --- joc 3: potiuni --- */
 let mixedColors = [];
 
 function addPotion(color) {
@@ -139,8 +147,7 @@ function addPotion(color) {
     if (mixedColors.length === 1) {
         liquid.style.height = "50%";
         liquid.style.backgroundColor = getColorCode(color);
-        document.getElementById('result-message').innerText = "Mai pune o culoare...";
-        say("Mai pune o culoare...");
+        safeSay("Mai pune o culoare.");
     } else if (mixedColors.length === 2) {
         liquid.style.height = "85%";
         checkMix();
@@ -156,23 +163,22 @@ function getColorCode(name) {
 
 function checkMix() {
     let liquid = document.getElementById('liquid-main');
-    let msg = document.getElementById('result-message');
     let bubbles = document.getElementById('bubbles');
 
     if (mixedColors.includes('blue') && mixedColors.includes('yellow')) {
         liquid.style.transition = "background-color 1s";
-        liquid.style.backgroundColor = "#4caf50"; // VERDE
+        liquid.style.backgroundColor = "#4caf50"; 
         bubbles.style.display = "block";
 
-        msg.innerHTML = "WOW! Ai făcut <span style='color:green'>VERDE</span>!";
-        document.getElementById('btn-final').classList.remove('hidden');
-        say("Uau! Ai făcut verde! Apasă butonul albastru pentru a continua.");
+        safeSay("Uau! Ai făcut verde! Apasă pe săgeată.");
+        
+        let btn = document.getElementById('btn-final');
+        btn.classList.remove('hidden');
+        btn.classList.add('pulse-element');
 
     } else {
-        liquid.style.backgroundColor = "#795548"; // MARO
-        msg.innerText = "Oh nu... a ieșit maro. Încearcă Galben + Albastru!";
-        msg.style.color = "brown";
-        say("O, nu. A ieșit maro. Apasă butonul de jos pentru a reseta. Încearcă galben și albastru!");
+        liquid.style.backgroundColor = "#795548"; 
+        safeSay("O, nu. A ieșit maro. Apasă pe coșul de gunoi ca să golești paharul.");
     }
 }
 
@@ -182,9 +188,7 @@ function resetPotions() {
     liquid.style.height = "0%";
     liquid.style.backgroundColor = "transparent";
     document.getElementById('bubbles').style.display = "none";
-    let msg = document.getElementById('result-message');
-    msg.innerText = "Toarnă 2 culori...";
-    msg.style.color = "black";
-    say("Toarnă două culori...");
+    
+    safeSay("Am golit paharul. Încearcă din nou.");
     document.getElementById('btn-final').classList.add('hidden');
 }
