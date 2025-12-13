@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atelierul lui Matei</title>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style-chimist.css">
     <link rel="stylesheet" href="../css/style-mecanic.css">
 </head>
 <body>
@@ -38,15 +37,17 @@
             <img src="../imagini/mecanic/happy_purple_car.svg" class="hero-car brake-arrival" alt="Masina">
         </div>
 
-        <button class="btn-start-premium pulse-btn" onclick="nextScene('scena-1')">
-            <div class="btn-content">
-                <span class="icon">▶</span> START JOC
-            </div>
-            <div class="shine"></div>
-        </button>
+        <div class="start-hitbox-wrapper pulse-btn"
+             onclick="nextScene('scena-1')">
+            <img src="../imagini/mecanic/start_button.svg"
+                 class="start-btn"
+                 alt="Start Joc">
+        </div>
 
-        <a href="../oras.html" class="home-corner-btn">
-            🏠 Înapoi în Oraș
+        <a href="../oras.html" class="back-btn-big">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
         </a>
 
     </div>
@@ -110,12 +111,10 @@
             </div>
         </div>
 
-        <button id="btn-next-1" class="btn-start-premium hidden" onclick="nextScene('scena-2')">
-            <div class="btn-content">
-                Arăți super! Mai departe! <span class="icon">😎</span>
-            </div>
-            <div class="shine"></div>
-        </button>
+        <div id="btn-next-1" class="next-hitbox-wrapper hidden pulse-btn" onclick="nextScene('scena-2')">
+            <img src="../imagini/mecanic/next_button.svg" class="next-btn" alt="Mai departe">
+        </div>
+
 
     </div>
 
@@ -125,7 +124,7 @@
         <div class="floating-spark s3"></div>
 
         <div class="scene-header">
-            <h2 class="scene-title">Trage uneltele în trusă!</h2>
+            <h2 class="scene-title">Mută uneltele în trusă!</h2>
             <div class="progress-wrapper">
                 <div class="progress-track">
                     <div id="toolbox-progress" class="progress-fill" style="width: 0%"></div>
@@ -170,12 +169,9 @@
 
         </div>
 
-        <button id="btn-next-2" class="btn-start-premium hidden" onclick="nextScene('scena-3')">
-            <div class="btn-content">
-                Trusa e gata! Unde mergem? <span class="icon">🗺️</span>
-            </div>
-            <div class="shine"></div>
-        </button>
+        <div id="btn-next-2" class="next-hitbox-wrapper hidden pulse-btn" onclick="nextScene('scena-3')">
+            <img src="../imagini/mecanic/next_button.svg" class="next-btn" alt="Mai departe">
+        </div>
 
     </div>
 
@@ -204,12 +200,9 @@
 
         </div>
 
-        <button id="btn-next-3" class="btn-start-premium hidden" onclick="nextScene('scena-4')">
-            <div class="btn-content">
-                Portal deschis! Hai la spălat mașina! <span class="icon">🫧</span>
-            </div>
-            <div class="shine"></div>
-        </button>
+        <div id="btn-next-3" class="next-hitbox-wrapper hidden pulse-btn" onclick="nextScene('scena-4')">
+            <img src="../imagini/mecanic/next_button.svg" class="next-btn" alt="Mai departe">
+        </div>
 
     </div>
 
@@ -291,12 +284,9 @@
 
         </div>
 
-        <button id="btn-next-4" class="btn-start-premium hidden" onclick="nextScene('scena-5')">
-            <div class="btn-content">
-                Mașina lucește! Trecem la vopsit? <span class="icon">🎨</span>
-            </div>
-            <div class="shine"></div>
-        </button>
+        <div id="btn-next-4" class="next-hitbox-wrapper hidden pulse-btn" onclick="nextScene('scena-5')">
+            <img src="../imagini/mecanic/next_button.svg" class="next-btn" alt="Mai departe">
+        </div>
 
     </div>
 
@@ -339,12 +329,9 @@
 
         </div>
 
-        <button id="btn-next-5" class="btn-start-premium hidden" onclick="nextScene('scena-finala')">
-            <div class="btn-content">
-                Superb! Ai reușit! <span class="icon">✨</span>
-            </div>
-            <div class="shine"></div>
-        </button>
+        <div id="btn-next-5" class="next-hitbox-wrapper hidden pulse-btn" onclick="nextScene('scena-finala')">
+            <img src="../imagini/mecanic/next_button.svg" class="next-btn" alt="Mai departe">
+        </div>
 
     </div>
 
@@ -355,6 +342,12 @@
             <div class="confetti c3"></div><div class="confetti c4"></div>
             <div class="confetti c5"></div><div class="confetti c6"></div>
         </div>
+
+        <a href="../oras.html" class="back-btn-big">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            </svg>
+        </a>
 
         <div class="celebration-stage">
 
@@ -373,12 +366,11 @@
 
         </div>
 
-        <button class="btn-start-premium pulse-btn" onclick="location.reload()">
-            <div class="btn-content">
-                <span class="icon">🔄</span> JOACĂ DIN NOU
-            </div>
-            <div class="shine"></div>
-        </button>
+        <div class="replay-hitbox-wrapper pulse-btn" onclick="location.reload()">
+            <img src="../imagini/mecanic/play_again.svg"
+                 class="replay-btn"
+                 alt="Joacă din nou">
+        </div>
 
     </div>
 

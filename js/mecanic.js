@@ -1,5 +1,22 @@
 /* FUNCTII GLOBALE */
 
+function preloadImages() {
+    const imagesToPreload = [
+        "../imagini/mecanic/wardrobe.png",
+        "../imagini/mecanic/workbench.png",
+        "../imagini/mecanic/worlds.png",
+        "../imagini/mecanic/car_wash.png",
+        "../imagini/mecanic/car_paint.png",
+        "../imagini/mecanic/final_scene.png",
+        "../imagini/mecanic/next_button.svg"
+    ];
+
+    imagesToPreload.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
 function shuffleElements(containerSelector) {
     const container = document.querySelector(containerSelector);
     if (!container) return;
@@ -15,10 +32,10 @@ function shuffleElements(containerSelector) {
 }
 
 window.onload = function() {
+    preloadImages();
+
     shuffleElements('.items-grid');
-
     shuffleElements('#drag-zone');
-
     initDragAndDrop();
 };
 
@@ -31,7 +48,7 @@ function nextScene(sceneId) {
         say("Hai să-l echipăm pe Matei! Alege echipamentul potrivit pentru el.");
     }
     else if(sceneId === 'scena-2') {
-        say("Acum să alegem uneltele potrivite! Trage obiectele bune în cutie.");
+        say("Acum să alegem uneltele potrivite! Mută uneltele bune în trusă.");
     }
     else if(sceneId === 'scena-3') {
         say("Unde ar trebui să meargă Matei pentru a repara mașina? Deschide portalul spre atelier.");
@@ -43,7 +60,7 @@ function nextScene(sceneId) {
         say("Haide să vopsim mașina! Alege o culoare frumoasă pentru mașina ta.");
     }
     else if(sceneId === 'scena-finala') {
-        say("Felicitări! L-ai ajutat pe Matei să-și repare mașina! Apasă butonul pentru a începe din nou.");
+        say("Felicitări! Matei este mândru de tine! Ai fost un ucenic de nădejde! Apasă butonul pentru a începe din nou.");
     }
 }
 
@@ -55,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                say("Salut! Eu sunt Matei și sunt mecanic. Haide să reparăm mașini împreună");
+                say("Salut! Eu sunt Matei și sunt mecanic. Hai să ne jucăm cu mașini împreună!");
             }
         });
     }, {
@@ -407,25 +424,25 @@ function finishCleaning() {
 
 /* LOGICA SCENA 5 (VOPSITORIE) */
 
+let carPainted = false;
+
 function paintCar(color) {
+    if (carPainted) return;
+    carPainted = true;
+
     const allLayers = document.querySelectorAll('.color-layer');
-    allLayers.forEach(layer => {
-        layer.classList.remove('visible');
-    });
+    allLayers.forEach(layer => layer.classList.remove('visible'));
 
     const selectedLayer = document.getElementById('layer-' + color);
     if (selectedLayer) {
         if(color=='red') say("Roșu");
         if(color=='blue') say("Albastru");
         if(color=='green') say("Verde");
-        if(color=='orange') say("Portocaliu");  
-        setTimeout(() => {
-            selectedLayer.classList.add('visible');
-        }, 200);
+        if(color=='orange') say("Portocaliu");
+        setTimeout(() => selectedLayer.classList.add('visible'), 200);
     }
 
     const mist = document.getElementById('paint-mist');
-
     mist.classList.remove('mist-effect');
     void mist.offsetWidth;
     mist.classList.add('mist-effect');
@@ -435,7 +452,9 @@ function paintCar(color) {
         setTimeout(() => {
             nextBtn.classList.remove('hidden');
             nextBtn.classList.add('pop-in');
+            nextBtn.classList.add('pulse-btn');
         }, 1000);
     }
+
     say("Mașina arată grozav!");
 }

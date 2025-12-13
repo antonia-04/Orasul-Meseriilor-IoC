@@ -1,32 +1,151 @@
 html, body {
     margin: 0;
     padding: 0;
-
     width: 100%;
-    height: 100%;
-
+    height: 100vh;
     overflow: hidden;
 
-    overscroll-behavior: none;
+    background-color: #000000;
 
-    font-family: 'Baloo 2', cursive;
+    font-family: 'Baloo 2', cursive, sans-serif;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    overscroll-behavior: none;
+}
+
+.game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+h1, h2 {
+    margin: 0;
+    font-weight: 800;
+    text-shadow: 2px 2px 0px rgba(255,255,255,0.4);
+}
+
+.scene {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1;
+
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+    pointer-events: none;
+
+    overflow: hidden;
+}
+
+.scene.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 100;
+    pointer-events: auto;
+}
+
+.back-btn-big {
+    position: absolute;
+    top: 3vh;
+    left: 3vw;
+
+    width: clamp(60px, 10vw, 80px);
+    height: clamp(60px, 10vw, 80px);
+
+    background-color: #ff4757;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 4px solid white;
+    box-shadow: 0 0.5vh 0 #a31a26;
+
+    z-index: 1000;
+    cursor: pointer;
+    transition: transform 0.1s;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.back-btn-big:active {
+    transform: translateY(0.5vh);
+    box-shadow: none;
+}
+
+.back-btn-big svg {
+    width: 60%;
+    height: 60%;
+    fill: white;
+}
+
+.next-hitbox-wrapper {
+    width: clamp(190px, 15vw, 330px);
+    aspect-ratio: 216 / 164;
+    height: auto;
+
+    position: absolute;
+    right: 10%;
+    bottom: 2vh;
+
+    overflow: hidden;
+    border-radius: 14px;
+    background: transparent;
+
+    cursor: pointer;
+    z-index: 200;
+
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.next-btn {
+    width: 100%;
+    height: 100%;
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+
+    transform: scale(1.18);
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.next-hitbox-wrapper:hover {
+    transform: scale(1.06);
+}
+
+.next-hitbox-wrapper:active {
+    transform: scale(0.95);
+}
+.pulse-btn {
+    animation: pulseImage 2s infinite;
+}
+
+@keyframes pulseImage {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 /* SCENA 0: INTRO */
 
 #scena-intro {
     background-image: url('../imagini/mecanic/intro.png');
-
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-
-    background-color: #ff9800;
 }
 
 .floating-deco {
@@ -53,7 +172,7 @@ html, body {
     flex-direction: column;
     align-items: center;
 
-    margin-top: 13vh;
+    margin-top: 17vh;
 
     transform: rotate(-2deg);
     animation: logoDrop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
@@ -192,43 +311,55 @@ html, body {
     100% { transform: translateX(0) skewX(0); opacity: 1; }
 }
 
-.btn-start-premium {
-    z-index: 20;
-    background: linear-gradient(to bottom, #43a047, #2e7d32);
-    border: 3px solid white;
-    border-radius: 50px;
+.start-hitbox-wrapper {
+    width: clamp(120px, 7vw, 220px);
+    height: clamp(120px, 7vw, 220px);
 
-    padding: 1.5vh 4vw;
+    position: absolute;
+    bottom: 3vh;
+
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 50%;
+    overflow: hidden;
 
     cursor: pointer;
+    z-index: 210;
+
+    background-color: transparent;
+    box-shadow: none;
+
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.start-hitbox-wrapper:hover {
+    transform: scale(1.1);
+    box-shadow: none;
+}
+
+.start-hitbox-wrapper:active {
+    transform: scale(0.95);
+}
+
+.start-btn {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+    object-position: center;
+
+    transform: scale(1.2);
+
+    pointer-events: none;
+
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 1vh 2vh rgba(0,0,0,0.2);
-    transition: transform 0.1s;
-    animation: pulseBtn 2s infinite;
-}
-
-.btn-content {
-    font-family: 'Baloo 2', cursive;
-
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-
-    font-weight: 800;
-    color: white;
-    text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
-    display: flex;
-    align-items: center;
-    gap: 0.5vw;
-}
-
-@keyframes pulseBtn {
-    0% { transform: scale(1); box-shadow: 0 1vh 2vh rgba(0,0,0,0.2); }
-    50% { transform: scale(1.05); box-shadow: 0 1.5vh 3vh rgba(0,0,0,0.3); }
-    100% { transform: scale(1); box-shadow: 0 1vh 2vh rgba(0,0,0,0.2); }
-}
-
-.btn-start-premium:active {
-    transform: scale(0.95) !important;
+    filter: none;
+    transition: none;
 }
 
 .home-corner-btn {
@@ -269,28 +400,58 @@ html, body {
     width: 90%;
     max-width: 900px;
 
+    margin: 4vh auto 3vh auto;
+
+    padding: 1.5vh 2vw;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    margin-bottom: 3vh;
-    padding: 1.5vh 3vw;
-
-    background: rgba(255,255,255,0.8);
-    border-radius: 2vh;
-    box-shadow: 0 0.5vh 1vh rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.85);
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
 .scene-title {
     margin: 0;
+    text-align: left;
+    white-space: nowrap;
+
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     color: #e65100;
+    font-weight: 800;
+
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .progress-wrapper {
     display: flex;
     align-items: center;
-    gap: 1vw;
+    gap: 10px;
+
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+@media (max-width: 600px) {
+    .scene-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        margin-top: 2vh;
+    }
+
+    .scene-title {
+        white-space: normal;
+        text-align: center;
+    }
+
+    .progress-wrapper {
+        margin-left: 0;
+    }
 }
 
 .progress-track {
@@ -491,23 +652,6 @@ html, body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: fixed !important;
-    top: 0 !important; left: 0 !important;
-    width: 100vw !important; height: 100vh !important;
-    overflow: hidden;
-    margin: 0 !important;
-    z-index: 100 !important;
-}
-
-#btn-next-1 {
-    position: absolute;
-
-    bottom: 8vh;
-
-    left: 50%;
-    transform: translateX(-50%);
-
-    z-index: 200;
 }
 
 /* SCENA 2: UNELTE */
@@ -517,27 +661,6 @@ html, body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    position: fixed !important;
-    top: 0 !important; left: 0 !important;
-    width: 100vw !important; height: 100vh !important;
-    overflow: hidden;
-    margin: 0 !important;
-    z-index: 100 !important;
-}
-
-#btn-next-2 {
-    position: absolute;
-
-    bottom: 8vh;
-
-    left: 0;
-    right: 0;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-
-    z-index: 200;
 }
 
 .column-layout {
@@ -552,7 +675,7 @@ html, body {
 
 .scattered-zone {
     position: absolute;
-    top: 30vh;
+    top: 25vh;
     left: 8vw;
 
     width: 50vw;
@@ -662,7 +785,6 @@ html, body {
     border-radius: 2vh;
 }
 
-
 .absorbed {
     transition: all 0.5s ease-in !important;
     transform: translate(0, 10vh) scale(0) !important;
@@ -672,6 +794,7 @@ html, body {
 .box-pop {
     animation: boxPopAnim 0.3s;
 }
+
 @keyframes boxPopAnim {
     0% { transform: scale(1); }
     50% { transform: scale(1.1); }
@@ -719,11 +842,6 @@ html, body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    position: fixed !important;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    overflow: hidden;
-    z-index: 100;
 }
 
 .scene-header-epic {
@@ -938,24 +1056,6 @@ html, body {
     }
 }
 
-#btn-next-3 {
-    position: fixed !important;
-
-    top: 80% !important;
-    left: 50% !important;
-    bottom: auto !important;
-
-    z-index: 2000 !important;
-    width: max-content !important;
-    margin: 0 !important;
-
-    animation: pulseBtnCentered 2s infinite;
-}
-
-#btn-next-3:active {
-    transform: translate(-50%, -45%) !important;
-}
-
 @media (max-width: 1366px) {
     .places-container-epic {
         gap: 8vw;
@@ -1112,30 +1212,11 @@ html, body {
     }
 }
 
-#btn-next-4 {
-    position: absolute;
-
-    bottom: 4vh;
-
-    left: 0;
-    right: 0;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-
-    z-index: 200;
-}
-
 #scena-4 {
     background-image: url('../imagini/mecanic/car_wash.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    position: fixed !important;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    overflow: hidden;
-    z-index: 10;
 }
 
 .soap-bubble {
@@ -1163,7 +1244,7 @@ html, body {
     100% { transform: translateY(-110vh) translateX(-30px); opacity: 0; }
 }
 
-.scene-header, .cleaning-stage, #btn-next-4 {
+.scene-header, .cleaning-stage {
     position: relative;
     z-index: 5;
 }
@@ -1181,10 +1262,6 @@ html, body {
     background-image: url('../imagini/mecanic/car_paint.png');
     background-size: cover;
     background-position: center;
-    position: fixed !important;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    overflow: hidden;
-    z-index: 100;
 }
 
 .scene-header-epic {
@@ -1323,24 +1400,12 @@ html, body {
     50% { transform: translateY(-2vh); }
 }
 
-#btn-next-5 {
-    position: absolute;
-    bottom: 11%;
-    right: 10%;
-    z-index: 200;
-
-}
-
 /* SCENA FINALA: FELICITARI */
 
 #scena-finala {
     background-image: url('../imagini/mecanic/final_scene.png');
     background-size: cover;
     background-position: center;
-    position: relative;
-    width: 100vw; height: 100vh;
-    overflow: hidden;
-    z-index: 100;
 }
 
 .celebration-stage {
@@ -1451,4 +1516,48 @@ html, body {
 @keyframes confettiFall {
     0% { transform: translateY(0) rotate(0deg); }
     100% { transform: translateY(110vh) rotate(720deg); }
+}
+
+.replay-hitbox-wrapper {
+    width: clamp(100px, 12vw, 150px);
+    height: clamp(100px, 12vw, 150px);
+
+    position: absolute;
+    bottom: 3vh;
+
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    cursor: pointer;
+    z-index: 210;
+
+    box-shadow: none;
+
+    background-color: transparent;
+
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.replay-hitbox-wrapper:active {
+    transform: scale(0.9);
+}
+
+.replay-btn {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+
+    transform: scale(1.3);
+
+    pointer-events: none;
+    position: relative;
+    filter: none;
+    transition: none;
 }
