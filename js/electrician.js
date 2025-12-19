@@ -61,9 +61,10 @@ function startFuseLevel() {
     document.getElementById('fuse-status').textContent = 'Urmărește secvența...';
     
     // Generate sequence
-    fuseSequence = [];
-    for (let i = 0; i < fuseLevel + 2; i++) {
-        fuseSequence.push(Math.floor(Math.random() * 6));
+    if (fuseSequence.length === 0) {
+        for (let i = 0; i < fuseLevel + 2; i++) {
+            fuseSequence. push(Math.floor(Math. random() * 6));
+        }
     }
     
     playerSequence = [];
@@ -135,6 +136,7 @@ function handleFuseClick(fuse) {
         if (fuseLevel < 3) {
             say("Perfect! Hai să trecem la nivelul următor!");
             fuseLevel++;
+            fuseSequence = [];
             setTimeout(startFuseLevel, 1500);
         } else {
             document.getElementById('fuse-status'). textContent = '🎉 Tabloul este reparat!';
