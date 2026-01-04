@@ -4,6 +4,10 @@ speechSynthesis.onvoiceschanged = () => {
     voicesReady = true;
 };
 
+function stopAllSpeech() {
+    speechSynthesis.cancel();
+}
+
 function say(text) {
     function speakNow() {
         const msg = new SpeechSynthesisUtterance(text);

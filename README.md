@@ -15,6 +15,7 @@ Proiect realizat pentru disciplina **Interacțiune Om-Calculator (IOC)**.
 - chimist (Antonia)
 - meteorolog (Mihai)
 - mecanic (Manu)
+- politist (Bogdan)
 ## 🛠️ Tehnologii utilizate
 * **HTML5** - Structura semantică.
 * **CSS3** - Animații, Grid, Flexbox și design responsive.

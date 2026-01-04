@@ -112,23 +112,46 @@ p {
     }
 }
 
-.btn-start, .btn-next, .btn-reset {
+.btn-start {
     background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
     color: white;
     border: none;
     padding: 18px 40px;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-family: 'Baloo 2', cursive;
     border-radius: 50px;
     cursor: pointer;
     margin-top: 20px;
     transition: all 0.3s ease;
     box-shadow: 0 6px 20px rgba(30, 136, 229, 0.4);
+    font-weight: bold;
 }
 
-.btn-start:hover, .btn-next:hover {
+.btn-start:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 30px rgba(30, 136, 229, 0.6);
+}
+
+.btn-next {
+    background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+    width: 70px;
+    height: 70px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: auto;
+    display: block;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(30, 136, 229, 0.4);
+    clip-path: polygon(30% 0%, 100% 50%, 30% 100%, 0% 75%, 60% 50%, 0% 25%);
+    position: relative;
+    overflow: visible;
+}
+
+.btn-next:hover {
+    transform: translateX(8px) translateY(-5px) scale(1.1);
+    box-shadow: 0 12px 35px rgba(30, 136, 229, 0.6);
 }
 
 .btn-reset {
@@ -290,6 +313,49 @@ p {
 }
 
 /* === JOCUL 3: SEMNE DE CIRCULATIE === */
+.signs-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.sign-box {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 4px solid #90caf9;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.sign-box:hover {
+    transform: scale(1.1) rotate(3deg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border-color: #42a5f5;
+}
+
+.sign-box img {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+}
+
+.obstacle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.6);
+}
+
+.obstacle-btn:active {
+    transform: scale(0.95);
+}
+
 .lab-bench {
     margin: 40px 0;
     display: flex;
@@ -393,11 +459,86 @@ p {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
+.grid-cell.has-thief:hover {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+    border-color: #ef5350;
+}
+
+.thief-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.thief-wrapper::before {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(circle, rgba(244, 67, 54, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: thiefGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes thiefGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 20px 8px rgba(244, 67, 54, 0.3);
+    }
+}
+
+.catch-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 500;
+}
+
+.catch-animation.hidden {
+    display: none;
+}
+
+.catch-effect {
+    font-size: 5em;
+    font-weight: bold;
+    color: #4caf50;
+    animation: catchPopIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    text-shadow: 0 0 20px rgba(76, 175, 80, 0.8);
+}
+
+@keyframes catchPopIn {
+    0% {
+        transform: scale(0) rotate(-20deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 .character-sprite {
     width: 80%;
     height: 80%;
     object-fit: contain;
     animation: popIn 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
 }
 
 @keyframes popIn {
@@ -413,77 +554,393 @@ p {
 }
 
 .game-msg {
-    font-size: 1.5em;
+    font-size: 1.8em;
     font-weight: bold;
-    margin: 20px 0;
-    color: #1565c0;
-    min-height: 40px;
-}
-
-/* === JOCUL 5: DIRIJARE TRAFIC === */
-.traffic-control {
-    margin: 30px auto;
-    max-width: 600px;
-}
-
-.car-display {
     margin: 30px 0;
-    min-height: 200px;
+    color: #1565c0;
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    padding: 20px;
+    border-radius: 15px;
+    border: 3px solid #1565c0;
+    animation: slideInMsg 0.6s ease-out;
 }
 
-.car-img {
-    width: 250px;
-    height: auto;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
-    transition: transform 0.5s ease;
+@keyframes slideInMsg {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.control-buttons {
+/* === JOCUL 5: DIRIJARE TRAFIC - INTERSECȚIE === */
+.traffic-intersection-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 30px;
-    justify-content: center;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
-.traffic-btn {
-    font-family: 'Baloo 2', cursive;
-    font-size: 1.8em;
-    padding: 20px 40px;
-    border: none;
-    border-radius: 50px;
+.intersection-main {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(135deg, #90ee90 0%, #98fb98 50%, #90ee90 100%);
+    border-radius: 25px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 2px 10px rgba(255, 255, 255, 0.3);
+    border: 5px solid #2d5016;
+    overflow: hidden;
+}
+
+.intersection-main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        /* Drum vertical - gri */
+        linear-gradient(90deg, transparent 200px, #505050 200px, #505050 300px, transparent 300px),
+        /* Drum orizontal - gri */
+        linear-gradient(180deg, transparent 200px, #505050 200px, #505050 300px, transparent 300px),
+        /* Linii galbene pe vertical */
+        repeating-linear-gradient(0deg, transparent 0px, transparent 200px, transparent 200px, #ffeb3b 205px, #ffeb3b 215px, transparent 220px, transparent 500px) 200px 0 / 100px 100%,
+        repeating-linear-gradient(0deg, transparent 0px, transparent 200px, transparent 200px, #ffeb3b 205px, #ffeb3b 215px, transparent 220px, transparent 500px) 300px 0 / 100px 100%,
+        /* Linii galbene pe orizontal */
+        repeating-linear-gradient(90deg, transparent 0px, transparent 200px, transparent 200px, #ffeb3b 205px, #ffeb3b 215px, transparent 220px, transparent 500px) 0 200px / 100% 100px,
+        repeating-linear-gradient(90deg, transparent 0px, transparent 200px, transparent 200px, #ffeb3b 205px, #ffeb3b 215px, transparent 220px, transparent 500px) 0 300px / 100% 100px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.intersection-center {
+    display: none;
+}
+
+.road {
+    display: none;
+}
+
+.road {
+    position: absolute;
+    background: linear-gradient(180deg, #505050 0%, #3d3d3d 100%);
+    z-index: 2;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.road.vertical {
+    width: 100px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #3d3d3d 0%, #505050 20%, #505050 80%, #3d3d3d 100%);
+}
+
+.road.vertical::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 15px,
+        #ffeb3b 15px,
+        #ffeb3b 30px
+    );
+}
+
+.road.horizontal {
+    height: 100px;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(0deg, #3d3d3d 0%, #505050 20%, #505050 80%, #3d3d3d 100%);
+}
+
+.road.horizontal::after {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    background: repeating-linear-gradient(
+        90deg,
+        transparent 0px,
+        transparent 15px,
+        #ffeb3b 15px,
+        #ffeb3b 30px
+    );
+}
+
+.car-station {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.4s ease;
+    z-index: 5;
+}
+
+.car-station.highlighted {
+    filter: drop-shadow(0 0 25px rgba(0, 255, 0, 0.9));
+    animation: station-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes station-pulse {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.08);
+    }
+}
+
+.car-station.top {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.car-station.top.highlighted {
+    animation: station-pulse-top 1.2s ease-in-out infinite;
+}
+
+@keyframes station-pulse-top {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.08);
+    }
+}
+
+.car-station.bottom {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.car-station.bottom.highlighted {
+    animation: station-pulse-bottom 1.2s ease-in-out infinite;
+}
+
+@keyframes station-pulse-bottom {
+    0%, 100% {
+        transform: translateX(-50%) scale(1);
+    }
+    50% {
+        transform: translateX(-50%) scale(1.08);
+    }
+}
+
+.car-station.left {
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.car-station.left.highlighted {
+    animation: station-pulse-left 1.2s ease-in-out infinite;
+}
+
+@keyframes station-pulse-left {
+    0%, 100% {
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        transform: translateY(-50%) scale(1.08);
+    }
+}
+
+.car-station.right {
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.car-station.right.highlighted {
+    animation: station-pulse-right 1.2s ease-in-out infinite;
+}
+
+@keyframes station-pulse-right {
+    0%, 100% {
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        transform: translateY(-50%) scale(1.08);
+    }
+}
+
+.traffic-light-individual {
+    display: flex;
+    gap: 8px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    padding: 12px 15px;
+    border-radius: 15px;
+    border: 3px solid #111;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.traffic-light-individual.highlighted {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    border-color: #2a2a2a;
+}
+
+.light-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+    border: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+.light-dot.red {
+    background: radial-gradient(circle at 30% 30%, #ff6b6b, #ff4444 50%, #cc0000);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 5px rgba(255, 68, 68, 0.3);
+}
+
+.light-dot.red.active {
+    background: radial-gradient(circle at 30% 30%, #ff5555, #ff0000 50%, #dd0000);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 1), 0 0 30px rgba(255, 0, 0, 0.6);
+    animation: red-glow 1s ease-in-out infinite;
+}
+
+@keyframes red-glow {
+    0%, 100% {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 0, 0, 1), 0 0 30px rgba(255, 0, 0, 0.6);
+    }
+    50% {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 0, 0, 1), 0 0 40px rgba(255, 0, 0, 0.8);
+    }
+}
+
+.light-dot.green {
+    background: radial-gradient(circle at 30% 30%, #5a5a5a, #444444 50%, #2a2a2a);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 3px rgba(100, 100, 100, 0.2);
+}
+
+.light-dot.green.active {
+    background: radial-gradient(circle at 30% 30%, #66ff66, #00ff00 50%, #00dd00);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 0, 1), 0 0 30px rgba(0, 255, 0, 0.6);
+    animation: green-glow 1s ease-in-out infinite;
+}
+
+@keyframes green-glow {
+    0%, 100% {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 0, 1), 0 0 30px rgba(0, 255, 0, 0.6);
+    }
+    50% {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 255, 0, 1), 0 0 40px rgba(0, 255, 0, 0.8);
+    }
+}
+
+.car-clickable {
+    width: 80px;
+    height: 80px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+    border-radius: 12px;
+    padding: 6px;
+    background: transparent;
+    border: 3px solid transparent;
 }
 
-.stop-btn {
-    background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
-    color: white;
+.car-clickable.highlighted {
+    border: 3px solid transparent;
+    box-shadow: none;
+    background: transparent;
+    animation: greenPulse 1.5s ease-in-out infinite;
 }
 
-.stop-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(244, 67, 54, 0.6);
+@keyframes greenPulse {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
-.go-btn {
-    background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
-    color: white;
+.car-clickable:hover {
+    transform: scale(1.15);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
 }
 
-.go-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.6);
+.car-clickable img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-.traffic-score {
-    font-size: 2em;
+.car-clickable.car-correct {
+    animation: carCorrect 0.6s ease;
+}
+
+.car-clickable.car-wrong {
+    animation: carWrong 0.6s ease;
+}
+
+@keyframes carCorrect {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+    }
+    50% {
+        transform: scale(1.25);
+        filter: drop-shadow(0 0 20px rgba(76, 175, 80, 1));
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes carWrong {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-10px) rotate(-5deg);
+    }
+    40% {
+        transform: translateX(10px) rotate(5deg);
+    }
+    60% {
+        transform: translateX(-10px) rotate(-5deg);
+    }
+    80% {
+        transform: translateX(10px) rotate(5deg);
+    }
+}
+
+.traffic-intersection-score {
+    font-size: 3em;
     font-weight: bold;
     color: #1565c0;
-    margin: 20px 0;
+    text-align: center;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    padding: 20px 40px;
+    border-radius: 20px;
+    border: 3px solid #1565c0;
+    box-shadow: 0 6px 15px rgba(21, 101, 192, 0.3);
+    letter-spacing: 5px;
 }
 
 /* === SCENA FINALA === */
@@ -616,6 +1073,10 @@ p {
         width: 180px;
     }
 
+    .car-img-large {
+        width: 200px;
+    }
+
     .control-buttons {
         flex-direction: column;
         gap: 15px;
@@ -624,5 +1085,41 @@ p {
     .traffic-btn {
         font-size: 1.4em;
         padding: 15px 30px;
+    }
+
+    .action-button {
+        width: 120px;
+        height: 120px;
+        font-size: 3em;
+    }
+
+    .traffic-score-large {
+        font-size: 2.5em;
+        padding: 15px 25px;
+    }
+
+    .intersection {
+        width: 280px;
+        height: 280px;
+    }
+
+    .traffic-light {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .light {
+        width: 60px;
+        height: 60px;
+    }
+
+    .car-in-intersection {
+        width: 55px;
+        height: 55px;
+    }
+
+    .traffic-intersection-score {
+        font-size: 2.5em;
+        padding: 15px 25px;
     }
 }
