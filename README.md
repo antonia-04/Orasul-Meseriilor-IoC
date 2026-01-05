@@ -14,8 +14,11 @@ Proiect realizat pentru disciplina **Interacțiune Om-Calculator (IOC)**.
 ### 3. Mini-jocuri pentru fiecare meserie
 - chimist (Antonia)
 - meteorolog (Mihai)
-- mecanic (Manu)
+- electrician (Valentin)
 - politist (Bogdan)
+- pompier (Dragos)
+- mecanic (Manu)
+- doctor (Cristina)
 ## 🛠️ Tehnologii utilizate
 * **HTML5** - Structura semantică.
 * **CSS3** - Animații, Grid, Flexbox și design responsive.
