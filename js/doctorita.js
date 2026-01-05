@@ -1,189 +1,158 @@
+/* =========================================
+   logica jocului doctorița - Silabe & Audio
+   ========================================= */
+
+function safeSay(text) {
+    if (typeof say === "function") {
+        say(text);
+    } else {
+        console.warn("audio nu functioneaza: say() lipseste");
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    const introScene = document.getElementById("scena-intro");
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                say("Bună! Eu sunt Maria, doctorița ta! Vrei să înveți să ajuți pacienții împreună cu mine?");
-            }
-        });
-    }, {
-        threshold: 0.5
-    });
-
-    observer.observe(introScene);
+    setTimeout(() => {
+        safeSay("Bună! Eu sunt Maria, doctorița ta! Apasă pe butonul de start ca să ne jucăm!");
+        const startBtn = document.querySelector('#scena-intro .btn-icon-large');
+        if(startBtn) startBtn.classList.add('pulse-element');
+    }, 500);
 });
 
-/* navigare între scene */
 function nextScene(sceneId) {
-    document.querySelectorAll('.scene').forEach(scene => {
-        scene.classList.remove('active');
-    });
-    document.getElementById(sceneId).classList.add('active');
-    
-    if(sceneId==="scena-1")
-        say("Alege instrumentele esențiale și halatul de doctor! Ai nevoie de două obiecte.");
-    else if(sceneId==="scena-2")
-        say("Pregătim trusa! Pune doar instrumentele medicale în cutia roșie.");
-    else if(sceneId==="scena-3") {
-        say("Acum citim! Citește cu voce tare cuvântul despărțit în silabe!");
-        startReadingGame(); // Pornește jocul nou
+    document.querySelectorAll('.scene').forEach(scene => scene.classList.remove('active'));
+    const targetScene = document.getElementById(sceneId);
+    if(targetScene) {
+        targetScene.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    else if(sceneId==="scena-final")
-        say("Felicitări! Ești un super doctor! Apasă pe căsuță pentru a încerca o nouă meserie!");
+
+    if(sceneId === "scena-1") {
+        safeSay("Pasul unu. Apasă pe halat și pe stetoscop ca să mă îmbraci.");
+    } 
+    else if(sceneId === "scena-2") {
+        safeSay("Pasul doi. Pune doar instrumentele medicale în trusă.");
+    } 
+    else if(sceneId === "scena-3") {
+        startReadingGame();
+    } 
+    else if(sceneId === "scena-final") {
+        safeSay("Bravo! Ești un super doctor! Apasă pe căsuță pentru a pleca.");
+    }
 }
 
-/* JOC 1: ECHIPARE (fără schimbări) */
+/* --- JOC 1: ECHIPARE --- */
 let itemsWorn = 0;
-
 function chooseClothing(type, element, isCorrect) {
     if (element.classList.contains('used')) return;
-
     if (isCorrect) {
-        say("Foarte bine!");
-
+        safeSay("Bravo!");
         let clothingItem = document.getElementById('wear-' + type);
-        if (clothingItem) {
-            clothingItem.classList.remove('hidden');
-        }
-
+        if (clothingItem) clothingItem.classList.remove('hidden');
         element.classList.add('used');
-        element.style.borderColor = "#4caf50";
-        element.style.backgroundColor = "#e8f5e9";
-
         itemsWorn++;
-
         if (itemsWorn === 2) {
-            say("Bravo! Ești complet echipat! Apasă butonul pentru a continua.");
-            
-            setTimeout(() => {
-                let btn = document.getElementById('btn-next-1');
+            safeSay("Super! Acum sunt echipată. Apasă pe săgeată.");
+            let btn = document.getElementById('btn-next-1');
+            if(btn) {
                 btn.classList.remove('hidden');
-                btn.style.animation = "float 1s infinite"; 
-                btn.scrollIntoView({behavior: "smooth"});
-            }, 500);
+                btn.classList.add('pulse-element');
+            }
         }
-
     } else {
-        say("Nu e necesar! Mai încearcă!");
+        safeSay("Nu, nu. Asta nu folosim la spital.");
         element.style.animation = "shake 0.4s";
-        element.style.borderColor = "#ff5252";
-
-        setTimeout(() => {
-            element.style.animation = "";
-            element.style.borderColor = "#f48fb1";
-        }, 400);
     }
 }
 
-/* JOC 2: SORTARE INSTRUMENTE (fără schimbări) */
+/* --- JOC 2: SORTARE --- */
 let goodItemsFound = 0;
 const totalGoodItems = 4;
-
 function sortMe(element, isGood) {
-    if (window.getComputedStyle(element).opacity === "0") return;
-    
-    let feedback = document.getElementById('feedback-text');
-
     if (isGood) {
-        element.style.transition = "all 0.5s ease-in";
-        element.style.transform = "translateY(150px) scale(0.2)"; 
+        safeSay("Corect!");
         element.style.opacity = "0";
         element.style.pointerEvents = "none";
-
         goodItemsFound++;
+        
+        let star = document.getElementById('star-' + goodItemsFound);
+        if(star) star.style.opacity = "1";
 
-        let ramase = totalGoodItems - goodItemsFound;
-
-        if (ramase > 0) {
-            feedback.innerText = "Super! Încă " + ramase + " instrumente.";
-            feedback.style.color = "#388e3c";
-            say("Bravo! Încă " + ramase);
-        } else {
-            feedback.innerText = "Perfect! Trusa medicală e completă.";
-            say("Perfect! Trusa e completă. Apasă butonul pentru a continua.");
-            document.getElementById('btn-next-2').classList.remove('hidden');
+        if (goodItemsFound === totalGoodItems) { 
+            safeSay("Perfect! Trusa e gata. Apasă pe săgeată.");
+            let btn = document.getElementById('btn-next-2');
+            if(btn) {
+                btn.classList.remove('hidden');
+                btn.classList.add('pulse-element');
+            }
         }
     } else {
+        safeSay("Asta nu este pentru doctor.");
         element.style.animation = "shake 0.4s";
-        feedback.innerText = "Nu! Asta nu e un instrument medical.";
-        feedback.style.color = "#ff5252";
-        say("Nu! Asta nu e un instrument.");
-        setTimeout(() => {
-            element.style.animation = "float 3s infinite ease-in-out";
-            feedback.innerText = "Mai ai de găsit " + (totalGoodItems - goodItemsFound) + " obiecte corecte!";
-            feedback.style.color = "#00838f";
-        }, 400);
     }
 }
 
-/* JOC 3: JOCUL SILABELOR (Citire și Recunoaștere) */
-
+/* --- JOC 3: CITIT / SILABE --- */
 const medicalWords = [
-    { 
-        src: '../imagini/doctorita/halat.svg', 
-        syllables: 'HA - LAT',
-        word: 'HALAT' // Cuvântul întreg pentru voce
-    },
-    { 
-        src: '../imagini/doctorita/plasture.svg', 
-        syllables: 'PLAS - TU - RE',
-        word: 'PLASTURE'
-    },
-    { 
-        src: '../imagini/doctorita/termometru.svg', 
-        syllables: 'TER - MO - ME - TRU',
-        word: 'TERMOMETRU'
-    }
-    // Stetoscop a fost eliminat
+    { src: '../imagini/doctorita/halat.svg', whole: 'Halat', syllables: 'HA - LAT' },
+    { src: '../imagini/doctorita/plasture.svg', whole: 'Plasture', syllables: 'PLAS - TU - RE' },
+    { src: '../imagini/doctorita/termometru.svg', whole: 'Termometru', syllables: 'TER - MO - ME - TRU' }
 ];
 
 let currentWordIndex = 0;
 
 function startReadingGame() {
     currentWordIndex = 0;
-    document.getElementById('btn-final').classList.add('hidden');
-    document.getElementById('btn-read-next').classList.remove('hidden');
     updateWordDisplay();
 }
 
 function updateWordDisplay() {
     if (currentWordIndex < medicalWords.length) {
         const wordData = medicalWords[currentWordIndex];
-        
         const imgElement = document.getElementById('reading-image');
         const syllablesElement = document.getElementById('syllables-text');
         const nextBtn = document.getElementById('btn-read-next');
+        const finalBtn = document.getElementById('btn-final');
 
-        // Aplică efect de fade out
-        imgElement.style.opacity = 0;
-        syllablesElement.style.opacity = 0;
-        nextBtn.style.pointerEvents = 'none'; // Dezactivează butonul în timpul tranziției
+        // Resetăm elementele vizuale
+        if(nextBtn) nextBtn.classList.add('hidden');
+        if(finalBtn) finalBtn.classList.add('hidden');
+        syllablesElement.innerHTML = ""; // Ștergem textul vechi
+        syllablesElement.style.color = "#ec407a"; 
 
+        imgElement.src = wordData.src;
+        imgElement.classList.add('pulse-element');
+
+        // 1. Maria spune cuvântul întreg (nedespărțit)
+        safeSay(wordData.whole);
+
+        // 2. Pauză de 2.5 secunde pentru ca cel mic să încerce să spună
         setTimeout(() => {
-            // Actualizează conținutul
-            imgElement.src = wordData.src;
+            // 3. Afișăm cuvântul despărțit în silabe pe ecran
             syllablesElement.innerHTML = wordData.syllables;
             
-            // Re-afișează cu fade in
-            imgElement.style.opacity = 1;
-            syllablesElement.style.opacity = 1;
-
-            nextBtn.innerText = `Am citit! ➡️`;
-            nextBtn.style.pointerEvents = 'auto'; // Activează butonul
-
-            // Vocea spune cuvântul întreg
-            say("Te rog să citești cuvântul: " + wordData.word);
-
-        }, 500); // 500ms pentru tranziția de fade
+            // 4. Maria spune cuvântul despărțit corect
+            safeSay("Spunem pe silabe: " + wordData.syllables);
+            
+            // 5. Afișăm săgeata după ce se termină explicația
+            setTimeout(() => {
+                if(nextBtn) {
+                    nextBtn.classList.remove('hidden');
+                    nextBtn.classList.add('pulse-element');
+                }
+            }, 2000);
+        }, 2500);
 
     } else {
-        // Jocul s-a terminat
+        // Finalul jocului de citit
+        safeSay("Bravo! Ai învățat toate obiectele de doctor!");
+        document.getElementById('syllables-text').innerHTML = "🌟 🌟 🌟";
         document.getElementById('btn-read-next').classList.add('hidden');
-        document.getElementById('btn-final').classList.remove('hidden');
-        document.getElementById('syllables-text').innerHTML = '*** BRAVO! Ai citit toate cuvintele! ***';
-        document.getElementById('syllables-text').style.color = '#388e3c';
-        say("Bravo! Ai citit toate cuvintele de doctor. Apasă pe butonul albastru.");
+        
+        let finalBtn = document.getElementById('btn-final');
+        if(finalBtn) {
+            finalBtn.classList.remove('hidden');
+            finalBtn.classList.add('pulse-element');
+        }
     }
 }
 
