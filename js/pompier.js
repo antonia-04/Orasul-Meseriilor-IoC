@@ -83,7 +83,7 @@ function sortMe(element, isGood) {
         let feedback = document.getElementById('feedback-text');
 
         if (ramase > 0) {
-            feedback.innerText = "Bravo! Încă " + ramase;
+            feedback.innerText = "Super!";
             feedback.style.color = "green";
             if(ramase === 2) {
                 say("Bravo Încă două");
@@ -91,14 +91,15 @@ function sortMe(element, isGood) {
                 say("Bravo! Încă " + ramase);
             }
         } else {
-            feedback.innerText = "Perfect! Echipamentul e complet.";
+            feedback.innerText = "Ai reusit!";
+            feedback.style.color = "green";
             say("Perfect! Echipamentul e complet. Apasă butonul pentru a continua.");
             document.getElementById('btn-next-2').classList.remove('hidden');
         }
     } else {
         element.style.animation = "shake 0.4s";
         let feedback = document.getElementById('feedback-text');
-        feedback.innerText = "Nu! Asta nu e pentru pompier.";
+        feedback.innerText = "Oops!";
         feedback.style.color = "red";
         say("Nu! Asta nu e pentru pompier.");
         setTimeout(() => {
@@ -113,6 +114,7 @@ function checkFire(fireType) {
     if (fireClicked) return;
 
     let msg = document.getElementById('result-message');
+    say("Care este incendiul de la casă?");
     
     if (fireType === 'house') {
         fireClicked = true;
@@ -120,12 +122,12 @@ function checkFire(fireType) {
         correctSign.style.transform = "scale(1.2)";
         correctSign.style.border = "5px solid #4caf50";
         correctSign.style.boxShadow = "0 0 30px rgba(76, 175, 80, 0.8)";
-        msg.innerHTML = "WOW! Corect! Acesta e <span style='color:#f44336'>incendiul de la casă</span>!";
+        msg.innerHTML = "WOW! Corect!";
         msg.style.color = "green";
         say("Uau! Corect! Acesta e incendiul de la casă! Apasă butonul roșu pentru a continua.");
         document.getElementById('btn-next-3').classList.remove('hidden');
     } else {
-        msg.innerText = "Mai încearcă! Caută incendiul de la casă.";
+        msg.innerText = "Oops!";
         msg.style.color = "red";
         say("Mai încearcă! Caută incendiul de la casă.");
         event.target.style.animation = "shake 0.4s";
@@ -144,7 +146,7 @@ function startChaseGame() {
     chaseTimer = 20;
     document.getElementById('score').innerText = chaseScore;
     document.getElementById('timer').innerText = chaseTimer;
-    document.getElementById('game-message').innerText = "Apasă pe foc când apare!";
+    document.getElementById('game-message').innerText = "";
     document.getElementById('btn-next-4').classList.add('hidden');
     
     let grid = document.getElementById('grid-game');
@@ -165,6 +167,14 @@ function startChaseGame() {
     }, 1000);
     
     spawnFire();
+}
+
+function removeFire() {
+    let cells = document.querySelectorAll('.grid-cell');
+    cells.forEach(c => {
+        c.innerHTML = '';
+        c.classList.remove('has-fire', 'water');
+    });
 }
 
 function spawnFire() {
@@ -226,11 +236,13 @@ function catchFire(cell) {
 function endChaseGame() {
     clearInterval(chaseInterval);
     if(chaseScore >= 5) {
-        document.getElementById('game-message').innerText = "Felicitări! Ai stins toate focurile!";
-        say("Felicitări! Ai stins toate focurile! Apasă butonul pentru a continua.");
+        document.getElementById('game-message').innerText = "Bravoo!";
+        document.getElementById('game-message').style.color = "green";
+        say("Felicitări! Ai stins toate focurile! Apasă buton pentru a continua.");
         document.getElementById('btn-next-4').classList.remove('hidden');
+        removeFire();
     } else {
-        document.getElementById('game-message').innerText = "Timpul s-a terminat! Mai încearcă!";
+        document.getElementById('game-message').innerText = "Oopsie!";
         say("Timpul s-a terminat! Încearcă din nou!");
         setTimeout(() => {
             startChaseGame();
@@ -239,43 +251,45 @@ function endChaseGame() {
 }
 
 let trafficScore = 0;
-let currentFireType = '';
+let currentEvent = '';
 let trafficRound = 0;
 
 function startTrafficGame() {
     trafficScore = 0;
     trafficRound = 0;
     document.getElementById('traffic-score').innerText = trafficScore;
-    document.getElementById('traffic-message').innerText = "Ce trebuie să folosești?";
+    document.getElementById('traffic-message').innerText = "";
     document.getElementById('btn-final').classList.add('hidden');
-    nextFire();
+    say("Când focul apare, folosește stingătorul!")
+    say("Când persoana trebuie salvată, oferă ajutor!");
+    nextRound();
 }
 
-function nextFire() {
+function nextRound() {
     trafficRound++;
     if(trafficRound > 5) {
         return;
     }
-    currentFireType = Math.random() > 0.5 ? 'big' : 'small';
-    let fireImg = document.getElementById('current-fire');
-    if(currentFireType === 'big') {
-        fireImg.src = '../imagini/pompier/foc-mare.svg';
-        fireImg.alt = 'Foc mare';
+    currentEvent = Math.random() > 0.5 ? 'fire' : 'save';
+    let EventImg = document.getElementById('current-event');
+    if(currentEvent === 'fire') {
+        EventImg.src = '../imagini/pompier/foc-mare.svg';
+        EventImg.alt = 'Foc mare';
     } else {
-        fireImg.src = '../imagini/pompier/foc-mic.svg';
-        fireImg.alt = 'Foc mic';
+        EventImg.src = '../imagini/pompier/ajuta-persoana.svg';
+        EventImg.alt = 'Ajută persoana';
     }
-    fireImg.style.transform = "translateX(-100%)";
+    EventImg.style.transform = "translateX(-100%)";
     setTimeout(() => {
-        fireImg.style.transition = "transform 0.5s ease";
-        fireImg.style.transform = "translateX(0)";
+        EventImg.style.transition = "transform 0.5s ease";
+        EventImg.style.transform = "translateX(0)";
     }, 100);
 }
 
 function controlFire(action) {
     if(trafficRound > 5) return;
     let correct = false;
-    if((currentFireType === 'big' && action === 'hose') || (currentFireType === 'small' && action === 'extinguisher')) {
+    if((currentEvent === 'fire' && action === 'extinguisher') || (currentEvent === 'save' && action === 'help')) {
         correct = true;
         trafficScore++;
         document.getElementById('traffic-score').innerText = trafficScore;
@@ -283,23 +297,27 @@ function controlFire(action) {
         document.getElementById('traffic-message').style.color = "green";
         say("Corect!");
     } else {
-        document.getElementById('traffic-message').innerText = "Greșit! Încearcă din nou! ❌";
+        document.getElementById('traffic-message').innerText = "Greșit! ❌";
         document.getElementById('traffic-message').style.color = "red";
         say("Greșit! Încearcă din nou!");
     }
     setTimeout(() => {
         if(trafficRound >= 5 && trafficScore >= 4) {
-            document.getElementById('traffic-message').innerText = "Perfect! Ești un pompier excelent!";
-            say("Perfect! Ești un pompier excelent! Apasă butonul pentru a termina.");
+            document.getElementById('traffic-message').innerText = "Super!";
+            document.getElementById('traffic-message').style.color = "green";
+            say("Super! Ești un pompier excelent! Apasă butonul pentru a termina.");
             document.getElementById('btn-final').classList.remove('hidden');
+            document.querySelector('.extinguisher-btn').disabled = true;
+            document.querySelector('.help-btn').disabled = true;
         } else if(trafficRound >= 5) {
-            document.getElementById('traffic-message').innerText = "Hai să mai încercăm o dată!";
+            document.getElementById('traffic-message').innerText = "Oopsie!";
+            document.getElementById('traffic-message').style.color = "red";
             say("Hai să mai încercăm o dată!");
             setTimeout(() => {
                 startTrafficGame();
             }, 2000);
         } else {
-            nextFire();
+            nextRound();
         }
     }, 1500);
 }

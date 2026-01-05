@@ -27,19 +27,13 @@
           style="width: 20vh;"
         />
 
-        <p>
-            Bună! Eu sunt Andreea, prietena ta pompier! <br>
-            Știi ce face un pompier? Stinge focurile și salvează vieți! <br>
-            Vrei să învățăm împreună cum să fim pompieri buni?
-        </p>
-        <button class="btn-start" onclick="nextScene('scena-1')">
-            DA! Vreau să fiu pompier!
-        </button>
+        <p></p>
+        <button class="btn-start" onclick="nextScene('scena-1')">>>></button>
       </div>
 
       <div id="scena-1" class="scene">
         <h2>Ne echipăm!</h2>
-        <p>Alege echipamentul de pompier corect!</p>
+        <p></p>
 
         <div class="dress-up-container">
           <div class="mannequin">
@@ -94,13 +88,13 @@
           class="btn-next hidden"
           onclick="nextScene('scena-2')"
         >
-          Super! Mai departe ➡
+          >>>
         </button>
       </div>
 
       <div id="scena-2" class="scene">
         <h2>Echipamentul pompierului!</h2>
-        <p>Pune DOAR obiectele de pompier în ghiozdan.</p>
+        <p></p>
 
         <div class="sorting-area">
           <div class="items-scattered" id="scattered-items">
@@ -166,13 +160,13 @@
           class="btn-next hidden"
           onclick="nextScene('scena-3')"
         >
-          Bravo! Mai departe ➡
+          >>>
         </button>
       </div>
 
       <div id="scena-3" class="scene">
         <h2>Ajută-l pe pompier!</h2>
-        <p>Apasă pe <span class="red-text">INCENDIUL</span> de la casă!</p>
+        <p></p>
 
         <div class="lab-bench">
           <div class="signs-container">
@@ -197,24 +191,24 @@
           </div>
         </div>
 
-        <div id="result-message" class="result-msg">Care e incendiul de la casă?</div>
+        <div id="result-message" class="result-msg"></div>
         <button
           id="btn-next-3"
           class="btn-next hidden"
           onclick="nextScene('scena-4')"
         >
-          Super! Mai departe ➡
+          >>>
         </button>
       </div>
 
       <div id="scena-4" class="scene">
         <h2>Stinge focul!</h2>
-        <p>Apasă pe <span class="red-text">FOC</span> când îl vezi!</p>
+        <p></p>
 
         <div class="chase-game">
           <div class="game-score">
             <div class="score-display">Puncte: <span id="score">0</span>/5</div>
-            <div class="timer-display">Timp: <span id="timer">20</span>s</div>
+            <div class="timer-display">🕒: <span id="timer">20</span>s</div>
           </div>
 
           <div class="grid-container" id="grid-game">
@@ -222,32 +216,32 @@
           </div>
         </div>
 
-        <div id="game-message" class="game-msg">Apasă pe foc când apare!</div>
+        <div id="game-message" class="game-msg"></div>
         <button
           id="btn-next-4"
           class="btn-next hidden"
           onclick="nextScene('scena-5')"
         >
-          Bravo! Mai departe ➡
+          >>>
         </button>
       </div>
 
       <div id="scena-5" class="scene">
-        <h2>Alege echipamentul!</h2>
-        <p>Când focul e <span class="red-text">MARE</span> - folosește FURTUNUL!<br>
-           Când e <span class="orange-text">MIC</span> - folosește STINGĂTORUL!</p>
+        <h2>Care este solutia?</h2>
+        <p>Când focul APARE - folosește <span class="orange-text">STINGĂTORUL!</span><br>
+           Când persoana trebuie SALVATA - ofera <span class="blue-text">AJUTOR!</span></p>
 
         <div class="traffic-control">
           <div class="fire-display">
-            <img id="current-fire" src="../imagini/pompier/foc-mare.svg" alt="Foc" class="fire-img" />
+            <img id="current-event" src="../imagini/pompier/foc-mare.svg" alt="Foc" class="fire-img" />
           </div>
 
           <div class="control-buttons">
-            <button class="traffic-btn hose-btn" onclick="controlFire('hose')">
-              🚰 FURTUN
-            </button>
             <button class="traffic-btn extinguisher-btn" onclick="controlFire('extinguisher')">
-              🧯 STINGĂTOR
+              🧯
+            </button>
+            <button class="traffic-btn help-btn" onclick="controlFire('help')">
+              🙋
             </button>
           </div>
 
@@ -262,7 +256,7 @@
           class="btn-next hidden"
           onclick="nextScene('scena-final')"
         >
-          Am reușit! ➡
+          >>>
         </button>
       </div>
 
@@ -291,7 +285,7 @@
             />
         </div>
 
-        <p class="winner-msg">Ești un super pompier!</p>
+        <p class="winner-msg"></p>
         
       </div>
     </div>
