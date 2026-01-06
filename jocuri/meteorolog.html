@@ -120,13 +120,13 @@
     }
 
     .btn-start {
-      padding: 15px 50px;
+      padding: 35px 50px;
       font-size: 24px;
       font-family: 'Fredoka One', cursive;
       color: #4facfe;
       background: white;
       border: none;
-      border-radius: 50px;
+      border-radius: 150px;
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       transition: transform 0.2s, box-shadow 0.2s;
@@ -317,9 +317,7 @@
 
     <!-- SCENE 0: START MENU -->
     <div class="scene menu-screen active" id="scene-0">
-      <h1>Aventura Picăturii</h1>
-      <p style="font-size: 22px; margin-bottom: 40px; opacity: 0.9;">Explorează circuitul apei în natură!</p>
-      <svg width="120" height="160" viewBox="0 0 100 140"
+      <svg width="320" height="360" viewBox="0 0 100 140"
            style="margin-bottom: 30px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));">
         <path d="M50,0 Q5,60 5,90 Q5,135 50,135 Q95,135 95,90 Q95,60 50,0" fill="white" />
         <circle cx="35" cy="60" r="8" fill="#4facfe"/>
@@ -376,7 +374,7 @@
         </g>
       </svg>
 
-      <div class="instruction-toast" id="msg-1">Trage Soarele peste apă pentru a o încălzi!</div>
+      <!-- <div class="instruction-toast" id="msg-1">Trage Soarele peste apă pentru a o încălzi!</div> -->
     </div>
 
     <!-- SCENE 2: CONDENSARE -->
@@ -403,9 +401,9 @@
             <path d="M480,250 Q500,270 520,250" stroke="#333" stroke-width="4" fill="none" stroke-linecap="round"/>
           </g>
 
-          <text id="s2-instruction-text" x="500" y="230" text-anchor="middle"
+          <!-- <text id="s2-instruction-text" x="500" y="230" text-anchor="middle"
                 fill="#FFF" font-family="Nunito" font-size="18" opacity="0.8"
-                font-weight="bold" pointer-events="none">Pune stropii aici</text>
+                font-weight="bold" pointer-events="none">Pune stropii aici</text> -->
         </g>
 
         <!-- HINTS: Scene 2 -->
@@ -446,7 +444,7 @@
         </g>
       </svg>
 
-      <div class="instruction-toast" id="msg-2">Trage stropii de apă în conturul norului! (0/6)</div>
+      <div class="instruction-toast" id="msg-2">(0/6)</div>
     </div>
 
     <!-- SCENE 3: PRECIPITATII -->
@@ -468,8 +466,8 @@
           <line x1="0" y1="50" x2="40" y2="50" stroke="#333" stroke-width="1" opacity="0.5"/>
           <line x1="0" y1="100" x2="40" y2="100" stroke="#333" stroke-width="1" opacity="0.5"/>
           <line x1="0" y1="150" x2="40" y2="150" stroke="#333" stroke-width="1" opacity="0.5"/>
-          <text id="s3-gauge-text" x="20" y="-15" text-anchor="middle"
-                font-family="Nunito" font-weight="bold" fill="#333">Apă în Nor</text>
+          <!-- <text id="s3-gauge-text" x="20" y="-15" text-anchor="middle"
+                font-family="Nunito" font-weight="bold" fill="#333">Apă în Nor</text> -->
         </g>
 
         <!-- HINTS: Scene 3 -->
@@ -504,12 +502,12 @@
           <path id="s3-cloud-path"
                 d="M300,220 Q280,150 360,140 Q400,80 480,100 Q540,60 620,110 Q680,100 700,180 Q750,220 700,280 Q720,340 620,350 L380,350 Q280,350 300,220 Z"
                 fill="white" filter="url(#shadow)"/>
-          <text x="500" y="250" fill="#555" font-family="Nunito" font-weight="bold" font-size="30"
-                pointer-events="none" text-anchor="middle" id="s3-cloud-text">ȚINE APĂSAT</text>
+          <!-- <text x="500" y="250" fill="#555" font-family="Nunito" font-weight="bold" font-size="30"
+                pointer-events="none" text-anchor="middle" id="s3-cloud-text">ȚINE APĂSAT</text> -->
         </g>
       </svg>
 
-      <div class="instruction-toast" id="msg-3">Ține apăsat pe nor!</div>
+      <!-- <div class="instruction-toast" id="msg-3">Ține apăsat pe nor!</div> -->
     </div>
 
     <!-- SCENE 4: COLECTARE -->
@@ -593,19 +591,19 @@
         </g>
       </svg>
 
-      <div class="instruction-toast" id="msg-4">Apasă pe pietrele din râu! (0/5)</div>
+      <div class="instruction-toast" id="msg-4">(0/5)</div>
     </div>
 
     <!-- SCENE 5: FINAL -->
     <div class="scene menu-screen" id="scene-5">
-      <h1>Felicitări!</h1>
-      <p style="font-size: 24px;">Ai completat Circuitul Apei!</p>
-      <svg width="150" height="150" viewBox="0 0 100 100">
+      <svg width="250" height="250" viewBox="0 0 100 100">
         <circle cx="50" cy="50" r="45" fill="white" opacity="0.2"/>
         <text x="50" y="65" font-size="40" text-anchor="middle">🌟</text>
       </svg>
       <br /><br />
-      <button class="btn-start" onclick="location.reload()">Joacă din nou</button>
+      <!-- <button class="btn-start" onclick="location.reload()">Joacă din nou</button> -->
+      
+
     </div>
 
     <button id="next-btn" onclick="nextStage()">Continuă >></button>
