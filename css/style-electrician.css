@@ -59,7 +59,9 @@ body {
 }
 
 .scene.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     animation: fadeIn 0.5s;
 }
 
@@ -91,6 +93,7 @@ p {
 
 /* Character */
 .character-large {
+    display: block;
     height: 40vh;
     width: auto;
     margin: 20px;
