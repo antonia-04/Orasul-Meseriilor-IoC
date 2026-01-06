@@ -36,7 +36,7 @@ function nextScene(sceneId) {
         startReadingGame();
     } 
     else if(sceneId === "scena-final") {
-        safeSay("Bravo! Ești un super doctor! Apasă pe căsuță pentru a pleca.");
+        safeSay("Bravo! Ești un doctor excelent! Apasă pe căsuță pentru a pleca.");
     }
 }
 
@@ -51,7 +51,7 @@ function chooseClothing(type, element, isCorrect) {
         element.classList.add('used');
         itemsWorn++;
         if (itemsWorn === 2) {
-            safeSay("Super! Acum sunt echipată. Apasă pe săgeată.");
+            safeSay("Bravo! Acum sunt echipată. Apasă pe săgeată.");
             let btn = document.getElementById('btn-next-1');
             if(btn) {
                 btn.classList.remove('hidden');

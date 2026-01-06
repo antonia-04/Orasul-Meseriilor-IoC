@@ -42,7 +42,7 @@ function nextScene(sceneId) {
         startTrafficGame();
     }
     else if(sceneId==="scena-final")
-        say("Bravoo! Ești super polițist!");
+        say("Bravoo! Ești un polițist excelent!");
 }
 
 /* JOC 1: ECHIPARE */
@@ -281,7 +281,7 @@ function answerGesture(answer) {
         msg.style.background = 'linear-gradient(135deg, #c8e6c9, #a5d6a7)';
         msg.style.color = '#1b5e20';
         instruction.textContent = '✅ Corect!';
-        say('Super! Foarte bine!');
+        say('Foarte bine!');
         
         // Animație de succes
         document.getElementById('police-gesture-box').style.transform = 'scale(1.1)';
@@ -351,13 +351,13 @@ function endGestureGame() {
 
 /* JOC 4: PRINDE HOTUL */
 let chaseScore = 0;
-let chaseTimer = 20;
+let chaseTimer = 25;
 let chaseInterval = null;
 let thiefInterval = null;
 
 function startChaseGame() {
     chaseScore = 0;
-    chaseTimer = 20;
+    chaseTimer = 25;
     document.getElementById('score').innerText = chaseScore;
     document.getElementById('timer').innerText = chaseTimer;
     document.getElementById('game-message').innerText = "Apasă pe hoț când apare!";
@@ -553,7 +553,7 @@ function nextGreenCar() {
     // Clear any previous timeout
     if(trafficTimeout) clearTimeout(trafficTimeout);
     
-    // If not clicked within 8 seconds, try again
+    // If not clicked within 18 seconds, try again (extended by +10s)
     trafficTimeout = setTimeout(() => {
         if(trafficGameActive) {
             say("Ai întârziat! Apasă mai repede!");
@@ -562,7 +562,7 @@ function nextGreenCar() {
                 nextGreenCar();
             }, 1500);
         }
-    }, 8000);
+    }, 18000);
 }
 
 function clickCar(direction) {

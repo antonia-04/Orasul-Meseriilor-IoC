@@ -42,7 +42,7 @@ function nextScene(sceneId) {
         safeSay("Pasul trei. Experimentul! Apasă pe sticluțe ca să amesteci culorile.");
     } 
     else if(sceneId === "scena-final") {
-        safeSay("Bravo! Ești un super chimist! Apasă pe căsuță pentru a pleca.");
+        safeSay("Bravo! Ești un chimist excelent! Apasă pe căsuță pentru a pleca.");
     }
 }
 
@@ -66,7 +66,7 @@ function chooseClothing(type, element, isCorrect) {
         itemsWorn++;
 
         if (itemsWorn === 2) {
-            safeSay("Super! Acum sunt echipată. Apasă pe săgeată.");
+            safeSay("Bravo! Acum sunt echipată. Apasă pe săgeată.");
             
             document.querySelectorAll('.items-rack .item').forEach(el => el.classList.remove('pulse-element'));
 

@@ -31,7 +31,7 @@ function nextScene(sceneId) {
         say("Ultimul joc! Ajută-mă să sting focurile! Când focul e mare, folosește furtunul. Când e mic, folosește stingătorul!");
         startTrafficGame();
     } else if(sceneId === "scena-final") {
-        say("Bravoo! Ești un super pompier! Apasă pe căsuță pentru a încerca o nouă meserie!");
+        say("Bravoo! Ești un pompier excelent! Apasă pe căsuță pentru a încerca o nouă meserie!");
     }
 }
 
@@ -138,12 +138,12 @@ function checkFire(fireType) {
 }
 
 let chaseScore = 0;
-let chaseTimer = 20;
+let chaseTimer = 25;
 let chaseInterval = null;
 
 function startChaseGame() {
     chaseScore = 0;
-    chaseTimer = 20;
+    chaseTimer = 25;
     document.getElementById('score').innerText = chaseScore;
     document.getElementById('timer').innerText = chaseTimer;
     document.getElementById('game-message').innerText = "";
@@ -303,9 +303,9 @@ function controlFire(action) {
     }
     setTimeout(() => {
         if(trafficRound >= 5 && trafficScore >= 4) {
-            document.getElementById('traffic-message').innerText = "Super!";
+            document.getElementById('traffic-message').innerText = "Bravo!";
             document.getElementById('traffic-message').style.color = "green";
-            say("Super! Ești un pompier excelent! Apasă butonul pentru a termina.");
+            say("Bravo! Ești un pompier excelent! Apasă butonul pentru a termina.");
             document.getElementById('btn-final').classList.remove('hidden');
             document.querySelector('.extinguisher-btn').disabled = true;
             document.querySelector('.help-btn').disabled = true;
