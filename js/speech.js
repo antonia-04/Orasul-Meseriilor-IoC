@@ -6,6 +6,7 @@ speechSynthesis.onvoiceschanged = () => {
 
 function stopAllSpeech() {
     speechSynthesis.cancel();
+    removeInteractionBlocker();
 }
 
 function say(text) {
@@ -22,6 +23,11 @@ function say(text) {
         }
 
         msg.rate = 1;
+        // Block user interaction while speech is playing
+        msg.onstart = () => createInteractionBlocker();
+        msg.onend = () => removeInteractionBlocker();
+        msg.onerror = () => removeInteractionBlocker();
+
         speechSynthesis.speak(msg);
     }
 
@@ -32,6 +38,30 @@ function say(text) {
     }
 
     speakNow();
+}
+
+// Creates a full-screen transparent overlay that blocks pointer events
+function createInteractionBlocker() {
+    if (document.getElementById('interaction-blocker')) return;
+    const div = document.createElement('div');
+    div.id = 'interaction-blocker';
+    Object.assign(div.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        zIndex: '2147483647',
+        background: 'transparent',
+        cursor: 'wait'
+    });
+    div.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(div);
+}
+
+function removeInteractionBlocker() {
+    const el = document.getElementById('interaction-blocker');
+    if (el && el.parentNode) el.parentNode.removeChild(el);
 }
 
 function speakOnFirstGesture(text) {

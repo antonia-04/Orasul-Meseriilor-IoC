@@ -113,6 +113,12 @@
             speechSynthesis.cancel();
           });
         });
+
+        // Try to say a short welcome immediately; many browsers block autoplay,
+        // so also register a fallback to speak on the first user gesture.
+        const welcome = "Bun venit în Orasul Meseriilor! Alege pe cine vrei să ajuți.";
+        try { say(welcome); } catch (e) { /* ignore */ }
+        speakOnFirstGesture(welcome);
       });
     </script>
 
