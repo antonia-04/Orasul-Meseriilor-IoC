@@ -124,11 +124,11 @@ function resetStage(n) {
     const steam = document.getElementById("s1-steam");
     if (steam) steam.setAttribute("opacity", "0");
 
-    const msg = document.getElementById("msg-1");
-    if (msg) {
-      msg.textContent = "Trage Soarele peste apă pentru a o încălzi!";
-      msg.style.color = "#2c3e50";
-    }
+    // const msg = document.getElementById("msg-1");
+    // if (msg) {
+    //   msg.textContent = "Trage Soarele peste apă pentru a o încălzi!";
+    //   msg.style.color = "#2c3e50";
+    // }
 
     const sun = document.getElementById("s1-sun");
     if (sun) sun.setAttribute("transform", initialTransforms.sun);
@@ -141,7 +141,7 @@ function resetStage(n) {
     dropsCount = 0;
 
     const msg = document.getElementById("msg-2");
-    if (msg) msg.textContent = "Trage stropii de apă în conturul norului! (0/6)";
+    if (msg) msg.textContent = "(0/6)";
 
     const target = document.getElementById("s2-target");
     if (target) {
@@ -152,8 +152,8 @@ function resetStage(n) {
     const finalCloud = document.getElementById("s2-final-cloud");
     if (finalCloud) finalCloud.setAttribute("opacity", "0");
 
-    const instr = document.getElementById("s2-instruction-text");
-    if (instr) instr.style.display = "";
+    // const instr = document.getElementById("s2-instruction-text");
+    // if (instr) instr.style.display = "";
 
     Object.keys(initialTransforms.drops).forEach((id) => {
       const drop = document.getElementById(id);
@@ -179,8 +179,8 @@ function resetStage(n) {
       water.setAttribute("y", 2);
     }
 
-    const msg = document.getElementById("msg-3");
-    if (msg) msg.textContent = "Ține apăsat pe nor!";
+    // const msg = document.getElementById("msg-3");
+    // if (msg) msg.textContent = "Ține apăsat pe nor!";
 
     showHint("hint-s3");
   }
@@ -190,7 +190,7 @@ function resetStage(n) {
     rocksCount = 0;
 
     const msg = document.getElementById("msg-4");
-    if (msg) msg.textContent = "Apasă pe pietrele din râu! (0/5)";
+    if (msg) msg.textContent = "(0/5)";
 
     const water = document.getElementById("s4-water");
     if (water) {
@@ -267,8 +267,8 @@ function endDrag(evt) {
     if (y > 250) {
       document.getElementById("s1-steam").setAttribute("opacity", "1");
 
-      document.getElementById("msg-1").textContent = "Felicitări!";
-      document.getElementById("msg-1").style.color = "#2ecc71";
+      // document.getElementById("msg-1").textContent = "Felicitări!";
+      // document.getElementById("msg-1").style.color = "#2ecc71";
 
       hideHint("hint-s1");
 
@@ -276,8 +276,8 @@ function endDrag(evt) {
       setTimeout(showNextButton, 1000);
     } else {
       document.getElementById("s1-steam").setAttribute("opacity", "0");
-      document.getElementById("msg-1").textContent = "Trage Soarele peste apă pentru a o încălzi!";
-      document.getElementById("msg-1").style.color = "#2c3e50";
+      // document.getElementById("msg-1").textContent = "Trage Soarele peste apă pentru a o încălzi!";
+      // document.getElementById("msg-1").style.color = "#2c3e50";
     }
   }
 
@@ -296,16 +296,16 @@ function endDrag(evt) {
         document.getElementById("s2-target").style.display = "none";
 
         // Hide the instruction text
-        document.getElementById("s2-instruction-text").style.display = "none";
+        //document.getElementById("s2-instruction-text").style.display = "none";
 
-        document.getElementById("msg-2").textContent = "Bravo! Norul e plin!";
+        document.getElementById("msg-2").textContent = "Bravo!";
 
         hideHint("hint-s2");
 
         say("Bravo! Norul e plin! Apasă butonul pentru a continua.");
         showNextButton();
       } else {
-        document.getElementById("msg-2").textContent = `Trage stropii de apă în conturul norului! (${dropsCount}/6)`;
+        document.getElementById("msg-2").textContent = `(${dropsCount}/6)`;
       }
     }
   }
@@ -323,11 +323,11 @@ function endDrag(evt) {
       }, 600);
 
       rocksCount++;
-      document.getElementById("msg-4").textContent = `Curăță pietrele din râu! (${rocksCount}/5)`;
+      document.getElementById("msg-4").textContent = `(${rocksCount}/5)`;
 
       if (rocksCount >= 5) {
         document.getElementById("s4-anim").beginElement();
-        document.getElementById("msg-4").textContent = "Râul curge liber!";
+        document.getElementById("msg-4").textContent = "Bravo!";
 
         hideHint("hint-s4");
 
@@ -349,8 +349,8 @@ function startRain() {
 
   document.getElementById("s3-sky").setAttribute("fill", "#2c3e50");
   document.getElementById("s3-cloud-path").setAttribute("fill", "#4a4a4a");
-  document.getElementById("s3-cloud-text").setAttribute("fill", "#fff");
-  document.getElementById("s3-gauge-text").setAttribute("fill", "#fff");
+  //document.getElementById("s3-cloud-text").setAttribute("fill", "#fff");
+  // document.getElementById("s3-gauge-text").setAttribute("fill", "#fff");
 
   document.getElementById("s3-rain").style.display = "block";
 
@@ -367,7 +367,7 @@ function startRain() {
       clearInterval(rainInterval);
       stopRain();
 
-      document.getElementById("msg-3").textContent = "Felicitări!";
+      // document.getElementById("msg-3").textContent = "Felicitări!";
 
       hideHint("hint-s3");
 
@@ -380,8 +380,8 @@ function startRain() {
 function stopRain() {
   document.getElementById("s3-sky").setAttribute("fill", "url(#realSky)");
   document.getElementById("s3-cloud-path").setAttribute("fill", "white");
-  document.getElementById("s3-cloud-text").setAttribute("fill", "#555");
-  document.getElementById("s3-gauge-text").setAttribute("fill", "#333");
+  //document.getElementById("s3-cloud-text").setAttribute("fill", "#555");
+  // document.getElementById("s3-gauge-text").setAttribute("fill", "#333");
 
   document.getElementById("s3-rain").style.display = "none";
   clearInterval(rainInterval);
