@@ -28,6 +28,8 @@ function nextScene(sceneId) {
     } else if (sceneId === 'scena-3') {
         initBulbGame();
         say("Trage becurile în fitingurile corecte! Potrivește forma și culoarea.");
+    } else if (sceneId === 'scena-finala') {
+        say("Felicitări! Ești un super electrician! Ai terminat toate sarcinile!");
     }
 }
 
@@ -58,7 +60,6 @@ function initFuseboxGame() {
 
 function startFuseLevel() {
     document.getElementById('fuse-level').textContent = `Nivel: ${fuseLevel}/3`;
-    document.getElementById('fuse-status').textContent = 'Urmărește secvența...';
     
     // Generate sequence
     if (fuseSequence.length === 0) {
@@ -84,7 +85,6 @@ function playSequence() {
             clearInterval(interval);
             isPlaying = false;
             canClick = true;
-            document.getElementById('fuse-status').textContent = 'Acum tu! Repetă secvența.';
             say("Acum tu! Apasă siguranțele în aceeași ordine.");
         }
     }, 800);
@@ -115,7 +115,6 @@ function handleFuseClick(fuse) {
         // Wrong! 
         canClick = false;
         fuse.classList.add('wrong');
-        document.getElementById('fuse-status'). textContent = '❌ Greșit!  Încearcă din nou.';
         say("Oh nu! Secvența este greșită. Hai să încercăm din nou!");
         
         setTimeout(() => {
@@ -131,7 +130,6 @@ function handleFuseClick(fuse) {
     // Check if sequence complete
     if (playerSequence. length === fuseSequence.length) {
         canClick = false;
-        document.getElementById('fuse-status'). textContent = '✅ Perfect! ';
         
         if (fuseLevel < 3) {
             say("Perfect! Hai să trecem la nivelul următor!");
@@ -139,7 +137,6 @@ function handleFuseClick(fuse) {
             fuseSequence = [];
             setTimeout(startFuseLevel, 1500);
         } else {
-            document.getElementById('fuse-status'). textContent = '🎉 Tabloul este reparat!';
             say("Excelent! Ai reparat tabloul electric!");
             setTimeout(() => nextScene('scena-2'), 2500);
         }
@@ -165,7 +162,6 @@ function initWireGame() {
         svg.removeChild(svg.firstChild);
     }
     
-    document.getElementById('wire-feedback').textContent = 'Conectează cele 5 perechi de fire!';
 }
 
 function startWireConnection(e) {
@@ -234,7 +230,7 @@ function endWireConnection(e) {
             
             svg.appendChild(line);
             
-            currentWire. element.classList.add('connected');
+            currentWire.element.classList.add('connected');
             target.classList.add('connected');
             
             wireConnections.push({
@@ -247,12 +243,9 @@ function endWireConnection(e) {
             
             if (wireConnections.length === 5) {
                 setTimeout(() => {
-                    document.getElementById('wire-feedback').textContent = '🎉 Toate firele sunt conectate corect!';
                     say("Excelent! Toate firele sunt conectate corect!");
                     setTimeout(() => nextScene('scena-3'), 2500);
                 }, 500);
-            } else {
-                document.getElementById('wire-feedback').textContent = `Conectate: ${wireConnections.length}/5`;
             }
         } else {
             say("Atenție! Culorile nu se potrivesc!");
@@ -315,7 +308,6 @@ function initBulbGame() {
         fixture.addEventListener('drop', dropBulb);
     });
     
-    document.getElementById('bulb-feedback').textContent = 'Instalează toate cele 4 becuri!';
 }
 
 function dragBulb(e) {
@@ -370,12 +362,9 @@ function dropBulb(e) {
         
         if (bulbsInstalled === 4) {
             setTimeout(() => {
-                document.getElementById('bulb-feedback').textContent = '🎉 Toate becurile sunt instalate!';
                 say("Felicitări! Ai instalat toate becurile corect!  Ești un electrician adevărat!");
                 setTimeout(() => nextScene('scena-finala'), 3000);
             }, 500);
-        } else {
-            document.getElementById('bulb-feedback').textContent = `Becuri instalate: ${bulbsInstalled}/4`;
         }
     } else {
         say("Nu! Acest bec nu se potrivește aici!");

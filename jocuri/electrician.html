@@ -20,18 +20,12 @@
             <h1>Atelierul Electricianului</h1>
             <img src="../imagini/meserii/electrician.svg" class="character-large float-anim" alt="Electrician" onerror="this.style. display='none'">
             
-            <p>
-                Salut! Eu sunt Vlad, electricianul prietenos!  <br>
-                Știi ce face un electrician?  Repară prize, instalează becuri și face ca luminile să strălucească!  <br>
-                Vrei să învățăm împreună cum funcționează electricitatea? 
-            </p>
-            <button class="btn-start" onclick="nextScene('scena-1')">DA!  Vreau să fiu electrician! </button>
+            <button class="btn-start" onclick="nextScene('scena-1')">🔌</button>
         </div>
 
         <!-- SCENA 1: Repair the Fuse Box (NEW - Sequence Memory Game) -->
         <div id="scena-1" class="scene">
-            <h2>Repară Tabloul Electric</h2>
-            <p>Siguranțele au sărit!  Memorează secvența care clipește și repetă-o! </p>
+            <h2>⚡</h2>
 
             <div class="fusebox-container">
                 <div class="fusebox">
@@ -70,22 +64,14 @@
 
                     <div class="fusebox-display">
                         <div id="fuse-level">Nivel: 1/3</div>
-                        <div id="fuse-status">Urmărește secvența...</div>
                     </div>
-                </div>
-
-                <div class="fusebox-instructions">
-                    <p>🔴 Tabloul electric are probleme! </p>
-                    <p>👁️ Urmărește care sigurențe clipesc</p>
-                    <p>👆 Apasă-le în aceeași ordine</p>
                 </div>
             </div>
         </div>
 
         <!-- SCENA 2: Conectează Firele -->
         <div id="scena-2" class="scene">
-            <h2>Conectează Firele</h2>
-            <p>Conectează firele de aceeași culoare! Trage de la stânga la dreapta.</p>
+            <h2>🔌</h2>
             
             <div class="wire-game-container">
                 <svg id="wire-svg" width="600" height="400">
@@ -113,8 +99,7 @@
 
         <!-- SCENA 3: Instalează Becurile -->
         <div id="scena-3" class="scene">
-            <h2>Instalează Becurile</h2>
-            <p>Trage becurile în locurile corecte! Potrivește forma și culoarea. </p>
+            <h2>💡</h2>
 
             <div class="bulb-install-container">
                 <div class="fixtures">
@@ -201,13 +186,11 @@
                 <span style="--i:10; background:#2ed573;"></span>
             </div>
 
-            <h1 class="rainbow-text">BRAVO!</h1>
+            <h1 class="rainbow-text">🎉</h1>
             
             <div class="winner-container">
                 <img src="../imagini/meserii/electrician.svg" class="character-large bounce-happy" alt="Electrician" onerror="this.style.display='none'">
             </div>
-
-            <p class="winner-msg">Ești un super electrician! </p>
         </div>
     </div>
 
