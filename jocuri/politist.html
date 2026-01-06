@@ -29,9 +29,6 @@
         />
 
         <p>
-            Bună! Eu sunt Andrei, prietenul tău polițist! <br>
-            Știi ce face un polițist? Ajută oamenii și păzește ordinea în oraș! <br>
-            Vrei să învățăm împreună cum să fim polițiști buni?
         </p>
         <button class="btn-start" onclick="nextScene('scena-1')">
             START
@@ -41,7 +38,6 @@
 
       <div id="scena-1" class="scene">
         <h2>Ne echipăm!</h2>
-        <p>Alege 2 obiecte corecte!</p>
 
         <div class="dress-up-container">
           <div class="mannequin">
@@ -101,7 +97,6 @@
 
       <div id="scena-2" class="scene">
         <h2>Echipamentul polițistului!</h2>
-        <p>Apasă pe echipamentul de polițist!</p>
 
         <div class="sorting-area">
           <div class="items-scattered" id="scattered-items">
@@ -111,6 +106,7 @@
               alt="Fluier"
               class="sort-item good"
               onclick="sortMe(this, true)"
+              style="border: 3px #90caf9;"
             />
 
             <img
@@ -118,36 +114,42 @@
               alt="Ursuleț"
               class="sort-item bad"
               onclick="sortMe(this, false)"
+              style="border: 3px #90caf9;"
             />
             <img
               src="../imagini/politist/minge.svg"
               alt="Minge"
               class="sort-item bad"
               onclick="sortMe(this, false)"
+              style="border: 3px #90caf9;"
             />
             <img
               src="../imagini/politist/legitimatie.svg"
               alt="Legitimatie"
               class="sort-item good"
               onclick="sortMe(this, true)"
+              style="border: 3px #90caf9;"
             />
             <img
               src="../imagini/politist/catuse.svg"
               alt="Cătușe"
               class="sort-item good"
               onclick="sortMe(this, true)"
+              style="border: 3px #90caf9;"
             />
             <img
               src="../imagini/politist/acadea.svg"
               alt="Acadea"
               class="sort-item bad"
               onclick="sortMe(this, false)"
+              style="border: 3px #90caf9;"
             />
             <img
               src="../imagini/politist/statie.svg"
               alt="Stație radio"
               class="sort-item good"
               onclick="sortMe(this, true)"
+              style="border: 3px #90caf9;"
             />
           </div>
 
@@ -160,7 +162,7 @@
           </div>
         </div>
         <div id="feedback-text" class="feedback-msg">
-          Mai ai de găsit 4 obiecte corecte!
+          0/4
         </div>
         <button
           id="btn-next-2"

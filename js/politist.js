@@ -27,7 +27,7 @@ function nextScene(sceneId) {
     document.getElementById(sceneId).classList.add('active');
     
     if(sceneId==="scena-1")
-        say("Alege 2 obiecte pentru polițist!");
+        say("Alege uniforma corectă pentru polițist.");
     else if(sceneId==="scena-2")
         say("Apasă pe obiectele care aparțin polițistului.")
     else if(sceneId==="scena-3") {
@@ -38,11 +38,10 @@ function nextScene(sceneId) {
         startChaseGame();
     }
     else if(sceneId==="scena-5") {
-        say("Apasă pe mașina VERDE!");
         startTrafficGame();
     }
     else if(sceneId==="scena-final")
-        say("Bravoo! Ești un polițist excelent!");
+        say("Bravoo! Ești un polițist excelent! Apasă pe butonul din stânga sus pentru a te întoarce la orașul meseriilor.");
 }
 
 /* JOC 1: ECHIPARE */
@@ -117,7 +116,7 @@ function sortMe(element, isGood) {
         let feedback = document.getElementById('feedback-text');
 
         if (ramase > 0) {
-            feedback.innerText = "Super! Încă " + ramase;
+            feedback.innerText = 4 - ramase + "/4";
             feedback.style.color = "green";
             if(ramase === 2)
                 say("Bravo! Încă două");
@@ -131,9 +130,9 @@ function sortMe(element, isGood) {
     } else {
         element.style.animation = "shake 0.4s";
         let feedback = document.getElementById('feedback-text');
-        feedback.innerText = "Nu! Asta nu e pentru polițist.";
+        feedback.innerText = "Echipament greșit!";
         feedback.style.color = "red";
-        say("Nu! Asta nu e pentru polițist.");
+        say("Echipament greșit!");
         setTimeout(() => {
             element.style.animation = "float 3s infinite ease-in-out";
         }, 400);
@@ -547,8 +546,8 @@ function nextGreenCar() {
     currentGreenCar = availableCars[Math.floor(Math.random() * availableCars.length)];
     setCarLight(currentGreenCar, 'green');
     
-    say("Apasă pe mașina cu semafor verde!");
-    document.getElementById('traffic-intersection-message').innerText = "Apasă pe mașina cu VERDE! 🚦";
+    say("Apasă pe mașina care are verde la semafor!");
+    document.getElementById('traffic-intersection-message').innerText = "Apasă pe mașina care are verde la semafor! 🚦";
     
     // Clear any previous timeout
     if(trafficTimeout) clearTimeout(trafficTimeout);
@@ -560,7 +559,7 @@ function nextGreenCar() {
             document.getElementById('traffic-intersection-message').innerText = "Ai întârziat! Apasă mai repede! ⏱️";
             setTimeout(() => {
                 nextGreenCar();
-            }, 1500);
+            }, 3000);
         }
     }, 18000);
 }
@@ -585,7 +584,7 @@ function clickCar(direction) {
         setTimeout(() => {
             carClickable.classList.remove('car-correct');
             nextGreenCar();
-        }, 1000);
+        }, 2000);
         
     } else {
         // WRONG! This car had red light
@@ -595,7 +594,7 @@ function clickCar(direction) {
         
         setTimeout(() => {
             carClickable.classList.remove('car-wrong');
-        }, 800);
+        }, 2000);
     }
 }
 
